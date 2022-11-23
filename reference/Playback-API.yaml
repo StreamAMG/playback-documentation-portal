@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: API Reference
+  version: "1.0"
+  contact:
+    name: Jonathon Robins
+    email: Jonathon.Robins@pamediagroup.com
+  summary: Service that retrieve back video metadata url and signed manifests.
+  description: |-
+    Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
+    Service that sit between the video player and Kaltura. Pass an entryID (video id) plus an access token (JWT) to the Playback API and it returns the signed playback URL
+tags:
+  - name: Playback API
+servers:
+  - url: "https://mp.streamamg.com/api_v3/index.php?service=multirequest&action=null"
+paths:
+  /playback:
+    get:
+      summary: Get playback data
+      operationId: get-playback-data
+      parameters:
+        - name: entryId
+          in: query
+          schema:
+            type: string
+          required: true
+          description: "Entry ID in MP"
+        - name: accessToken
+          in: query
+          schema:
+            type: string
+          required: false
+          description: "User access token"
+        - name: clientId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: "Client ID retrieved from CloudPay"
+      responses:
+        "200":
+          description: "Success - get playback data"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybackEndpointResponse"
+              examples:
+                Example - Success:
+                  value:
+                    id: "0_4l1aj0bo"
+                    userId: "World Cup of Tests"
+                    description: "Test Video"
+                    thumbnail: "https://video-store/test/12345"
+                    duration: "2800000"
+                    media:
+                      {
+                        hls: "https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M",
+                      }
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                description: "Error getting session identifier"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Request:
+                  value:
+                    status: 400
+                    message: Bad Request Exception
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                description: "Error getting playback data"
+                type: object
+                properties:
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - message
+              examples:
+                Internal Server Error:
+                  value:
+                    status: 500
+                    message: "Error getting playback data"
+      description: |-
+        In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token).
+
+        The API call should be made with the following params:
+        - entryId
+        - accessToken
+        - clientId
+      tags:
+        - Playback API
+components:
+  schemas:
+    PlaybackEndpointResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        description:
+          type: string
+        thumbnail:
+          type: string
+        duration:
+          type: string
+        media:
+          $ref: "#/components/schemas/Media"
+      required:
+        - id
+        - userId
+        - description
+        - thumbnail
+        - duration
+        - media
+    Media:
+      type: object
+      properties:
+        hls:
+          type: string
