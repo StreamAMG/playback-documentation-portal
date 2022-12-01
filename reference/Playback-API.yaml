@@ -12,7 +12,7 @@ info:
 tags:
   - name: Playback API
 servers:
-  - url: "https://mp.streamamg.com/api_v3/index.php?service=multirequest&action=null"
+  - url: "https://playback-api-development.dev.streamamg.com"
 paths:
   /playback:
     get:
