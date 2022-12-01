@@ -44,9 +44,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackEndpointResponse"
+                  $ref: "#/components/schemas/PlaybackEndpointResponse"
               examples:
-                Example - Success:
+                Example - Success VoD:
                   value:
                     id: "0_4l1aj0bo"
                     name: "World Cup of Tests"
@@ -56,6 +56,19 @@ paths:
                     media:
                       {
                         hls: "https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M",
+                      }
+                Example - Success Live:
+                  value:
+                    id: "0_4l1aj0bo"
+                    name: "World Cup of Tests"
+                    description: "Test Video"
+                    thumbnail: "https://video-store/test/12345"
+                    duration: "2800000"
+                    media:
+                      {
+                        mpegdash: "url-to-mpegdash-manifest",
+                        hls: "url-to-hls-manifest",
+                        applehttp: "url-to-applehttp-manifest",,
                       }
         "400":
           description: "Bad Request"
@@ -123,7 +136,7 @@ components:
         duration:
           type: string
         media:
-          $ref: "#/components/schemas/Media"
+          type: object
       required:
         - id
         - name
@@ -131,8 +144,17 @@ components:
         - thumbnail
         - duration
         - media
-    Media:
+    MediaVoD:
       type: object
       properties:
         hls:
+          type: string
+    MediaLive:
+      type: object
+      properties:
+        mpegdash:
+          type: string
+        hls:
+          type: string
+        applehttp:
           type: string
