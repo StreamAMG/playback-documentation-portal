@@ -49,7 +49,7 @@ paths:
                 Example - Success:
                   value:
                     id: "0_4l1aj0bo"
-                    userId: "World Cup of Tests"
+                    name: "World Cup of Tests"
                     description: "Test Video"
                     thumbnail: "https://video-store/test/12345"
                     duration: "2800000"
@@ -97,11 +97,11 @@ paths:
                 Internal Server Error:
                   value:
                     status: 500
-                    message: "Error getting playback data"
+                    message: "Error getting playback data [Error stack]"
       description: |-
         In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token).
 
-        The API call should be made with the following params:
+        The API call should be made with the following query params:
         - entryId
         - accessToken
         - clientId
@@ -114,7 +114,7 @@ components:
       properties:
         id:
           type: string
-        userId:
+        name:
           type: string
         description:
           type: string
@@ -126,7 +126,7 @@ components:
           $ref: "#/components/schemas/Media"
       required:
         - id
-        - userId
+        - name
         - description
         - thumbnail
         - duration
