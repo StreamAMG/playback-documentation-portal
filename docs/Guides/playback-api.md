@@ -6,4 +6,4 @@ The Playback API provides the functionality for media streams to be consumed by 
 
 The following diagram provides a high-level overview:
 
-![Playback.png]("../../assets/images/Playback.png")
+![Playback.png](../../assets/images/Playback.png)
