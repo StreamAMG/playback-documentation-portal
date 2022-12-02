@@ -101,10 +101,15 @@ paths:
                 description: "Error getting playback data"
                 type: object
                 properties:
+                  status:
+                      type: number
+                      enum:
+                        - 500
                   message:
                     type: string
                     minLength: 1
                 required:
+                  - status
                   - message
               examples:
                 Internal Server Error:
@@ -137,13 +142,6 @@ components:
           type: string
         media:
           type: object
-      required:
-        - id
-        - name
-        - description
-        - thumbnail
-        - duration
-        - media
     MediaVoD:
       type: object
       properties:
