@@ -1,0 +1,158 @@
+openapi: 3.1.0
+info:
+  title: API Reference
+  version: "1.0"
+  contact:
+    name: Jonathon Robins
+    email: Jonathon.Robins@pamediagroup.com
+  summary: Service that retrieve back video metadata url and signed manifests.
+  description: |-
+    Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
+    Service that sit between the video player and Kaltura. Pass an entryID (video id) plus an access token (JWT) to the Playback API and it returns the signed playback URL
+tags:
+  - name: Playback API
+servers:
+  - url: "https://playback-api-development.dev.streamamg.com"
+paths:
+  /playback:
+    get:
+      summary: Get playback data
+      operationId: get-playback-data
+      parameters:
+        - name: entryId
+          in: query
+          schema:
+            type: string
+          required: true
+          description: "Entry ID in MP"
+        - name: accessToken
+          in: query
+          schema:
+            type: string
+          required: false
+          description: "User access token"
+        - name: clientId
+          in: query
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: "Client ID retrieved from CloudPay"
+      responses:
+        "200":
+          description: "Success - get playback data"
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/PlaybackEndpointResponse"
+              examples:
+                Example - Success VoD:
+                  value:
+                    id: "0_4l1aj0bo"
+                    name: "World Cup of Tests"
+                    description: "Test Video"
+                    thumbnail: "https://video-store/test/12345"
+                    duration: "2800000"
+                    media:
+                      {
+                        hls: "https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M",
+                      }
+                Example - Success Live:
+                  value:
+                    id: "0_4l1aj0bo"
+                    name: "World Cup of Tests"
+                    description: "Test Video"
+                    thumbnail: "https://video-store/test/12345"
+                    duration: "2800000"
+                    media:
+                      {
+                        mpegdash: "url-to-mpegdash-manifest",
+                        hls: "url-to-hls-manifest",
+                        applehttp: "url-to-applehttp-manifest",,
+                      }
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                description: "Error getting session identifier"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Request:
+                  value:
+                    status: 400
+                    message: Bad Request Exception
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                description: "Error getting playback data"
+                type: object
+                properties:
+                  status:
+                      type: number
+                      enum:
+                        - 500
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Internal Server Error:
+                  value:
+                    status: 500
+                    message: "Error getting playback data [Error stack]"
+      description: |-
+        In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token).
+
+        The API call should be made with the following query params:
+        - entryId
+        - accessToken
+        - clientId
+      tags:
+        - Playback API
+components:
+  schemas:
+    PlaybackEndpointResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        thumbnail:
+          type: string
+        duration:
+          type: string
+        media:
+          type: object
+    MediaVoD:
+      type: object
+      properties:
+        hls:
+          type: string
+    MediaLive:
+      type: object
+      properties:
+        mpegdash:
+          type: string
+        hls:
+          type: string
+        applehttp:
+          type: string
