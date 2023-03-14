@@ -18,6 +18,8 @@ paths:
     get:
       summary: Get playback data
       operationId: get-playback-data
+      security:
+        - bearerAuth: []
       parameters:
         - name: entryId
           in: query
@@ -25,12 +27,6 @@ paths:
             type: string
           required: true
           description: "Entry ID in MP"
-        - name: accessToken
-          in: query
-          schema:
-            type: string
-          required: false
-          description: "User access token"
         - name: clientId
           in: query
           schema:
@@ -117,15 +113,18 @@ paths:
                     status: 500
                     message: "Error getting playback data [Error stack]"
       description: |-
-        In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token).
+        In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token). This token should be passed during the API call through the Bearer header.
 
-        The API call should be made with the following query params:
-        - entryId
-        - accessToken
+        The API call should be made with entryId as query parameter.
         - clientId
       tags:
         - Playback API
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     PlaybackEndpointResponse:
       type: object
