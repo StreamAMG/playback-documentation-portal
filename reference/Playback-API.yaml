@@ -18,6 +18,8 @@ paths:
     get:
       summary: Get playback data
       operationId: get-playback-data
+      security:
+        - ApiKey: []
       parameters:
         - name: entryId
           in: query
@@ -31,20 +33,13 @@ paths:
             type: string
           required: false
           description: "User access token"
-        - name: clientId
-          in: query
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: "Client ID retrieved from CloudPay"
       responses:
         "200":
           description: "Success - get playback data"
           content:
             application/json:
               schema:
-                  $ref: "#/components/schemas/PlaybackEndpointResponse"
+                $ref: "#/components/schemas/PlaybackEndpointResponse"
               examples:
                 Example - Success VoD:
                   value:
@@ -68,7 +63,7 @@ paths:
                       {
                         mpegdash: "url-to-mpegdash-manifest",
                         hls: "url-to-hls-manifest",
-                        applehttp: "url-to-applehttp-manifest",,
+                        applehttp: "url-to-applehttp-manifest",
                       }
         "400":
           description: "Bad Request"
@@ -102,9 +97,9 @@ paths:
                 type: object
                 properties:
                   status:
-                      type: number
-                      enum:
-                        - 500
+                    type: number
+                    enum:
+                      - 500
                   message:
                     type: string
                     minLength: 1
@@ -122,10 +117,15 @@ paths:
         The API call should be made with the following query params:
         - entryId
         - accessToken
-        - clientId
+        In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
       tags:
         - Playback API
 components:
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
   schemas:
     PlaybackEndpointResponse:
       type: object
