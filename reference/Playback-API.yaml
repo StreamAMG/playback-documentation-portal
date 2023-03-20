@@ -12,7 +12,7 @@ info:
 tags:
   - name: Playback API
 servers:
-  - url: "https://playback-api-development.dev.streamamg.com"
+  - url: "https://playback-api.streamamg.com/v1/playback"
 paths:
   /playback:
     get:
@@ -47,7 +47,7 @@ paths:
                     name: "World Cup of Tests"
                     description: "Test Video"
                     thumbnail: "https://video-store/test/12345"
-                    duration: "2800000"
+                    duration: 2800000
                     media:
                       {
                         hls: "https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M",
@@ -58,7 +58,7 @@ paths:
                     name: "World Cup of Tests"
                     description: "Test Video"
                     thumbnail: "https://video-store/test/12345"
-                    duration: "2800000"
+                    duration: 2800000
                     media:
                       {
                         mpegdash: "url-to-mpegdash-manifest",
@@ -139,7 +139,7 @@ components:
         thumbnail:
           type: string
         duration:
-          type: string
+          type: number
         media:
           type: object
     MediaVoD:
