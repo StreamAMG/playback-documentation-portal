@@ -12,7 +12,7 @@ info:
 tags:
   - name: Playback API
 servers:
-  - url: "https://playback-api.streamamg.com/v1/playback"
+  - url: "https://api.playback.streamamg.com/v1/"
 paths:
   /playback:
     get:
