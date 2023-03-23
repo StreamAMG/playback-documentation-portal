@@ -5,10 +5,10 @@ info:
   contact:
     name: Jonathon Robins
     email: Jonathon.Robins@pamediagroup.com
-  summary: Service that retrieve back video metadata url and signed manifests.
+  summary: Retrieves back video metadata url with signed manifests and player configurations.
   description: |-
-    Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
-    Service that sit between the video player and Kaltura. Pass an entryID (video id) plus an access token (JWT) to the Playback API and it returns the signed playback URL
+    Provides functionality to retrieve back video metadata with signed manifests ready for player consumption and configurations needed to set up a player.
+    Sits in between the video player and Kaltura.
 tags:
   - name: Playback API
 servers:
@@ -110,8 +110,156 @@ paths:
         In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token). This token should be passed during the API call through the Bearer header.
 
         The API call should be made with entryId as query parameter.
-        
+
         In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
+      tags:
+        - Playback API
+  /player:
+    get:
+      summary: Get default player configuration
+      operationId: get-player-configuration
+      security:
+        - ApiKey: []
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          required: true
+          description: API key of the client
+      responses:
+        "200":
+          description: "Success - get default player configuration"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerEndpointResponse"
+              examples:
+                Example - Player Configuration Response:
+                  value:
+                    type: "bitmovin"
+                    license: "89778f40-5c94-4182-b3aa-be3fb6494374"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                description: "Error retrieving player configuration"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Request:
+                  value:
+                    status: 400
+                    message: No default player set up for the requested client
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                description: "Error getting playback data"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 500
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Internal Server Error:
+                  value:
+                    status: 500
+                    message: "Error getting playback data [Error stack]"
+      description: API key must be passed in the `x-api-key` header.
+      tags:
+        - Playback API
+  /player/{name}:
+    get:
+      summary: Get specific player configuration
+      operationId: get-specific-player-configuration
+      security:
+        - ApiKey: []
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          required: true
+          description: API key of the client
+      responses:
+        "200":
+          description: "Success - get specific player configuration"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlayerEndpointResponse"
+              examples:
+                Example - Player Configuration Response:
+                  value:
+                    type: "bitmovin"
+                    license: "89778f40-5c94-4182-b3aa-be3fb6494374"
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                description: "Error retrieving player configuration"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Request:
+                  value:
+                    status: 400
+                    message: No bitmovin player set up for the client
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                description: "Error getting playback data"
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 500
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Internal Server Error:
+                  value:
+                    status: 500
+                    message: "Error getting playback data [Error stack]"
+      description: API key must be passed in the `x-api-key` header.
       tags:
         - Playback API
 components:
@@ -140,6 +288,15 @@ components:
           type: number
         media:
           type: object
+    PlayerEndpointResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        license:
+          type: string
+        style:
+          type: string
     MediaVoD:
       type: object
       properties:
