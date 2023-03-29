@@ -10,13 +10,13 @@ info:
     Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
     Service that sit between the video player and Kaltura. Pass an entryID (video id) plus an access token (JWT) to the Playback API and it returns the signed playback URL
 tags:
-  - name: Playback API
+  - name: Playback
 servers:
   - url: 'https://api.playback.streamamg.com/v1/'
 paths:
   /playback:
     get:
-      summary: Get playback data
+      summary: Get Playback data
       operationId: get-playback-data
       security:
         - bearerAuth: []
