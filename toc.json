@@ -1,0 +1,26 @@
+{
+  "items": [
+    {
+      "type": "item",
+      "title": "Introduction",
+      "uri": "docs/Introduction.md"
+    },  
+    {
+      "type": "divider",
+      "title": "Guides"
+    },
+    {
+      "type": "divider",
+      "title": "SDK"
+    },
+    {
+      "type": "divider",
+      "title": "Playback API"
+    },
+    {
+      "type": "item",
+      "title": "API Reference",
+      "uri": "reference/Playback-API.yaml"
+    }
+  ]
+}
