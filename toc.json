@@ -26,11 +26,11 @@
     {
       "type": "item",
       "title": "Javascript",
-      "uri": "docs/SDK/How-to-embed-a-web-player.md"
+      "uri": "docs/SDK/Javascript.md"
     },  
     {
       "type": "divider",
-      "title": "Playback API"
+      "title": "API"
     },
     {
       "type": "item",

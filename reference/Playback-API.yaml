@@ -20,8 +20,6 @@ servers:
 paths:
   /playback:
     get:
-      tags:
-        - Playback
       summary: Get Playback data
       operationId: get-playback-data
       security:
@@ -115,7 +113,7 @@ paths:
 
         In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
       tags:
-        - Playback API
+        - Playback
 components:
   securitySchemes:
     bearerAuth:
