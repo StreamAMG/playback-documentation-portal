@@ -1,3 +1,7 @@
+x-stoplight:
+  docs:
+    showModels: false
+
 openapi: 3.1.0
 info:
   title: API Reference
@@ -16,6 +20,8 @@ servers:
 paths:
   /playback:
     get:
+      tags:
+        - Playback
       summary: Get Playback data
       operationId: get-playback-data
       security:
