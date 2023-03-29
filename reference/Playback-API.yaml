@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: API Reference
-  version: "1.0"
+  version: '1.0'
   contact:
     name: Jonathon Robins
     email: Jonathon.Robins@pamediagroup.com
@@ -12,7 +12,7 @@ info:
 tags:
   - name: Playback API
 servers:
-  - url: "https://api.playback.streamamg.com/v1/"
+  - url: 'https://api.playback.streamamg.com/v1/'
 paths:
   /playback:
     get:
@@ -27,45 +27,41 @@ paths:
           schema:
             type: string
           required: true
-          description: "Entry ID in MP"
+          description: Entry ID in MP
       responses:
-        "200":
-          description: "Success - get playback data"
+        '200':
+          description: Success - get playback data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackEndpointResponse"
+                $ref: '#/components/schemas/PlaybackEndpointResponse'
               examples:
                 Example - Success VoD:
                   value:
-                    id: "0_4l1aj0bo"
-                    name: "World Cup of Tests"
-                    description: "Test Video"
-                    thumbnail: "https://video-store/test/12345"
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     media:
-                      {
-                        hls: "https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M",
-                      }
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                 Example - Success Live:
                   value:
-                    id: "0_4l1aj0bo"
-                    name: "World Cup of Tests"
-                    description: "Test Video"
-                    thumbnail: "https://video-store/test/12345"
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     media:
-                      {
-                        mpegdash: "url-to-mpegdash-manifest",
-                        hls: "url-to-hls-manifest",
-                        applehttp: "url-to-applehttp-manifest",
-                      }
-        "400":
-          description: "Bad Request"
+                      mpegdash: url-to-mpegdash-manifest
+                      hls: url-to-hls-manifest
+                      applehttp: url-to-applehttp-manifest
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
-                description: "Error getting session identifier"
+                description: Error getting session identifier
                 type: object
                 properties:
                   status:
@@ -83,12 +79,12 @@ paths:
                   value:
                     status: 400
                     message: Bad Request Exception
-        "500":
-          description: "Internal Server Error"
+        '500':
+          description: Internal Server Error
           content:
             application/json:
               schema:
-                description: "Error getting playback data"
+                description: Error getting playback data
                 type: object
                 properties:
                   status:
@@ -105,12 +101,12 @@ paths:
                 Internal Server Error:
                   value:
                     status: 500
-                    message: "Error getting playback data [Error stack]"
+                    message: 'Error getting playback data [Error stack]'
       description: |-
         In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token). This token should be passed during the API call through the Bearer header.
 
         The API call should be made with entryId as query parameter.
-        
+
         In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
       tags:
         - Playback API
@@ -154,3 +150,4 @@ components:
           type: string
         applehttp:
           type: string
+x-internal: true
