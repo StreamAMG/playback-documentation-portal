@@ -89,7 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Player'        
+                $ref: '#/components/schemas/Player'
   /v1/configuration/{configurationId}/apikey:
     get:
       summary: Get playback API key configuration for a client
@@ -158,7 +158,7 @@ paths:
             type: string
       responses:
         '204':
-          description: No Content            
+          description: No Content
 components:
   schemas:
     PlaybackKeys:
@@ -218,7 +218,7 @@ components:
                     "type": "bitmovin"
                     license: '12345678-1111-1111-1111-123456789012'
                     style: 'www.some-style.css'
-                    
+
 
     PlaybackApiKeyConfig:
       allOf:
@@ -233,7 +233,7 @@ components:
               type: string
               example:
                 "12345678-1111-1111-1111-123456789012"
-                
+
     Player:
       allOf:
         - type: object
@@ -248,4 +248,5 @@ components:
                   bitmovin:
                     "type": "bitmovin"
                     license: '12345678-1111-1111-1111-123456789012'
-                    style: 'www.some-style.css'            
+                    style: 'www.some-style.css'
+x-internal: true
