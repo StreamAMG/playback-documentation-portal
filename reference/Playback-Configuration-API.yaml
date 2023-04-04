@@ -1,0 +1,251 @@
+openapi: 3.0.0
+info:
+  title: Playback Configuration API
+  version: 1.0.0
+paths:
+  /v1/configuration/{configurationId}:
+    get:
+      summary: Get playback configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to retrieve configuration for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackConfig'
+    put:
+      summary: Update playback configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to update configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackConfig'
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create new playback configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to create configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackConfig'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+    delete:
+      summary: Delete playback configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to delete configuration for
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /v1/player:
+    get:
+      summary: Get player information
+      description: Returns information about the player associated with the provided API key.
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The API key to use for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'        
+  /v1/configuration/{configurationId}/apikey:
+    get:
+      summary: Get playback API key configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to retrieve API key configuration for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+    put:
+      summary: Update playback API key configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to update API key configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackApiKeyConfig'
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create new playback API key configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to create API key configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackApiKeyConfig'
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+    delete:
+      summary: Delete playback api-key configuration for a client
+      parameters:
+        - name: configurationId
+          in: path
+          description: ID of the client to delete api-key configuration for
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content            
+components:
+  schemas:
+    PlaybackKeys:
+      type: object
+      properties:
+        clientId:
+          type: string
+          example:
+            "12345678-1111-1111-1111-123456789012"
+      required:
+        - configurationId
+
+    Auth:
+      type: object
+      properties:
+        cloudpay:
+          type: object
+          additionalProperties:
+            type: string
+          example:
+            site: 'some-site'
+        engine:
+          type: string
+      required:
+        - engine
+
+    PlaybackConfig:
+      allOf:
+        - $ref: '#/components/schemas/PlaybackKeys'
+        - type: object
+          properties:
+            auth:
+              $ref: '#/components/schemas/Auth'
+            domains:
+              type: array
+              items:
+                type: string
+                example:
+                  ['some-host1.com', 'some-host2.com']
+            entitlementsUrl:
+              type: string
+            platform:
+              type: object
+              additionalProperties:
+                type: object
+              example:
+                kaltura:
+                  partnerId: "1234567"
+            player:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                 type: object
+              example:
+                  bitmovin:
+                    "type": "bitmovin"
+                    license: '12345678-1111-1111-1111-123456789012'
+                    style: 'www.some-style.css'
+                    
+
+    PlaybackApiKeyConfig:
+      allOf:
+        - $ref: '#/components/schemas/PlaybackKeys'
+        - type: object
+          properties:
+            apiKeyHash:
+              type: string
+              example:
+                "some-apiKeyHash"
+            apiKeyUuid:
+              type: string
+              example:
+                "12345678-1111-1111-1111-123456789012"
+                
+    Player:
+      allOf:
+        - type: object
+          properties:
+            player:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                 type: object
+              example:
+                  bitmovin:
+                    "type": "bitmovin"
+                    license: '12345678-1111-1111-1111-123456789012'
+                    style: 'www.some-style.css'            
