@@ -107,24 +107,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlaybackApiKeyConfig'
-    put:
-      summary: Update playback API key configuration for a client
-      parameters:
-        - name: configurationId
-          in: path
-          description: ID of the client to update API key configuration for
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackApiKeyConfig'
-      responses:
-        '200':
-          description: OK
     post:
       summary: Create new playback API key configuration for a client
       parameters:
