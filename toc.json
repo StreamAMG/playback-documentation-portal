@@ -1,0 +1,41 @@
+{
+  "items": [
+    {
+      "type": "item",
+      "title": "Introduction",
+      "uri": "docs/Introduction.md"
+    },  
+    {
+      "type": "item",
+      "title": "Getting Started",
+      "uri": "docs/Getting-Started.md"
+    },  
+    {
+      "type": "divider",
+      "title": "Guides"
+    },
+    {
+      "type": "item",
+      "title": "Embed a Web Player",
+      "uri": "docs/Guides/How-to-embed-a-web-player.md"
+    },  
+    {
+      "type": "divider",
+      "title": "SDK"
+    },
+    {
+      "type": "item",
+      "title": "Javascript",
+      "uri": "docs/SDK/Javascript.md"
+    },  
+    {
+      "type": "divider",
+      "title": "API"
+    },
+    {
+      "type": "item",
+      "title": "API Reference",
+      "uri": "reference/Playback-API.yaml"
+    }
+  ]
+}
