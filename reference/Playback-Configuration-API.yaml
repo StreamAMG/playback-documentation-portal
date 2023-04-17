@@ -1,9 +1,19 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Playback Configuration API
-  version: 1.0.0
+  version: "1.0"
+  contact:
+    name: Jonathon Robins
+    email: Jonathon.Robins@pamediagroup.com
+  summary: Service used to manage client configurations.
+  description: |-
+    Configuration API exposes the functionality to retrieve, update and delete client configurations. Also, we can manage playback API key configuration using this API.
+tags:
+  - name: Configuration API
+servers:
+  - url: "https://api.playback.streamamg.com/v1/"
 paths:
-  /v1/configuration/{configurationId}:
+  /configuration/{configurationId}:
     get:
       summary: Get playback configuration for a client
       parameters:
@@ -14,52 +24,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackConfig'
-    put:
-      summary: Update playback configuration for a client
-      parameters:
-        - name: configurationId
-          in: path
-          description: ID of the client to update configuration for
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackConfig'
-      responses:
-        '200':
-          description: OK
-    post:
-      summary: Create new playback configuration for a client
-      parameters:
-        - name: configurationId
-          in: path
-          description: ID of the client to create configuration for
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackConfig'
-      responses:
-        '201':
-          description: Created
-          headers:
-            Location:
-              schema:
-                type: string
+                $ref: "#/components/schemas/PlaybackConfig"
     delete:
       summary: Delete playback configuration for a client
       parameters:
@@ -70,9 +40,36 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: No Content
-  /v1/player:
+  /configuration:
+    post:
+      summary: Create new playback configuration for a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaybackConfig"
+      responses:
+        "201":
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+    put:
+      summary: Update playback configuration for a client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlaybackConfig"
+      responses:
+        "200":
+          description: OK
+  /player:
     get:
       summary: Get player information
       description: Returns information about the player associated with the provided API key.
@@ -84,12 +81,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Player'
+                $ref: "#/components/schemas/Player"
   /v1/configuration/{configurationId}/apikey:
     get:
       summary: Get playback API key configuration for a client
@@ -101,12 +98,12 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+                $ref: "#/components/schemas/PlaybackApiKeyConfig"
     post:
       summary: Create new playback API key configuration for a client
       parameters:
@@ -121,14 +118,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlaybackApiKeyConfig'
+              $ref: "#/components/schemas/PlaybackApiKeyConfig"
       responses:
-        '201':
+        "201":
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+                $ref: "#/components/schemas/PlaybackApiKeyConfig"
     delete:
       summary: Delete playback api-key configuration for a client
       parameters:
@@ -139,7 +136,7 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        "204":
           description: No Content
 components:
   schemas:
@@ -148,8 +145,7 @@ components:
       properties:
         clientId:
           type: string
-          example:
-            "12345678-1111-1111-1111-123456789012"
+          example: "12345678-1111-1111-1111-123456789012"
       required:
         - configurationId
 
@@ -161,7 +157,7 @@ components:
           additionalProperties:
             type: string
           example:
-            site: 'some-site'
+            site: "some-site"
         engine:
           type: string
       required:
@@ -169,17 +165,16 @@ components:
 
     PlaybackConfig:
       allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
+        - $ref: "#/components/schemas/PlaybackKeys"
         - type: object
           properties:
             auth:
-              $ref: '#/components/schemas/Auth'
+              $ref: "#/components/schemas/Auth"
             domains:
               type: array
               items:
                 type: string
-                example:
-                  ['some-host1.com', 'some-host2.com']
+                example: ["some-host1.com", "some-host2.com"]
             entitlementsUrl:
               type: string
             platform:
@@ -194,41 +189,67 @@ components:
               additionalProperties:
                 type: object
                 additionalProperties:
-                 type: object
+                  type: object
+                  additionalProperties:
+                    type: object
+                    additionalProperties:
+                      type: object
               example:
+                configuration:
                   bitmovin:
                     "type": "bitmovin"
-                    license: '12345678-1111-1111-1111-123456789012'
-                    style: 'www.some-style.css'
-
-
+                    license: "12345678-1111-1111-1111-123456789012"
+                    integrations:
+                      mux:
+                        env_key: "env_key_123"
+                default: "bitmovin"
     PlaybackApiKeyConfig:
       allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
+        - $ref: "#/components/schemas/PlaybackKeys"
         - type: object
           properties:
             apiKeyHash:
               type: string
-              example:
-                "some-apiKeyHash"
+              example: "some-apiKeyHash"
             apiKeyUuid:
               type: string
-              example:
-                "12345678-1111-1111-1111-123456789012"
+              example: "12345678-1111-1111-1111-123456789012"
 
     Player:
       allOf:
         - type: object
           properties:
-            player:
+            configuration:
               type: object
               additionalProperties:
                 type: object
-                additionalProperties:
-                 type: object
+                properties:
+                  "type":
+                    type: string
+                  license:
+                    type: string
+                  integrations:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                required:
+                  - "type"
+                  - license
+              minProperties: 1
               example:
-                  bitmovin:
-                    "type": "bitmovin"
-                    license: '12345678-1111-1111-1111-123456789012'
-                    style: 'www.some-style.css'
+                "bitmovin":
+                  "type": "bitmovin"
+                  license: "12345678-1111-1111-1111-123456789012"
+                  integrations:
+                    mux:
+                      env_key: "env_key_123"
+            default:
+              type: string
+              example: "bitmovin"
+      required:
+        - configuration
+        - default
+
 x-internal: true
