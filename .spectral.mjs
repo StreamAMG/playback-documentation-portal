@@ -1,0 +1,2 @@
+import ruleset from "https://stoplight.io/api/v1/projects/cHJqOjE3MDY5MA/spectral.js?branch_slug=feature%2Finternal-api-spec&token=124adc29-c631-4690-8feb-c298ce28bd85";
+export default { extends: ruleset };
