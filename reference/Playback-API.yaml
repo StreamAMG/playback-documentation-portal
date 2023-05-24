@@ -16,7 +16,7 @@ info:
 tags:
   - name: Playback
 servers:
-  - url: 'https://api.playback.streamamg.com/v1/'
+  - url: "https://api.playback.streamamg.com/v1"
 paths:
   /playback:
     get:
@@ -24,7 +24,7 @@ paths:
       operationId: get-playback-data
       security:
         - bearerAuth: []
-        - ApiKey: []
+          ApiKey: []
       parameters:
         - name: entryId
           in: query
@@ -154,4 +154,3 @@ components:
           type: string
         applehttp:
           type: string
-x-internal: true
