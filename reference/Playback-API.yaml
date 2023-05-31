@@ -18,16 +18,16 @@ tags:
 servers:
   - url: "https://api.playback.streamamg.com/v1"
 paths:
-  /playback:
+  /entry/{entryId}:
     get:
-      summary: Get Playback data
+      summary: Get Playback data by entryID
       operationId: get-playback-data
       security:
         - bearerAuth: []
           ApiKey: []
       parameters:
         - name: entryId
-          in: query
+          in: path
           schema:
             type: string
           required: true
@@ -109,7 +109,7 @@ paths:
       description: |-
         In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token). This token should be passed during the API call through the Bearer header.
 
-        The API call should be made with entryId as query parameter.
+        The API call should be made with entryId as path parameter.
 
         In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
       tags:
