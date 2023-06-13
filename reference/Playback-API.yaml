@@ -60,6 +60,16 @@ paths:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
                       applehttp: url-to-applehttp-manifest
+                Example - Success VoD with Resume:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    playFrom: 341
+                    media:
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
         '400':
           description: Bad Request
           content:
@@ -140,6 +150,8 @@ components:
           type: number
         media:
           type: object
+        playFrom:
+          type: number
     MediaVoD:
       type: object
       properties:
