@@ -16,7 +16,7 @@ info:
 tags:
   - name: Playback
 servers:
-  - url: "https://api.playback.streamamg.com/v1"
+  - url: 'https://api.playback.streamamg.com/v1'
 paths:
   /entry/{entryId}:
     get:
@@ -47,6 +47,7 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                 Example - Success Live:
@@ -56,6 +57,7 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    ksStatus: -1
                     media:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
@@ -68,6 +70,23 @@ paths:
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     playFrom: 341
+                    ksStatus: -1
+                    media:
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+                Example - Success VoD with GlobalAdverts:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    GlobalAdverts:
+                      value:
+                        adType: 'vast'
+                        id: 'id123'
+                        position: 'pre'
+                        url: 'url-for-add-server'
+                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
         '400':
@@ -82,16 +101,25 @@ paths:
                     type: number
                     enum:
                       - 400
+                      - 401
+                      - 403
+                      - 404
+                      - 440
+                  ksStatus:
+                    type: number
+                    $ref: '#/components/schemas/ksStatus'
                   message:
                     type: string
                     minLength: 1
                 required:
                   - status
+                  - ksStatus
                   - message
               examples:
                 Invalid Request:
                   value:
                     status: 400
+                    ksStatus: 0
                     message: Bad Request Exception
         '500':
           description: Internal Server Error
@@ -152,6 +180,75 @@ components:
           type: object
         playFrom:
           type: number
+        globalAdverts:
+          $ref: '#/components/schemas/GlobalAdverts'
+        ksStatus:
+          $ref: '#/components/schemas/ksStatus'
+    ksStatus:
+      type: number
+      enum:
+        - -1
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      enumNames:
+        - Granted
+        - NoActiveSession
+        - NoSubscription
+        - NoEntitlement
+        - Blocked
+        - TooManyRequests
+        - Error
+        - CardAuthenticationRequired
+    GlobalAdverts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Advert'
+    Advert:
+      type: object
+      properties:
+        adType:
+          type: string
+          enum:
+            - vast
+            - vmap
+          description: Type of the advertisement.
+        id:
+          type: string
+          description: Unique identifier for the advertisement.
+        position:
+          oneOf:
+            - type: string
+              enum:
+                - pre
+                - post
+              description: Pre-roll or post-roll ad position.
+            - type: string
+              description: Mid-roll ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm
+        persistent:
+          type: boolean
+          description: If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.
+        discardAfterPlayback:
+          type: boolean
+          description: Specifies whether ad breaks are discarded after playback.
+        url:
+          type: string
+          format: uri
+          description: URL for the advertisement.
+        preloadOffset:
+          type: number
+          description: Number of seconds before the ad break starts playing to preload the ad tag.
+        skippableAfter:
+          type: number
+          description: Specifies after which time ads in the ad break become skippable.
+      required:
+        - adType
+        - url
+        - id
+        - position
     MediaVoD:
       type: object
       properties:
