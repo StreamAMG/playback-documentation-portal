@@ -16,7 +16,7 @@ info:
 tags:
   - name: Playback
 servers:
-  - url: "https://api.playback.streamamg.com/v1"
+  - url: 'https://api.playback.streamamg.com/v1'
 paths:
   /entry/{entryId}:
     get:
@@ -47,6 +47,7 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                 Example - Success Live:
@@ -56,6 +57,7 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    ksStatus: -1
                     media:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
@@ -68,6 +70,7 @@ paths:
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     playFrom: 341
+                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
         '400':
@@ -82,16 +85,25 @@ paths:
                     type: number
                     enum:
                       - 400
+                      - 401
+                      - 403
+                      - 404
+                      - 440
+                  ksStatus:
+                    type: number
+                    $ref: '#/components/schemas/ksStatus'
                   message:
                     type: string
                     minLength: 1
                 required:
                   - status
+                  - ksStatus
                   - message
               examples:
                 Invalid Request:
                   value:
                     status: 400
+                    ksStatus: 0
                     message: Bad Request Exception
         '500':
           description: Internal Server Error
@@ -152,6 +164,27 @@ components:
           type: object
         playFrom:
           type: number
+        ksStatus:
+          $ref: '#/components/schemas/ksStatus'
+    ksStatus:
+      type: number
+      enum:
+        - -1
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+      enumNames:
+        - Granted
+        - NoActiveSession
+        - NoSubscription
+        - NoEntitlement
+        - Blocked
+        - TooManyRequests
+        - Error
+        - CardAuthenticationRequired
     MediaVoD:
       type: object
       properties:
