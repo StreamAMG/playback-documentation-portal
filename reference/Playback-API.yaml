@@ -107,7 +107,7 @@ paths:
                   message:
                     type: string
                     minLength: 1
-                  error:
+                  reason:
                     type: string
                     enum:
                       - HEADER_ERROR
@@ -124,22 +124,22 @@ paths:
                   value:
                     status: 400
                     message: Missing record for the given api key
-                    error: API_KEY_ERROR
+                    reason: API_KEY_ERROR
                 Invalid Client Configuration:
                   value:
                     status: 400
                     message: Missing client config for a given clientId
-                    error: CONFIGURATION_ERROR
+                    reason: CONFIGURATION_ERROR
                 Invalid Site Configuration:
                   value:
                     status: 400
                     message: Missing site information for a given clientId
-                    error: SITE_NOT_FOUND
+                    reason: SITE_NOT_FOUND
                 Invalid Partner Configuration:
                   value:
                     status: 400
                     message: Missing partner admin secret for a given clientId
-                    error: MP_PARTNER_ERROR
+                    reason: MP_PARTNER_ERROR
         '401':
           description: Unauthorized
           content:
@@ -155,7 +155,7 @@ paths:
                   message:
                     type: string
                     minLength: 1
-                  error:
+                  reason:
                     type: string
                     enum:
                       - TOKEN_ERROR
@@ -175,47 +175,47 @@ paths:
                   value:
                     status: 401
                     message: Auth token format is invalid - Bearer <token>
-                    error: TOKEN_ERROR
+                    reason: TOKEN_ERROR
                 Invalid Permissions:
                   value:
                     status: 401
                     message: No permissions to view entry
-                    error: NO_ENTITLEMENT
+                    reason: NO_ENTITLEMENT
                 Invalid Authentication:
                   value:
                     status: 401
                     message: Customer not authenticated, user must be authenticated to play the video
-                    error: NOT_AUTHENTICATED
+                    reason: NOT_AUTHENTICATED
                 Invalid Subscription State:
                   value:
                     status: 401
                     message: Subscription deactivated, renewal requires customer Authentication
-                    error: NOT_AUTHENTICATED
+                    reason: NOT_AUTHENTICATED
                 Invalid Subscription:
                   value:
                     status: 401
                     message: Customer has no subscriptions
-                    error: NO_SUBSCRIPTION
+                    reason: NO_SUBSCRIPTION
                 Invalid Account:
                   value:
                     status: 401
                     message: The customer account is blocked; too may failed login attempts
-                    error: TOO_MANY_REQUESTS
+                    reason: TOO_MANY_REQUESTS
                 Invalid Entitlements:
                   value:
                     status: 401
                     message: Customer has insufficient entitlements
-                    error: NO_ENTITLEMENT
+                    reason: NO_ENTITLEMENT
                 Invalid Device:
                   value:
                     status: 401
                     message: Customer has failed concurrency check
-                    error: TOO_MANY_DEVICES
+                    reason: TOO_MANY_DEVICES
                 Invalid Configured Provider:
                   value:
                     status: 401
                     message: The authorization provider is not supported. Supported provider - cloudpay
-                    error: CONFIGURATION_ERROR
+                    reason: CONFIGURATION_ERROR
         '404':
           description: Not Found
           content:
@@ -231,7 +231,7 @@ paths:
                   message:
                     type: string
                     minLength: 1
-                  error:
+                  reason:
                     type: string
                     enum:
                       - NO_ENTITY_EXIST
@@ -243,7 +243,7 @@ paths:
                   value:
                     status: 404
                     message: No entitlements for entryId
-                    error: 'NO_ENTITY_EXIST'
+                    reason: 'NO_ENTITY_EXIST'
         '440':
           description: Login Time-out
           content:
@@ -259,7 +259,7 @@ paths:
                   message:
                     type: string
                     minLength: 1
-                  error:
+                  reason:
                     type: string
                     enum:
                       - NO_ACTIVE_SESSION
@@ -271,7 +271,7 @@ paths:
                   value:
                     status: 440
                     message: session expired
-                    error: NO_ACTIVE_SESSION
+                    reason: NO_ACTIVE_SESSION
         '500':
           description: Internal Server Error
           content:
