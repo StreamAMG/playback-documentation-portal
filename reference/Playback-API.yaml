@@ -77,7 +77,7 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
-                    globalAdverts:
+                    adverts:
                       - adType: 'vast'
                         id: 'id123'
                         position: 'pre'
@@ -336,7 +336,7 @@ components:
           type: object
         playFrom:
           type: number
-        globalAdverts:
+        adverts:
           type: array
           items:
             $ref: '#/components/schemas/Advert'
