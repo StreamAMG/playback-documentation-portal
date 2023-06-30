@@ -120,6 +120,11 @@ paths:
                   - status
                   - message
               examples:
+                Missing Required Header:
+                  value:
+                    status: 400
+                    message: No user-agent supplied
+                    reason: HEADER_ERROR
                 Invalid API Key:
                   value:
                     status: 400
