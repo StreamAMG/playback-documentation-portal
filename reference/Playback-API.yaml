@@ -47,7 +47,6 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
-                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                 Example - Success Live:
@@ -57,7 +56,6 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
-                    ksStatus: -1
                     media:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
@@ -70,7 +68,6 @@ paths:
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     playFrom: 341
-                    ksStatus: -1
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                 Example - Success VoD with GlobalAdverts:
@@ -80,13 +77,19 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
-                    GlobalAdverts:
-                      value:
-                        adType: 'vast'
+                    globalAdverts:
+                      - adType: 'vast'
                         id: 'id123'
                         position: 'pre'
-                        url: 'url-for-add-server'
-                    ksStatus: -1
+                        url: 'url-for-pre-add-server'
+                      - adType: 'vast'
+                        id: 'id456'
+                        position: 'mid'
+                        url: 'url-for-mid-add-server'
+                      - adType: 'vast'
+                        id: 'id789'
+                        position: 'post'
+                        url: 'url-for-post-add-server'
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
         '400':
@@ -101,26 +104,174 @@ paths:
                     type: number
                     enum:
                       - 400
-                      - 401
-                      - 403
-                      - 404
-                      - 440
-                  ksStatus:
-                    type: number
-                    $ref: '#/components/schemas/ksStatus'
                   message:
                     type: string
                     minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - HEADER_ERROR
+                      - BAD_REQUEST_ERROR
+                      - SITE_NOT_FOUND
+                      - CONFIGURATION_ERROR
+                      - API_KEY_ERROR
+                      - MP_PARTNER_ERROR
                 required:
                   - status
-                  - ksStatus
                   - message
               examples:
-                Invalid Request:
+                Invalid API Key:
                   value:
                     status: 400
-                    ksStatus: 0
-                    message: Bad Request Exception
+                    message: Missing record for the given api key
+                    reason: API_KEY_ERROR
+                Invalid Client Configuration:
+                  value:
+                    status: 400
+                    message: Missing client config for a given clientId
+                    reason: CONFIGURATION_ERROR
+                Invalid Site Configuration:
+                  value:
+                    status: 400
+                    message: Missing site information for a given clientId
+                    reason: SITE_NOT_FOUND
+                Invalid Partner Configuration:
+                  value:
+                    status: 400
+                    message: Missing partner admin secret for a given clientId
+                    reason: MP_PARTNER_ERROR
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to view entry
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - TOKEN_ERROR
+                      - TOO_MANY_DEVICES
+                      - TOO_MANY_REQUESTS
+                      - NO_ENTITLEMENT
+                      - NO_SUBSCRIPTION
+                      - NO_ACTIVE_SESSION
+                      - MP_PARTNER_ERROR
+                      - NOT_AUTHENTICATED
+                      - CONFIGURATION_ERROR
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Auth Format:
+                  value:
+                    status: 401
+                    message: Auth token format is invalid - Bearer <token>
+                    reason: TOKEN_ERROR
+                Invalid Permissions:
+                  value:
+                    status: 401
+                    message: No permissions to view entry
+                    reason: NO_ENTITLEMENT
+                Invalid Authentication:
+                  value:
+                    status: 401
+                    message: Customer not authenticated, user must be authenticated to play the video
+                    reason: NOT_AUTHENTICATED
+                Invalid Subscription State:
+                  value:
+                    status: 401
+                    message: Subscription deactivated, renewal requires customer Authentication
+                    reason: NOT_AUTHENTICATED
+                Invalid Subscription:
+                  value:
+                    status: 401
+                    message: Customer has no subscriptions
+                    reason: NO_SUBSCRIPTION
+                Invalid Account:
+                  value:
+                    status: 401
+                    message: The customer account is blocked; too may failed login attempts
+                    reason: TOO_MANY_REQUESTS
+                Invalid Entitlements:
+                  value:
+                    status: 401
+                    message: Customer has insufficient entitlements
+                    reason: NO_ENTITLEMENT
+                Invalid Device:
+                  value:
+                    status: 401
+                    message: Customer has failed concurrency check
+                    reason: TOO_MANY_DEVICES
+                Invalid Configured Provider:
+                  value:
+                    status: 401
+                    message: The authorization provider is not supported. Supported provider - cloudpay
+                    reason: CONFIGURATION_ERROR
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: No entitlements for entryId
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - NO_ENTITY_EXIST
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Entry Entitlements:
+                  value:
+                    status: 404
+                    message: No entitlements for entryId
+                    reason: 'NO_ENTITY_EXIST'
+        '440':
+          description: Login Time-out
+          content:
+            application/json:
+              schema:
+                description: session expired
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 440
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - NO_ACTIVE_SESSION
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid Session:
+                  value:
+                    status: 440
+                    message: session expired
+                    reason: NO_ACTIVE_SESSION
         '500':
           description: Internal Server Error
           content:
@@ -181,32 +332,9 @@ components:
         playFrom:
           type: number
         globalAdverts:
-          $ref: '#/components/schemas/GlobalAdverts'
-        ksStatus:
-          $ref: '#/components/schemas/ksStatus'
-    ksStatus:
-      type: number
-      enum:
-        - -1
-        - 0
-        - 1
-        - 2
-        - 3
-        - 4
-        - 5
-      enumNames:
-        - Granted
-        - NoActiveSession
-        - NoSubscription
-        - NoEntitlement
-        - Blocked
-        - TooManyRequests
-        - Error
-        - CardAuthenticationRequired
-    GlobalAdverts:
-      type: array
-      items:
-        $ref: '#/components/schemas/Advert'
+          type: array
+          items:
+            $ref: '#/components/schemas/Advert'
     Advert:
       type: object
       properties:
@@ -220,14 +348,8 @@ components:
           type: string
           description: Unique identifier for the advertisement.
         position:
-          oneOf:
-            - type: string
-              enum:
-                - pre
-                - post
-              description: Pre-roll or post-roll ad position.
-            - type: string
-              description: Mid-roll ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm
+          type: string
+          description: ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm
         persistent:
           type: boolean
           description: If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.
