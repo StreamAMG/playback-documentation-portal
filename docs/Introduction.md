@@ -10,4 +10,4 @@ Playback is designed with security and privacy in mind, utilizing industry-stand
 
 > ### Next Steps
 >
-> Head over to the [Getting Started](./Getting-Started.md) page to see how to start your integration
+> Head over to the [Getting Started](./Getting-Started.md) page to see how to start your integration.
