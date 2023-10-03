@@ -21,7 +21,7 @@
     },  
     {
       "type": "divider",
-      "title": "API (internal)"
+      "title": "API (internal only)"
     },
     {
       "type": "item",
