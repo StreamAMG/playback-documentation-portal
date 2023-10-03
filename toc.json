@@ -9,16 +9,7 @@
       "type": "item",
       "title": "Getting Started",
       "uri": "docs/Getting-Started.md"
-    },  
-    {
-      "type": "divider",
-      "title": "Guides"
     },
-    {
-      "type": "item",
-      "title": "Embed a Web Player",
-      "uri": "docs/Guides/How-to-embed-a-web-player.md"
-    },  
     {
       "type": "divider",
       "title": "SDK"
@@ -30,7 +21,7 @@
     },  
     {
       "type": "divider",
-      "title": "API"
+      "title": "API (internal)"
     },
     {
       "type": "item",
