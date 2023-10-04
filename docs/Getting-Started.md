@@ -1,5 +1,8 @@
 # Getting Started
 
-## Integration Guide
+Explore our guides, examples and reference documentation to integrate StreamAMG Playback into your web and mobile-based 
+application(s).
 
-Refer to the SDK instructions at [Playback SDK](./SDK/Javascript.md).
+Here is our [JavaScript SDK Developer Guide](./SDK/Javascript.md), which helps you easily integrate Playback into your 
+JavaScript application.
+
