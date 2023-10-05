@@ -1,3 +1,9 @@
+x-stoplight:
+  docs:
+    showModels: false
+
+x-internal: true
+
 openapi: 3.1.0
 info:
   title: Playback Configuration API
@@ -5,9 +11,10 @@ info:
   contact:
     name: Jonathon Robins
     email: Jonathon.Robins@pamediagroup.com
-  summary: Service used to manage client configurations.
+  summary: Service used to manage playback service client configurations.
   description: |-
-    Configuration API exposes the functionality to retrieve, update and delete client configurations. Also, we can manage playback API key configuration using this API.
+    Configuration API exposes the functionality to retrieve, update and delete playback client configurations. Also, 
+    we can manage playback API key configuration using this API.
 tags:
   - name: Configuration API
 servers:
@@ -19,7 +26,7 @@ paths:
       parameters:
         - name: configurationId
           in: path
-          description: ID of the client to retrieve configuration for
+          description: Identifier of the client to retrieve the configuration for
           required: true
           schema:
             type: string
@@ -35,7 +42,7 @@ paths:
       parameters:
         - name: configurationId
           in: path
-          description: ID of the client to delete configuration for
+          description: Identifier of the client to delete the configuration for
           required: true
           schema:
             type: string
@@ -59,7 +66,7 @@ paths:
               schema:
                 type: string
     put:
-      summary: Update playback configuration for a client
+      summary: Update the playback configuration for a client
       requestBody:
         required: true
         content:
@@ -69,31 +76,13 @@ paths:
       responses:
         "200":
           description: OK
-  /player:
-    get:
-      summary: Get player information
-      description: Returns information about the player associated with the provided API key.
-      parameters:
-        - name: x-api-key
-          in: header
-          description: The API key to use for authentication.
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Player"
-  /v1/configuration/{configurationId}/apikey:
+  /configuration/{configurationId}/apikey:
     get:
       summary: Get playback API key configuration for a client
       parameters:
         - name: configurationId
           in: path
-          description: ID of the client to retrieve API key configuration for
+          description: Identifier of the client to retrieve API key configuration for
           required: true
           schema:
             type: string
@@ -109,7 +98,7 @@ paths:
       parameters:
         - name: configurationId
           in: path
-          description: ID of the client to create API key configuration for
+          description: Identifier of the client to create API key configuration for
           required: true
           schema:
             type: string
@@ -131,13 +120,31 @@ paths:
       parameters:
         - name: configurationId
           in: path
-          description: ID of the client to delete api-key configuration for
+          description: Identifier of the client to delete api-key configuration for
           required: true
           schema:
             type: string
       responses:
         "204":
           description: No Content
+  /player:
+    get:
+      summary: Get player information
+      description: Returns information about the player associated with the provided API key.
+      parameters:
+        - name: x-api-key
+          in: header
+          description: The API key to use for authentication.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Player"
 components:
   schemas:
     PlaybackKeys:
@@ -251,5 +258,3 @@ components:
       required:
         - configuration
         - default
-
-x-internal: true

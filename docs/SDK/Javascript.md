@@ -11,24 +11,31 @@ The goal of the SDK is to offer versatility and a range of tools for crafting a 
 allowing you various methods to seamlessly incorporate a video player into your web application, enabling you to make
 well-informed decisions regarding the most optimal integration approach.
 
+## Latest SDK To Download
+
+>The latest JavaScript SDK for Playback v1  is available here:
+>[v1 Playback SDK](https://sdk.playback.streamamg.com/v1/playback.js)
+
 ## SDK Reference Documentation
 
-The latest JavaScript SDK for Playback v1 reference documentation is available here:
-
-[v1 Playback SDK Documentation](https://sdk-docs.playback.streamamg.com/v1/docs/index.html)
+>The latest JavaScript SDK for Playback v1 reference documentation is available here:
+>[v1 Playback SDK Documentation](https://sdk-docs.playback.streamamg.com/v1/docs/index.html)
 
 ## Integrated Video Players Supported
 
 Currently, these are the supported video players:
 
-    Bitmovin Player 
+- Bitmovin Player 
 
 ## Video Player Supported Features
 
-Currently, these are the supported video player features:
+Currently, these are the supported video player features you may configure:
 
-    autoplay - videos automatically play one after another or back-to-back
-    muted    - the audio output of the video is muted
+- autoplay      - videos automatically play one after another or back-to-back.
+- muted         - the audio output of the video is muted.
+
+These may be defined during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html) of the player by passing in some optional player [options](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize).
+
 
 ## Setting Up and Configuring the SDK
 
@@ -37,14 +44,12 @@ Currently, these are the supported video player features:
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
 called 'playback.js' is available for downloading into your application.
 
-```
-Versions are available for every major and minor release e.g. v1. v1.23, v1.23.9 should you require a specific version: 
-specific versions may be obtained from https://sdk.playback.streamamg.com/<version>/playback.js. However, it is 
-advisable to use the latest major version which is currently 'v1' and avaiable from the following link.
-```
+>Versions are available for every major and minor release e.g. v1. v1.23, v1.23.9 should you require a specific version.
+> 
+>Specific versions may be obtained from https://sdk.playback.streamamg.com/<version>/playback.js.
+> 
+>However, it is advisable to use the latest major version which is currently 'v1' and available [here](https://sdk.playback.streamamg.com/v1/playback.js).
 
-The latest JavaScript SDK for Playback v1  is available here:
-[v1 Playback SDK](https://sdk.playback.streamamg.com/v1/playback.js)
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -70,7 +75,7 @@ You should wait for the SDK to be fully loaded and initialized before using its 
 First, you would initialise the SDK by providing your client API key and any playback capabilities (as options) you
 would like to use as follows:
 
-```
+```javascript
 // Initialize the Playback SDK with your client API key:
 //  also pass over any playback options you desire.
 Playback.initialize('client-api-key', {autoplay: true});
@@ -79,7 +84,7 @@ Playback.initialize('client-api-key', {autoplay: true});
 #### Playing a Video
 
 Next, to play a video in the player identify the video to play and start the player:
-```
+```javascript
  // Identity the video to play by the entry identifier:
  //     this is the MediaPlatform identifier.
  //  - also provide the HTML element container identifier:
@@ -112,9 +117,12 @@ The supported player may be integrated with the following features:
 Advert integrations are driven through the playback configuration [PlaybackConfig](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.PlaybackConfig.html).  
 Resume and MUX are driven through the playback integrations configuration [Integrations](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.Integrations.html).
 
-#### Further Integration
+#### Further Integration 
 
-Refer to the SDK reference documentation starting with the [Playback Class](https://sdk-docs.playback.streamamg.com/v1/docs/classes/playback.Playback.html).
+Refer to the SDK reference documentation starting with the [Playback Class](https://sdk-docs.playback.streamamg.com/v1/docs/classes/playback.Playback.html) which is the main entry for the playback service offered. 
+
+The underlying video player, e.g. [Bitmovin](https://cdn.bitmovin.com/player/web/8/docs/interfaces/Core.PlayerAPI.html), may also be obtained [here](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Bitmovin.html#getRawPlayer) - this is 
+offered for advanced integration and is typically not a recommended use-case.
 
 
 
