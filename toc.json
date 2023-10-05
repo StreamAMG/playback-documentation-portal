@@ -11,6 +11,11 @@
       "uri": "docs/Getting-Started.md"
     },
     {
+      "type": "item",
+      "title": "Client Onboarding (internal only)",
+      "uri": "docs/Client-Onboarding.md"
+    },
+    {
       "type": "divider",
       "title": "SDK"
     },

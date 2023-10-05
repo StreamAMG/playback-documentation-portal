@@ -15,13 +15,13 @@ info:
   description: |-
     Configuration API exposes the functionality to retrieve, update and delete playback client configurations. Also, 
     we can manage playback API key configuration using this API.
-tags:
-  - name: Configuration API
 servers:
   - url: "https://api.playback.streamamg.com/v1/"
 paths:
   /configuration/{configurationId}:
     get:
+      tags:
+      - Playback Configuration
       summary: Get playback configuration for a client
       parameters:
         - name: configurationId
@@ -38,6 +38,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaybackConfig"
     delete:
+      tags:
+      - Playback Configuration
       summary: Delete playback configuration for a client
       parameters:
         - name: configurationId
@@ -51,6 +53,8 @@ paths:
           description: No Content
   /configuration:
     post:
+      tags:
+      - Playback Configuration
       summary: Create new playback configuration for a client
       requestBody:
         required: true
@@ -66,6 +70,8 @@ paths:
               schema:
                 type: string
     put:
+      tags:
+      - Playback Configuration
       summary: Update the playback configuration for a client
       requestBody:
         required: true
@@ -78,6 +84,8 @@ paths:
           description: OK
   /configuration/{configurationId}/apikey:
     get:
+      tags:
+      - API Key Configuration
       summary: Get playback API key configuration for a client
       parameters:
         - name: configurationId
@@ -94,6 +102,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaybackApiKeyConfig"
     post:
+      tags:
+      - API Key Configuration
       summary: Create new playback API key configuration for a client
       parameters:
         - name: configurationId
@@ -116,6 +126,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/PlaybackApiKeyConfig"
     delete:
+      tags:
+      - API Key Configuration
       summary: Delete playback api-key configuration for a client
       parameters:
         - name: configurationId
@@ -129,6 +141,8 @@ paths:
           description: No Content
   /player:
     get:
+      tags:
+      - Player Configuration
       summary: Get player information
       description: Returns information about the player associated with the provided API key.
       parameters:
