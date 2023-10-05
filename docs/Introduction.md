@@ -1,7 +1,3 @@
----
-internal: true
----
-
 # Introduction
 
 Welcome to StreamAMGs Playback service, an advanced video delivery platform that provides seamless web and mobile-based integrations for high-quality video consumption. We specialize in delivering content to our users with the lowest possible latency, while maintaining the highest level of quality and reliability.

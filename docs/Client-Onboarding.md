@@ -1,3 +1,7 @@
+---
+internal: true
+---
+
 # Client Onboarding
 
 The playback service and features available to clients are configured via the [Playback Configuration API](../reference/Playback-Configuration-API.yaml).
