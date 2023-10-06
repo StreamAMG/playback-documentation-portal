@@ -43,12 +43,11 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
 called 'playback.js' is available for downloading into your application.
 
->Versions are available for every major and minor release e.g. v1. v1.23, v1.23.9 should you require a specific version.
+>Versions are available for every major and minor release e.g. v1, v1.23, v1.23.9 should you require a specific version.
 > 
->Specific versions may be obtained from https://sdk.playback.streamamg.com/<version>/playback.js.
+>Specific versions may be obtained from ```https://sdk.playback.streamamg.com/<version>/playback.js```
 > 
->However, it is advisable to use the latest major version which is currently 'v1' and available [here](https://sdk.playback.streamamg.com/v1/playback.js).
-
+>However, it is advisable to use the latest major version which is available [here](https://sdk.playback.streamamg.com/v1/playback.js).
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -104,20 +103,6 @@ Next, to play a video in the player identify the video to play and start the pla
      console.log('error playing the video:', error);
    });
 ```
-
-#### Bitmovin Video Player Integrations
-
-The supported player may be integrated with the following features:
-
-- Global Adverts (injection of adverts at points in the playing video across all content and players)
-- Resume Capability (allow playback from saved/last watched positions in videos across devices)
-- MUX Analytics (collection of video performance metrics)
-
-<b>Global Advert</b> integrations are driven through the playback configuration [PlaybackConfig](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.PlaybackConfig.html).  
-
-<b>Resume</b> and <b>MUX</b> are driven through the playback integrations configuration [Integrations](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.Integrations.html).
-
-All additional features, as above, are managed by the [onboarding process](../Client-Onboarding.md).
 
 #### Further Integration 
 
