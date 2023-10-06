@@ -1,4 +1,4 @@
-#### Player Integrations
+# Player Integrations
 
 The supported player(s) may be integrated with the following features:
 
