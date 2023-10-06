@@ -25,7 +25,7 @@ well-informed decisions regarding the most optimal integration approach.
 
 Currently, these are the supported video players:
 
-- Bitmovin Player 
+- [Bitmovin Player](https://bitmovin.com/video-player) 
 
 ## Video Player Supported Features
 
@@ -35,7 +35,6 @@ Currently, these are the supported video player features you may configure:
 - muted         - the audio output of the video is muted.
 
 These may be defined during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html) of the player by passing in some optional player [options](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize).
-
 
 ## Setting Up and Configuring the SDK
 
@@ -72,13 +71,13 @@ You should wait for the SDK to be fully loaded and initialized before using its 
 
 #### Initialising the SDK
 
-First, you would initialise the SDK by providing your client API key and any playback capabilities (as options) you
+First, you would initialise the SDK by providing your <b>Client API Key</b> and any playback capabilities (as options) you
 would like to use as follows:
 
 ```javascript
-// Initialize the Playback SDK with your client API key:
-//  also pass over any playback options you desire.
-Playback.initialize('client-api-key', {autoplay: true});
+// Initialize the Playback SDK with your provided Client API Key:
+//  also pass over any playback options you desire e.g. 'autoplay'.
+Playback.initialize('client-api-key', { autoplay: true });
 ```
 
 #### Playing a Video
@@ -87,7 +86,7 @@ Next, to play a video in the player identify the video to play and start the pla
 ```javascript
  // Identity the video to play by the entry identifier:
  //     this is the MediaPlatform identifier.
- //  - also provide the HTML element container identifier:
+ //  - also provide the DOM element container identifier:
  //     e.g. <div id="player"></div> so pass over 'player'.  
  //  - also provide the access token:
  //     this is required to access the protected resources.
@@ -110,12 +109,15 @@ Next, to play a video in the player identify the video to play and start the pla
 
 The supported player may be integrated with the following features:
 
-- Adverts
-- Resume
-- MUX (collection of video performance metrics)
+- Global Adverts (injection of adverts at points in the playing video across all content and players)
+- Resume Capability (allow playback from saved/last watched positions in videos across devices)
+- MUX Analytics (collection of video performance metrics)
 
-Advert integrations are driven through the playback configuration [PlaybackConfig](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.PlaybackConfig.html).  
-Resume and MUX are driven through the playback integrations configuration [Integrations](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.Integrations.html).
+<b>Global Advert</b> integrations are driven through the playback configuration [PlaybackConfig](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.PlaybackConfig.html).  
+
+<b>Resume</b> and <b>MUX</b> are driven through the playback integrations configuration [Integrations](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/model_playback_model.Integrations.html).
+
+All additional features, as above, are managed by the [onboarding process](../Client-Onboarding.md).
 
 #### Further Integration 
 
