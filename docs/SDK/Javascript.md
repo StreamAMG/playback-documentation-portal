@@ -34,7 +34,7 @@ Currently, these are the supported video player features you may configure:
 - autoplay      - videos automatically play one after another or back-to-back.
 - muted         - the audio output of the video is muted.
 
-These may be defined during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html) of the player by passing in some optional player [options](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize).
+These may be defined during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the player by passing in some optional player [options](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html).
 
 ## Setting Up and Configuring the SDK
 
