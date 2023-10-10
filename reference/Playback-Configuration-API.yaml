@@ -13,8 +13,11 @@ info:
     email: Jonathon.Robins@pamediagroup.com
   summary: Service used to manage playback service client configurations.
   description: |-
-    Configuration API exposes the functionality to retrieve, update and delete playback client configurations. Also, 
-    we can manage playback API key configuration using this API.
+    The Playback Client Configuration API exposes the functionality to retrieve, update and delete playback client 
+    configurations. We can also manage Playback API-Key configuration using this API. 
+    
+    All endpoints are authenticated by passing a valid access token (as generated from the AWS Cognito Playback User 
+    Pool) through the 'Bearer' header which is authenticated using AWS Cognito.
 servers:
   - url: "https://api.playback.streamamg.com/v1/"
 paths:
@@ -23,6 +26,8 @@ paths:
       tags:
       - Playback Configuration
       summary: Get playback configuration for a client
+      security:
+        - bearerAuth: []
       parameters:
         - name: configurationId
           in: path
@@ -56,6 +61,8 @@ paths:
       tags:
       - Playback Configuration
       summary: Create new playback configuration for a client
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -87,6 +94,8 @@ paths:
       tags:
       - API Key Configuration
       summary: Get playback API key configuration for a client
+      security:
+        - bearerAuth: []
       parameters:
         - name: configurationId
           in: path
@@ -144,6 +153,8 @@ paths:
       tags:
       - Player Configuration
       summary: Get player information
+      security:
+        - bearerAuth: []
       description: Returns information about the player associated with the provided API key.
       parameters:
         - name: x-api-key
@@ -160,6 +171,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Player"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     PlaybackKeys:
       type: object
@@ -180,6 +196,8 @@ components:
           example:
             site: "some-site"
         engine:
+          type: string
+        jwtSecretKey:
           type: string
       required:
         - engine
