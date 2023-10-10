@@ -46,6 +46,8 @@ paths:
       tags:
       - Playback Configuration
       summary: Delete playback configuration for a client
+      security:
+        - bearerAuth: []
       parameters:
         - name: configurationId
           in: path
@@ -80,6 +82,8 @@ paths:
       tags:
       - Playback Configuration
       summary: Update the playback configuration for a client
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -114,6 +118,8 @@ paths:
       tags:
       - API Key Configuration
       summary: Create new playback API key configuration for a client
+      security:
+        - bearerAuth: []
       parameters:
         - name: configurationId
           in: path
@@ -138,6 +144,8 @@ paths:
       tags:
       - API Key Configuration
       summary: Delete playback api-key configuration for a client
+      security:
+        - bearerAuth: []
       parameters:
         - name: configurationId
           in: path
