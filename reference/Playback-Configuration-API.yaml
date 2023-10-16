@@ -7,7 +7,7 @@ x-internal: true
 openapi: 3.1.0
 info:
   title: Playback Configuration API
-  version: "1.0"
+  version: '1.0'
   contact:
     name: Jonathon Robins
     email: Jonathon.Robins@pamediagroup.com
@@ -19,7 +19,7 @@ info:
     All endpoints are authenticated by passing a valid access token (as generated from the AWS Cognito Playback User 
     Pool) through the 'Bearer' header which is authenticated using AWS Cognito.
 servers:
-  - url: "https://api.playback.streamamg.com/v1/"
+  - url: 'https://api.playback.streamamg.com/v1/'
 paths:
   /configuration/{configurationId}:
     get:
@@ -36,12 +36,63 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackConfig"
+                $ref: '#/components/schemas/PlaybackConfig'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to retrieve playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: No playback configuration found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 404
+                    message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
+                    error: Not Found
     delete:
       tags:
       - Playback Configuration
@@ -56,8 +107,32 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        204:
           description: No Content
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
+
   /configuration:
     post:
       tags:
@@ -72,12 +147,35 @@ paths:
             schema:
               $ref: "#/components/schemas/PlaybackConfig"
       responses:
-        "201":
+        201:
           description: Created
           headers:
             Location:
               schema:
                 type: string
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
     put:
       tags:
       - Playback Configuration
@@ -89,10 +187,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PlaybackConfig"
+              $ref: '#/components/schemas/PlaybackConfig'
       responses:
-        "200":
+        200:
           description: OK
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
   /configuration/{configurationId}/apikey:
     get:
       tags:
@@ -108,12 +229,35 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackApiKeyConfig"
+                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
     post:
       tags:
       - API Key Configuration
@@ -132,14 +276,37 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PlaybackApiKeyConfig"
+              $ref: '#/components/schemas/PlaybackApiKeyConfig'
       responses:
-        "201":
+        201:
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackApiKeyConfig"
+                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
     delete:
       tags:
       - API Key Configuration
@@ -154,8 +321,31 @@ paths:
           schema:
             type: string
       responses:
-        "204":
+        204:
           description: No Content
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
   /player:
     get:
       tags:
@@ -172,12 +362,35 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Player"
+                $ref: '#/components/schemas/Player'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
 components:
   securitySchemes:
     bearerAuth:
@@ -190,48 +403,117 @@ components:
       properties:
         clientId:
           type: string
-          example: "12345678-1111-1111-1111-123456789012"
+          minLength: 1
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+          example: '12345678-1111-1111-1111-123456789012'
       required:
         - configurationId
+
+    GlobalAdvert:
+      type: object
+      properties:
+        adType:
+          type: string
+          enum:
+            - vast
+            - vmap
+        discardAfterPlayback:
+          type: boolean
+        id:
+          type: string
+        persistent:
+          type: boolean
+        position:
+          type: string
+          oneOf:
+            - enum:
+                - pre
+                - post
+            - pattern: '^(\d+(\.\d+)?)$'
+            - pattern: '^\d+%'
+            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
+        preloadOffset:
+          type: number
+        skippableAfter:
+          type: number
+        url:
+          type: string
+      required:
+        - adType
+        - id
+        - position
+        - url
+      x-example-pre-position:
+        adType: vast
+        id: id123
+        position: pre
+        url: https://<some-global-advert>
+      x-example-percentage-position:
+        adType: vast
+        id: id123
+        position: 25%
+        url: https://<some-global-advert>
+      x-example-timecode-position:
+        adType: vast
+        id: id123
+        position: 00:10:30.000
+        url: https://<some-global-advert>
 
     Auth:
       type: object
       properties:
         cloudpay:
           type: object
+          minProperties: 1
           additionalProperties:
             type: string
           example:
-            site: "some-site"
+            site: 'some-site'
         engine:
           type: string
+          minLength: 1
         jwtSecretKey:
           type: string
       required:
+        - cloudpay
         - engine
 
     PlaybackConfig:
       allOf:
-        - $ref: "#/components/schemas/PlaybackKeys"
+        - $ref: '#/components/schemas/PlaybackKeys'
         - type: object
           properties:
             auth:
-              $ref: "#/components/schemas/Auth"
+              $ref: '#/components/schemas/Auth'
             domains:
               type: array
               items:
                 type: string
-                example: ["some-host1.com", "some-host2.com"]
+                example: ['some-host1.com', 'some-host2.com']
             entitlementsUrl:
               type: string
+              minLength: 1
             platform:
               type: object
+              minProperties: 1
               additionalProperties:
                 type: object
               example:
                 kaltura:
-                  partnerId: "1234567"
+                  partnerId: '1234567'
             player:
+              $ref: '#/components/schemas/Player'
+              minProperties: 1
+            globalAdverts:
+              $ref: '#/components/schemas/GlobalAdvert'
+          required:
+            - auth
+            - domains
+            - entitlementsUrl
+            - platform
+            - player
+
+    player:
               type: object
               additionalProperties:
                 type: object
@@ -244,23 +526,26 @@ components:
               example:
                 configuration:
                   bitmovin:
-                    "type": "bitmovin"
-                    license: "12345678-1111-1111-1111-123456789012"
+                    type: bitmovin
+                    license: 12345678-1111-1111-1111-123456789012
                     integrations:
                       mux:
-                        env_key: "env_key_123"
-                default: "bitmovin"
+                        env_key: env_key_123
+                default: bitmovin
+
     PlaybackApiKeyConfig:
       allOf:
-        - $ref: "#/components/schemas/PlaybackKeys"
+        - $ref: '#/components/schemas/PlaybackKeys'
         - type: object
           properties:
             apiKeyHash:
               type: string
-              example: "some-apiKeyHash"
+              minLength: 1
+              example: some-apiKeyHash
             apiKeyUuid:
               type: string
-              example: "12345678-1111-1111-1111-123456789012"
+              minLength: 1
+              example: 12345678-1111-1111-1111-123456789012
 
     Player:
       allOf:
@@ -268,13 +553,16 @@ components:
           properties:
             configuration:
               type: object
+              minProperties: 1
               additionalProperties:
                 type: object
                 properties:
-                  "type":
+                  type:
                     type: string
+                    minLength: 1
                   license:
                     type: string
+                    minLength: 1
                   integrations:
                     type: object
                     additionalProperties:
@@ -282,19 +570,19 @@ components:
                       additionalProperties:
                         type: string
                 required:
-                  - "type"
+                  - type
                   - license
-              minProperties: 1
               example:
-                "bitmovin":
-                  "type": "bitmovin"
-                  license: "12345678-1111-1111-1111-123456789012"
+                bitmovin:
+                  type: bitmovin
+                  license: 12345678-1111-1111-1111-123456789012
                   integrations:
                     mux:
-                      env_key: "env_key_123"
+                      env_key: env_key_123
             default:
               type: string
-              example: "bitmovin"
+              minLength: 1
+              example: 'bitmovin'
       required:
         - configuration
         - default

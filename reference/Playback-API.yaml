@@ -35,7 +35,7 @@ paths:
           required: true
           description: Entry ID in MP
       responses:
-        '200':
+        200:
           description: Success - get playback data
           content:
             application/json:
@@ -94,7 +94,7 @@ paths:
                         url: 'url-for-post-add-server'
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
-        '400':
+        400:
           description: Bad Request
           content:
             application/json:
@@ -147,7 +147,7 @@ paths:
                     status: 400
                     message: Missing partner admin secret for a given clientId
                     reason: MP_PARTNER_ERROR
-        '401':
+        401:
           description: Unauthorized
           content:
             application/json:
@@ -223,7 +223,7 @@ paths:
                     status: 401
                     message: The authorization provider is not supported. Supported provider - cloudpay
                     reason: CONFIGURATION_ERROR
-        '404':
+        404:
           description: Not Found
           content:
             application/json:
@@ -251,7 +251,7 @@ paths:
                     status: 404
                     message: No entitlements for entryId
                     reason: 'NO_ENTITY_EXIST'
-        '440':
+        440:
           description: Login Time-out
           content:
             application/json:
@@ -279,7 +279,7 @@ paths:
                     status: 440
                     message: session expired
                     reason: NO_ACTIVE_SESSION
-        '500':
+        500:
           description: Internal Server Error
           content:
             application/json:
