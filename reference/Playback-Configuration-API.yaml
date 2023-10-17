@@ -93,6 +93,52 @@ paths:
                     status: 404
                     message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
                     error: Not Found
+
+    put:
+      tags:
+        - Playback Configuration
+      summary: Update the playback configuration for a client creating a new one if it doesn't exist.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: configurationId
+          in: path
+          description: Identifier of the client to update the configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaybackConfigData'
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to delete playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
     delete:
       tags:
       - Playback Configuration
@@ -176,44 +222,7 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
-    put:
-      tags:
-      - Playback Configuration
-      summary: Update the playback configuration for a client
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackConfig'
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
+
   /configuration/{configurationId}/apikey:
     get:
       tags:
@@ -481,6 +490,10 @@ components:
     PlaybackConfig:
       allOf:
         - $ref: '#/components/schemas/PlaybackKeys'
+        - $ref: '#/components/schemas/PlaybackConfigData'
+
+    PlaybackConfigData:
+      allOf:
         - type: object
           properties:
             auth:
@@ -489,7 +502,7 @@ components:
               type: array
               items:
                 type: string
-                example: ['some-host1.com', 'some-host2.com']
+                example: [ 'some-host1.com', 'some-host2.com' ]
             entitlementsUrl:
               type: string
               minLength: 1
@@ -514,24 +527,24 @@ components:
             - player
 
     player:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
               type: object
               additionalProperties:
                 type: object
                 additionalProperties:
                   type: object
-                  additionalProperties:
-                    type: object
-                    additionalProperties:
-                      type: object
-              example:
-                configuration:
-                  bitmovin:
-                    type: bitmovin
-                    license: 12345678-1111-1111-1111-123456789012
-                    integrations:
-                      mux:
-                        env_key: env_key_123
-                default: bitmovin
+          example:
+            configuration:
+              bitmovin:
+                type: bitmovin
+                license: 12345678-1111-1111-1111-123456789012
+                integrations:
+                  mux:
+                    env_key: env_key_123
+            default: bitmovin
 
     PlaybackApiKeyConfig:
       allOf:
