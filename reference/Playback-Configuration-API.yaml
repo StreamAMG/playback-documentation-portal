@@ -97,7 +97,10 @@ paths:
     put:
       tags:
         - Playback Configuration
-      summary: Update the playback configuration for a client creating a new one if it doesn't exist.
+      summary: Update the playback configuration
+      description: |-
+        Update the playback configuration for a client creating a new configuration if it doesn't exist; the 
+        entire configuration will be replaced so the full body representing a playback client configuration is required.
       security:
         - bearerAuth: []
       parameters:
@@ -183,7 +186,7 @@ paths:
     post:
       tags:
       - Playback Configuration
-      summary: Create new playback configuration for a client
+      summary: Create new a playback configuration for a client
       security:
         - bearerAuth: []
       requestBody:
@@ -194,11 +197,45 @@ paths:
               $ref: "#/components/schemas/PlaybackConfig"
       responses:
         201:
-          description: Created
-          headers:
-            Location:
+          description: Created New Client Configuration
+          content:
+            application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/PlaybackConfig"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: Error creating a new configuration for a client
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    enum:
+                      - Bad Request
+                required:
+                  - statusCode
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 400
+                    message: clientId must be a UUID
+                    error: Bad Request
+                Platform Is Required:
+                  value:
+                    status: 400
+                    message: platform must be a non-empty object
+                    error: Bad Request
         401:
           description: Unauthorized
           content:
@@ -288,7 +325,7 @@ paths:
               $ref: '#/components/schemas/PlaybackApiKeyConfig'
       responses:
         201:
-          description: Successful response
+          description: Created New API-Key Configuration
           content:
             application/json:
               schema:
@@ -520,7 +557,6 @@ components:
             globalAdverts:
               $ref: '#/components/schemas/GlobalAdvert'
           required:
-            - auth
             - domains
             - entitlementsUrl
             - platform
