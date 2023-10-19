@@ -124,7 +124,7 @@ paths:
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: No permissions to update the playback configuration
                 type: object
                 properties:
                   status:
@@ -241,7 +241,7 @@ paths:
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: No permissions to create playback configuration
                 type: object
                 properties:
                   status:
@@ -286,7 +286,7 @@ paths:
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: No permissions to get API Key Configuration
                 type: object
                 properties:
                   status:
@@ -338,7 +338,7 @@ paths:
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: No permissions to create API Key Configuration
                 type: object
                 properties:
                   status:
@@ -377,7 +377,7 @@ paths:
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: No permissions to delete API Key Configuration
                 type: object
                 properties:
                   status:
@@ -400,13 +400,11 @@ paths:
       tags:
       - Player Configuration
       summary: Get player information
-      security:
-        - bearerAuth: []
       description: Returns information about the player associated with the provided API key.
       parameters:
         - name: x-api-key
           in: header
-          description: The API key to use for authentication.
+          description: The client API key to use for authentication.
           required: true
           schema:
             type: string
@@ -417,12 +415,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Player'
-        401:
+        403:
           description: Unauthorized
           content:
             application/json:
               schema:
-                description: No permissions to delete playback configuration
+                description: Invalid API-Key
                 type: object
                 properties:
                   status:
@@ -438,7 +436,7 @@ paths:
               examples:
                 Unauthorized:
                   value:
-                    status: 401
+                    status: 403
                     message: Unauthorized
 components:
   securitySchemes:
@@ -608,679 +606,36 @@ components:
           properties:
             configuration:
               type: object
-              minProperties: 1x-stoplight:
-  docs:
-    showModels: false
-
-x-internal: true
-
-openapi: 3.1.0
-info:
-  title: Playback Configuration API
-  version: '1.0'
-  contact:
-    name: Jonathon Robins
-    email: Jonathon.Robins@pamediagroup.com
-  summary: Service used to manage playback service client configurations.
-  description: |-
-    The Playback Client Configuration API exposes the functionality to retrieve, update and delete playback client 
-    configurations. We can also manage Playback API-Key configuration using this API. 
-    
-    All endpoints are authenticated by passing a valid access token (as generated from the AWS Cognito Playback User 
-    Pool) through the 'Bearer' header which is authenticated using AWS Cognito.
-servers:
-  - url: 'https://api.playback.streamamg.com/v1/'
-paths:
-  /configuration/{configurationId}:
-    get:
-      tags:
-        - Playback Configuration
-      summary: Get playback configuration for a client
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to retrieve the configuration for
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaybackConfig'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to retrieve playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                description: No playback configuration found
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 404
-                  message:
-                    type: string
-                    minLength: 1
-                  error:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-                  - error
-              examples:
-                Invalid Client Identifier:
-                  value:
-                    status: 404
-                    message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
-                    error: Not Found
-
-    put:
-      tags:
-        - Playback Configuration
-      summary: Update the playback configuration
-      description: |-
-        Update the playback configuration for a client creating a new configuration if it doesn't exist; the 
-        entire configuration will be replaced so the full body representing a playback client configuration is required.
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to update the configuration for
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackConfigData'
-      responses:
-        200:
-          description: OK
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-    delete:
-      tags:
-        - Playback Configuration
-      summary: Delete playback configuration for a client
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to delete the configuration for
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: No Content
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-
-  /configuration:
-    post:
-      tags:
-        - Playback Configuration
-      summary: Create new a playback configuration for a client
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PlaybackConfig"
-      responses:
-        201:
-          description: Created New Client Configuration
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PlaybackConfig"
-        400:
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                description: Error creating a new configuration for a client
-                type: object
-                properties:
-                  statusCode:
-                    type: number
-                    enum:
-                      - 400
-                  message:
-                    type: string
-                    minLength: 1
-                  error:
-                    type: string
-                    enum:
-                      - Bad Request
-                required:
-                  - statusCode
-                  - message
-                  - error
-              examples:
-                Invalid Client Identifier:
-                  value:
-                    status: 400
-                    message: clientId must be a UUID
-                    error: Bad Request
-                Platform Is Required:
-                  value:
-                    status: 400
-                    message: platform must be a non-empty object
-                    error: Bad Request
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-
-  /configuration/{configurationId}/apikey:
-    get:
-      tags:
-        - API Key Configuration
-      summary: Get playback API key configuration for a client
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to retrieve API key configuration for
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-    post:
-      tags:
-        - API Key Configuration
-      summary: Create new Playback API Key configuration for a client
-      description: |-
-        A new API-Key configuration will be created for a client (the client configuration typically would exist first
-        but need not so - this allows for keys to be created for clients in advance of creating the client configurations)
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to create API key configuration for
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PlaybackApiKeyConfig'
-      responses:
-        201:
-          description: Created New API-Key Configuration
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-    delete:
-      tags:
-        - API Key Configuration
-      summary: Delete playback api-key configuration for a client
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to delete api-key configuration for
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: No Content
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-  /player:
-    get:
-      tags:
-        - Player Configuration
-      summary: Get player information
-      security:
-        - bearerAuth: []
-      description: Returns information about the player associated with the provided API key.
-      parameters:
-        - name: x-api-key
-          in: header
-          description: The API key to use for authentication.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Player'
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to delete playback configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  schemas:
-    PlaybackKeys:
-      type: object
-      properties:
-        clientId:
-          type: string
-          minLength: 1
-          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-          example: '12345678-1111-1111-1111-123456789012'
-      required:
-        - clientId
-
-    GlobalAdvert:
-      type: object
-      properties:
-        adType:
-          type: string
-          enum:
-            - vast
-            - vmap
-        discardAfterPlayback:
-          type: boolean
-        id:
-          type: string
-        persistent:
-          type: boolean
-        position:
-          type: string
-          oneOf:
-            - enum:
-                - pre
-                - post
-            - pattern: '^(\d+(\.\d+)?)$'
-            - pattern: '^\d+%'
-            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
-        preloadOffset:
-          type: number
-        skippableAfter:
-          type: number
-        url:
-          type: string
-      required:
-        - adType
-        - id
-        - position
-        - url
-      x-example-pre-position:
-        adType: vast
-        id: id123
-        position: pre
-        url: https://<some-global-advert>
-      x-example-percentage-position:
-        adType: vast
-        id: id123
-        position: 25%
-        url: https://<some-global-advert>
-      x-example-timecode-position:
-        adType: vast
-        id: id123
-        position: 00:10:30.000
-        url: https://<some-global-advert>
-
-    Auth:
-      type: object
-      properties:
-        cloudpay:
-          type: object
-          minProperties: 1
+              minProperties: 1
           additionalProperties:
-            type: string
+                type: object
+                properties:
+                  type:
+                    type: string
+                    minLength: 1
+                  license:
+                    type: string
+                    minLength: 1
+                  integrations:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      additionalProperties:
+                        type: string
+                required:
+                  - type
+                  - license
           example:
-            site: 'some-site'
-        engine:
-          type: string
-          minLength: 1
-        jwtSecretKey:
-          type: string
-      required:
-        - cloudpay
-        - engine
-
-    PlaybackConfig:
-      allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
-        - $ref: '#/components/schemas/PlaybackConfigData'
-
-    PlaybackConfigData:
-      allOf:
-        - type: object
-          properties:
-            auth:
-              $ref: '#/components/schemas/Auth'
-            domains:
-              type: array
-              items:
-                type: string
-                example: [ 'some-host1.com', 'some-host2.com' ]
-            entitlementsUrl:
-              type: string
-              minLength: 1
-            platform:
-              type: object
-              minProperties: 1
-              additionalProperties:
-                type: object
-              example:
-                kaltura:
-                  partnerId: '1234567'
-            player:
-              $ref: '#/components/schemas/Player'
-              minProperties: 1
-            globalAdverts:
-              $ref: '#/components/schemas/GlobalAdvert'
+            bitmovin:
+              type: bitmovin
+              license: 12345678-1111-1111-1111-123456789012
+              integrations:
+                mux:
+                  env_key: env_key_123
+          default:
+            type: string
+            minLength: 1
+            example: 'bitmovin'
           required:
-            - domains
-            - entitlementsUrl
-            - platform
-            - player
-
-    player:
-      type: object
-      additionalProperties:
-        type: object
-        additionalProperties:
-          type: object
-          additionalProperties:
-            type: object
-            additionalProperties:
-              type: object
-      example:
-        configuration:
-          bitmovin:
-            type: bitmovin
-            license: 12345678-1111-1111-1111-123456789012
-            integrations:
-              mux:
-                env_key: env_key_123
-        default: bitmovin
-
-    PlaybackApiKeyConfig:
-      allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
-        - type: object
-          properties:
-            apiKeyHash:
-              type: string
-              minLength: 1
-              example: some-apiKeyHash
-            apiKeyUuid:
-              type: string
-              minLength: 1
-              example: 12345678-1111-1111-1111-123456789012
-          required:
-            - apiKeyHash
-            - apiKeyUuid
-
-    Player:
-      allOf:
-        - type: object
-          properties:
-            configuration:
-              type: object
-              minProperties: 1
-              additionalProperties:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    minLength: 1
-                  license:
-                    type: string
-                    minLength: 1
-                  integrations:
-                    type: object
-                    additionalProperties:
-                      type: object
-                      additionalProperties:
-                        type: string
-                required:
-                  - type
-                  - license
-              example:
-                bitmovin:
-                  type: bitmovin
-                  license: 12345678-1111-1111-1111-123456789012
-                  integrations:
-                    mux:
-                      env_key: env_key_123
-            default:
-              type: string
-              minLength: 1
-              example: 'bitmovin'
-      required:
-        - configuration
-        - default
-
-          additionalProperties:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    minLength: 1
-                  license:
-                    type: string
-                    minLength: 1
-                  integrations:
-                    type: object
-                    additionalProperties:
-                      type: object
-                      additionalProperties:
-                        type: string
-                required:
-                  - type
-                  - license
-              example:
-                bitmovin:
-                  type: bitmovin
-                  license: 12345678-1111-1111-1111-123456789012
-                  integrations:
-                    mux:
-                      env_key: env_key_123
-            default:
-              type: string
-              minLength: 1
-              example: 'bitmovin'
-      required:
-        - configuration
-        - default
+            - configuration
+            - default
