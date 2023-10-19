@@ -607,35 +607,36 @@ components:
             configuration:
               type: object
               minProperties: 1
-          additionalProperties:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    minLength: 1
-                  license:
-                    type: string
-                    minLength: 1
-                  integrations:
+              additionalProperties:
                     type: object
-                    additionalProperties:
-                      type: object
-                      additionalProperties:
+                    properties:
+                      type:
                         type: string
-                required:
-                  - type
-                  - license
+                        minLength: 1
+                      license:
+                        type: string
+                        minLength: 1
+                      integrations:
+                        type: object
+                        additionalProperties:
+                          type: object
+                          additionalProperties:
+                            type: string
+                    required:
+                      - type
+                      - license
+            default:
+              type: string
+              minLength: 1
           example:
-            bitmovin:
-              type: bitmovin
-              license: 12345678-1111-1111-1111-123456789012
-              integrations:
-                mux:
-                  env_key: env_key_123
-          default:
-            type: string
-            minLength: 1
-            example: 'bitmovin'
+            configuration:
+              bitmovin:
+                type: bitmovin
+                license: 12345678-1111-1111-1111-123456789012
+                integrations:
+                  mux:
+                    env_key: env_key_123
+            default: 'bitmovin'
           required:
             - configuration
             - default
