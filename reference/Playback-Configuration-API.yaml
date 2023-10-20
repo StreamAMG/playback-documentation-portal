@@ -401,13 +401,8 @@ paths:
       - Player Configuration
       summary: Get player information
       description: Returns information about the player associated with the provided API key.
-      parameters:
-        - name: x-api-key
-          in: header
-          description: The client API key to use for authentication.
-          required: true
-          schema:
-            type: string
+      security:
+        - ApiKey: []
       responses:
         200:
           description: OK
@@ -444,6 +439,10 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
   schemas:
     PlaybackKeys:
       type: object
