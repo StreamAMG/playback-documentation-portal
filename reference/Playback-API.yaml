@@ -14,7 +14,13 @@ info:
   summary: Service that retrieve back video metadata url and signed manifests.
   description: |-
     Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
-    Service that sit between the video player and Kaltura. Pass an entryID (video id) plus an access token (JWT) to the Playback API and it returns the signed playback URL
+    
+    This API is a part of the Playback service that sits between the video player and Kaltura. 
+    
+    Pass an 'entryId' (<=> video identifier) plus a token API-Key (for authentication) to the Playback API and it 
+    will return the signed playback URL. In addition an access token must be passed through as the 'Authorization' 
+    'Bearer' header for access to protected (aka non-public) resources (public resources are not protected and do not 
+    require this token).
 tags:
   - name: Playback
 servers:
@@ -22,7 +28,18 @@ servers:
 paths:
   /entry/{entryId}:
     get:
-      summary: Get Playback data by entryID
+      summary: Get Video Playback Data
+      description: |-
+        In order to fetch the video data, the user must first be authenticated (via an API-Key). This token
+        should be passed during the API call through the 'x-api-key' header. 
+        
+        In addition, for non-public videos (protected resources) a JWT access token should also be passed through in 
+        the 'Authorization' 'Bearer' header.
+
+        The API call should be made with the video 'entryId' as a path parameter to identify the resource to retrieve 
+        information about.
+      tags:
+        - Playback
       operationId: get-playback-data
       security:
         - bearerAuth: []
@@ -33,7 +50,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Entry ID in MP
+          description: Entry Identifier in MediaPlatform
       responses:
         200:
           description: Success - get playback data
@@ -223,6 +240,23 @@ paths:
                     status: 401
                     message: The authorization provider is not supported. Supported provider - cloudpay
                     reason: CONFIGURATION_ERROR
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                description: Invalid/Missing API Key
+                type: object
+                properties:
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - message
+              examples:
+                Invalid API Key:
+                  value:
+                    message: Forbidden
         404:
           description: Not Found
           content:
@@ -302,14 +336,6 @@ paths:
                   value:
                     status: 500
                     message: 'Error getting playback data [Error stack]'
-      description: |-
-        In order to fetch the signed CDN URL, the user must first be authenticated(fetch the JWT access token). This token should be passed during the API call through the Bearer header.
-
-        The API call should be made with entryId as path parameter.
-
-        In order to ensure safe access to the API, it is necessary to pass the API key in the `x-api-key` header.
-      tags:
-        - Playback
 components:
   securitySchemes:
     bearerAuth:
