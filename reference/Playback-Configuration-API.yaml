@@ -594,6 +594,14 @@ components:
       allOf:
         - type: object
           properties:
+            description:
+              type: string
+              example: 'Playback configuration example'
+            tags:
+              type: array
+              items:
+                type: string
+                example: 'Tag'
             auth:
               $ref: '#/components/schemas/Auth'
             domains:
@@ -613,6 +621,11 @@ components:
                 kaltura:
                   partnerId: '1234567'
                   partnerAdminSecret: 'some-secret'
+            player:
+              $ref: '#/components/schemas/Player'
+              minProperties: 1
+            globalAdverts:
+              $ref: '#/components/schemas/GlobalAdvert'
             defaults:
               type: object
               properties:
@@ -628,11 +641,6 @@ components:
                   type: string
                   minLength: 1
                   example: 'kaltura'
-            player:
-              $ref: '#/components/schemas/Player'
-              minProperties: 1
-            globalAdverts:
-              $ref: '#/components/schemas/GlobalAdvert'
           required:
             - domains
             - entitlementsUrl
@@ -654,7 +662,11 @@ components:
           license: 12345678-1111-1111-1111-123456789012
           integrations:
             mux:
+              player_name: 'some name'
               env_key: env_key_123
+            resume:
+              enabled: true
+              jwtSecretKey: 'some key'
 
     PlaybackApiKeyConfig:
       allOf:
@@ -693,4 +705,8 @@ components:
               license: 12345678-1111-1111-1111-123456789012
               integrations:
                 mux:
+                  player_name: 'some name'
                   env_key: env_key_123
+                resume:
+                  enabled: true
+                  jwtSecretKey: 'some key'
