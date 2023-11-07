@@ -15,7 +15,7 @@ info:
   description: |-
     The Playback Client Configuration API exposes the functionality to retrieve, update and delete playback client 
     configurations. We can also manage Playback API-Key configuration using this API. 
-    
+
     All endpoints are authenticated by passing a valid access token (as generated from the AWS Cognito Playback User 
     Pool) through the 'Bearer' header which is authenticated using AWS Cognito.
 servers:
@@ -24,7 +24,7 @@ paths:
   /configuration/{configurationId}:
     get:
       tags:
-      - Playback Configuration
+        - Playback Configuration
       summary: Get playback configuration for a client
       security:
         - bearerAuth: []
@@ -144,7 +144,7 @@ paths:
                     message: Unauthorized
     delete:
       tags:
-      - Playback Configuration
+        - Playback Configuration
       summary: Delete playback configuration for a client
       security:
         - bearerAuth: []
@@ -208,12 +208,12 @@ paths:
                   value:
                     status: 404
                     message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
-                    error: Not Found            
+                    error: Not Found
 
   /configuration:
     post:
       tags:
-      - Playback Configuration
+        - Playback Configuration
       summary: Create new a playback configuration for a client
       security:
         - bearerAuth: []
@@ -222,14 +222,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PlaybackConfig"
+              $ref: '#/components/schemas/PlaybackConfig'
       responses:
         201:
           description: Created New Client Configuration
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlaybackConfig"
+                $ref: '#/components/schemas/PlaybackConfig'
         400:
           description: Bad Request
           content:
@@ -257,7 +257,7 @@ paths:
                 Invalid Client Identifier:
                   value:
                     status: 400
-                    message: clientId must be a UUID
+                    message: id must be a UUID
                     error: Bad Request
                 Platform Is Required:
                   value:
@@ -291,7 +291,7 @@ paths:
   /configuration/{configurationId}/apikey:
     get:
       tags:
-      - API Key Configuration
+        - API Key Configuration
       summary: Get playback API key configuration for a client
       security:
         - bearerAuth: []
@@ -334,7 +334,7 @@ paths:
                     message: Unauthorized
     post:
       tags:
-      - API Key Configuration
+        - API Key Configuration
       summary: Create new Playback API Key configuration for a client
       description: |-
         A new API-Key configuration will be created for a client (the client configuration typically would exist first
@@ -386,7 +386,7 @@ paths:
                     message: Unauthorized
     delete:
       tags:
-      - API Key Configuration
+        - API Key Configuration
       summary: Delete playback api-key configuration for a client
       security:
         - bearerAuth: []
@@ -450,11 +450,11 @@ paths:
                   value:
                     status: 404
                     message: 'Not Found apikey configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
-                    error: Not Found            
+                    error: Not Found
   /player:
     get:
       tags:
-      - Player Configuration
+        - Player Configuration
       summary: Get player information
       description: Returns information about the player associated with the provided API key.
       security:
@@ -500,16 +500,27 @@ components:
       in: header
       name: x-api-key
   schemas:
-    PlaybackKeys:
+    PlaybackConfigKeys:
       type: object
       properties:
-        clientId:
+        id:
           type: string
           minLength: 1
           pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
           example: '12345678-1111-1111-1111-123456789012'
       required:
-        - clientId
+        - id
+
+    PlaybackKeys:
+      type: object
+      properties:
+        configId:
+          type: string
+          minLength: 1
+          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+          example: '12345678-1111-1111-1111-123456789012'
+      required:
+        - configId
 
     GlobalAdvert:
       type: object
@@ -571,18 +582,12 @@ components:
             type: string
           example:
             site: 'some-site'
-        engine:
-          type: string
-          minLength: 1
-        jwtSecretKey:
-          type: string
       required:
         - cloudpay
-        - engine
 
     PlaybackConfig:
       allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
+        - $ref: '#/components/schemas/PlaybackConfigKeys'
         - $ref: '#/components/schemas/PlaybackConfigData'
 
     PlaybackConfigData:
@@ -595,7 +600,7 @@ components:
               type: array
               items:
                 type: string
-                example: [ 'some-host1.com', 'some-host2.com' ]
+                example: 'some-host1.com'
             entitlementsUrl:
               type: string
               minLength: 1
@@ -607,6 +612,22 @@ components:
               example:
                 kaltura:
                   partnerId: '1234567'
+                  partnerAdminSecret: 'some-secret'
+            defaults:
+              type: object
+              properties:
+                auth:
+                  type: string
+                  minLength: 1
+                  example: 'cloudpay'
+                player:
+                  type: string
+                  minLength: 1
+                  example: 'bitmovin'
+                platform:
+                  type: string
+                  minLength: 1
+                  example: 'kaltura'
             player:
               $ref: '#/components/schemas/Player'
               minProperties: 1
@@ -619,79 +640,57 @@ components:
             - player
 
     player:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
           type: object
           additionalProperties:
             type: object
             additionalProperties:
               type: object
-              additionalProperties:
-                type: object
-                additionalProperties:
-                  type: object
-          example:
-            configuration:
-              bitmovin:
-                type: bitmovin
-                license: 12345678-1111-1111-1111-123456789012
-                integrations:
-                  mux:
-                    env_key: env_key_123
-            default: bitmovin
+      example:
+        bitmovin:
+          license: 12345678-1111-1111-1111-123456789012
+          integrations:
+            mux:
+              env_key: env_key_123
 
     PlaybackApiKeyConfig:
       allOf:
         - $ref: '#/components/schemas/PlaybackKeys'
         - type: object
           properties:
-            apiKeyHash:
+            apiKey:
               type: string
               minLength: 1
-              example: some-apiKeyHash
-            apiKeyUuid:
+              example: some-apiKey
+            id:
               type: string
               minLength: 1
-              example: 12345678-1111-1111-1111-123456789012
+              example: ghb4ok1234
           required:
-            - apiKeyHash
-            - apiKeyUuid
+            - apiKey
+            - id
 
     Player:
       allOf:
         - type: object
           properties:
-            configuration:
-              type: object
-              minProperties: 1
-              additionalProperties:
-                    type: object
-                    properties:
-                      type:
-                        type: string
-                        minLength: 1
-                      license:
-                        type: string
-                        minLength: 1
-                      integrations:
-                        type: object
-                        additionalProperties:
-                          type: object
-                          additionalProperties:
-                            type: string
-                    required:
-                      - type
-                      - license
-            default:
+            license:
               type: string
               minLength: 1
-          example:
-            configuration:
-              bitmovin:
-                type: bitmovin
-                license: 12345678-1111-1111-1111-123456789012
-                integrations:
-                  mux:
-                    env_key: env_key_123
-            default: 'bitmovin'
+            integrations:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                  type: string
           required:
-            - configuration
-            - default
+            - license
+          example:
+            bitmovin:
+              license: 12345678-1111-1111-1111-123456789012
+              integrations:
+                mux:
+                  env_key: env_key_123
