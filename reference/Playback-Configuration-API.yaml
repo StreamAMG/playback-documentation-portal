@@ -288,7 +288,81 @@ paths:
                     status: 401
                     message: Unauthorized
 
-  /configuration/{configurationId}/apikey:
+  /configuration/{configurationId}/apiKeys:
+    get:
+      tags: 
+      - API Key Configuration
+      summary: Get api key list for provided configId
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: configurationId
+          in: path
+          description: Identifier of the client to retrieve API key configuration for
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackApiKeysConfig'  
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to get API Key Configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: API KEY not found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 404
+                    message: 'Specified api key not found: jggieoeifoo'
+                    error: Not Found              
+
+
+  /configuration/{configurationId}/apiKeys/{keyId}:
     get:
       tags:
         - API Key Configuration
@@ -302,6 +376,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: keyId
+          in: path
+          description: Identifier of the API kEY to retrieve
+          required: true
+          schema:
+            type: string    
       responses:
         200:
           description: OK
@@ -332,6 +412,34 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: API KEY not found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 404
+                    message: 'Specified api key not found: jggieoeifoo'
+                    error: Not Found           
     post:
       tags:
         - API Key Configuration
@@ -685,6 +793,24 @@ components:
             - apiKey
             - id
 
+    PlaybackApiKeysConfig:
+      allOf:
+        - $ref: '#/components/schemas/PlaybackKeys'
+        - type: array
+          items: 
+            - type: object
+              properties: 
+                apiKey:
+                  type: string
+                  minLength: 1
+                  example: some-apiKeyHash
+                id:
+                  type: string
+                  minLength: 1
+                  example: 12345678-1111-1111-1111-123456789012
+          required:
+            - apiKey
+            - id
     Player:
       allOf:
         - type: object
