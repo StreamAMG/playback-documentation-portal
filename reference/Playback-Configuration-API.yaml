@@ -796,7 +796,7 @@ components:
     PlaybackApiKeysConfig:
       - type: array
         items: 
-          $ref:  PlaybackApiKeyConfig
+          $ref: '#/components/schemas/PlaybackApiKeyConfig'
         required:
           - apiKey
           - id
