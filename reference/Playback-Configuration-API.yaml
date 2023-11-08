@@ -794,13 +794,28 @@ components:
             - id
 
     PlaybackApiKeysConfig:
-      - type: object
-        properties:
-          - type: array
-            items:
-              allOf:
-                - $ref: "#/components/schemas/PlaybackApiKeyConfig"
-                - additionalProperties: false
+      allOf:
+        - type: array
+          items: 
+            - type: object
+              properties: 
+                configId:
+                  type: string
+                  minLength: 1
+                  pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+                  example: '12345678-1111-1111-1111-123456789012'
+                apiKey:
+                  type: string
+                  minLength: 1
+                  example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
+                id:
+                  type: string
+                  minLength: 1
+                  example:  ghb4ok1234
+          required:
+            - configId
+            - apiKey
+            - id
           
     Player:
       allOf:
