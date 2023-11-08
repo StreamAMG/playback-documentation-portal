@@ -784,7 +784,7 @@ components:
             apiKey:
               type: string
               minLength: 1
-              example: some-apiKey
+              example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
             id:
               type: string
               minLength: 1
@@ -803,7 +803,7 @@ components:
                 apiKey:
                   type: string
                   minLength: 1
-                  example: some-apiKey
+                  example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
                 id:
                   type: string
                   minLength: 1
