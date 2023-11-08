@@ -796,20 +796,7 @@ components:
     PlaybackApiKeysConfig:
       - type: array
         items: 
-          - type: object
-            properties: 
-              apiKey:
-                type: string
-                minLength: 1
-                example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
-              id:
-                type: string
-                minLength: 1
-                example: ghb4ok1234
-              configId:
-                type: string
-                minLength: 1
-                example: 12345678-1111-1111-1111-123456789012  
+          $ref:  PlaybackApiKeyConfig
         required:
           - apiKey
           - id
