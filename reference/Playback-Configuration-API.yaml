@@ -803,14 +803,19 @@ components:
                 apiKey:
                   type: string
                   minLength: 1
-                  example: some-apiKeyHash
+                  example: some-apiKey
                 id:
                   type: string
                   minLength: 1
-                  example: 12345678-1111-1111-1111-123456789012
+                  example: ghb4ok1234
+                configId:
+                  type: string
+                  minLength: 1
+                  example: 12345678-1111-1111-1111-123456789012  
           required:
             - apiKey
             - id
+            - configId
     Player:
       allOf:
         - type: object
