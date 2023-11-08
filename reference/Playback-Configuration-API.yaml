@@ -292,7 +292,7 @@ paths:
     get:
       tags: 
       - API Key Configuration
-      summary: Get api key list for provided configId
+      summary: Get API KEY list for provided configId
       security:
         - bearerAuth: []
       parameters:
@@ -355,10 +355,10 @@ paths:
                   - message
                   - error
               examples:
-                Invalid Client Identifier:
+                Invalid Config Identifier:
                   value:
                     status: 404
-                    message: 'Specified api key not found: jggieoeifoo'
+                    message: 'Api keys not found for the provided configId: 7410d601-39c9-4511-8c9a-151ea787eb29'
                     error: Not Found              
 
 
@@ -378,7 +378,7 @@ paths:
             type: string
         - name: keyId
           in: path
-          description: Identifier of the API kEY to retrieve
+          description: Identifier of the API KEY to retrieve
           required: true
           schema:
             type: string    
@@ -435,10 +435,10 @@ paths:
                   - message
                   - error
               examples:
-                Invalid Client Identifier:
+                Invalid KEY Identifier:
                   value:
                     status: 404
-                    message: 'Specified api key not found: jggieoeifoo'
+                    message: 'Specified api key not found: 7410d601-39c9-4511-8c9a-151ea787eb29'
                     error: Not Found           
     post:
       tags:
