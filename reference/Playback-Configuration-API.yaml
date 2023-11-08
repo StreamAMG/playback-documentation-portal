@@ -794,13 +794,13 @@ components:
             - id
 
     PlaybackApiKeysConfig:
-      - type: array
-        items: 
-          $ref: '#/components/schemas/PlaybackApiKeyConfig'
-        required:
-          - apiKey
-          - id
-          - configId
+      - type: object
+        properties:
+          - type: array
+            items:
+              allOf:
+                - $ref: "#/components/schemas/PlaybackApiKeyConfig"
+                - additionalProperties: false
           
     Player:
       allOf:
