@@ -7,7 +7,7 @@ x-internal: true
 openapi: 3.1.0
 info:
   title: Playback Configuration API
-  version: '1.0'
+  version: "1.0"
   contact:
     name: Jonathon Robins
     email: Jonathon.Robins@pamediagroup.com
@@ -19,9 +19,9 @@ info:
     All endpoints are authenticated by passing a valid access token (as generated from the AWS Cognito Playback User 
     Pool) through the 'Bearer' header which is authenticated using AWS Cognito.
 servers:
-  - url: 'https://api.playback.streamamg.com/v1/'
+  - url: "https://api.playback.streamamg.com/v1/"
 paths:
-  /configuration/{configurationId}:
+  /configuration/{id}:
     get:
       tags:
         - Playback Configuration
@@ -29,7 +29,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: id
           in: path
           description: Identifier of the client to retrieve the configuration for
           required: true
@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackConfig'
+                $ref: "#/components/schemas/PlaybackConfig"
         401:
           description: Unauthorized
           content:
@@ -91,7 +91,7 @@ paths:
                 Invalid Client Identifier:
                   value:
                     status: 404
-                    message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
+                    message: "Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9"
                     error: Not Found
 
     put:
@@ -99,12 +99,12 @@ paths:
         - Playback Configuration
       summary: Update the playback configuration
       description: |-
-        Update the playback configuration for a client creating a new configuration if it doesn't exist; the 
+        Update the playback configuration for a client. The 
         entire configuration will be replaced so the full body representing a playback client configuration is required.
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: id
           in: path
           description: Identifier of the client to update the configuration for
           required: true
@@ -115,7 +115,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlaybackConfigData'
+              $ref: "#/components/schemas/PlaybackConfigData"
       responses:
         200:
           description: OK
@@ -142,6 +142,34 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: No playback configuration found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 404
+                    message: "Configuration for 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9 was not found"
+                    error: Not Found
     delete:
       tags:
         - Playback Configuration
@@ -149,7 +177,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: id
           in: path
           description: Identifier of the client to delete the configuration for
           required: true
@@ -207,7 +235,7 @@ paths:
                 Invalid Client Identifier:
                   value:
                     status: 404
-                    message: 'Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
+                    message: "Not Found configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9"
                     error: Not Found
 
   /configuration:
@@ -222,14 +250,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlaybackConfig'
+              $ref: "#/components/schemas/PlaybackConfigData"
       responses:
         201:
           description: Created New Client Configuration
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackConfig'
+                $ref: "#/components/schemas/PlaybackConfig"
         400:
           description: Bad Request
           content:
@@ -288,107 +316,31 @@ paths:
                     status: 401
                     message: Unauthorized
 
-  /configuration/{configurationId}/apiKeys:
-    get:
-      tags: 
-      - API Key Configuration
-      summary: Get API KEY list for provided configId
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: configurationId
-          in: path
-          description: Identifier of the client to retrieve API key configuration for
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlaybackApiKeysConfig'  
-        401:
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                description: No permissions to get API Key Configuration
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-              examples:
-                Unauthorized:
-                  value:
-                    status: 401
-                    message: Unauthorized
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                description: API KEY not found
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 404
-                  message:
-                    type: string
-                    minLength: 1
-                  error:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-                  - error
-              examples:
-                Invalid Config Identifier:
-                  value:
-                    status: 404
-                    message: 'Api keys not found for the provided configId: 7410d601-39c9-4511-8c9a-151ea787eb29'
-                    error: Not Found              
-
-
-  /configuration/{configurationId}/apiKeys/{keyId}:
+  /configuration/{configId}/apikey:
     get:
       tags:
         - API Key Configuration
-      summary: Get playback API key configuration for a client
+      summary: Get all playback API keys for a given configId
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: configId
           in: path
-          description: Identifier of the client to retrieve API key configuration for
+          description: Identifier of the client to retrieve API keys for
           required: true
           schema:
             type: string
-        - name: keyId
-          in: path
-          description: Identifier of the API KEY to retrieve
-          required: true
-          schema:
-            type: string    
+
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+                type: array
+                items:
+                  oneOf:
+                    - $ref: "#/components/schemas/PlaybackApiKeyConfig"
         401:
           description: Unauthorized
           content:
@@ -412,34 +364,6 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
-        404:
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                description: API KEY not found
-                type: object
-                properties:
-                  status:
-                    type: number
-                    enum:
-                      - 404
-                  message:
-                    type: string
-                    minLength: 1
-                  error:
-                    type: string
-                    minLength: 1
-                required:
-                  - status
-                  - message
-                  - error
-              examples:
-                Invalid KEY Identifier:
-                  value:
-                    status: 404
-                    message: 'Specified api key not found: 7410d601-39c9-4511-8c9a-151ea787eb29'
-                    error: Not Found           
     post:
       tags:
         - API Key Configuration
@@ -450,7 +374,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: configId
           in: path
           description: Identifier of the client to create API key configuration for
           required: true
@@ -461,20 +385,71 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlaybackKeys'
+              $ref: "#/components/schemas/PlaybackConfigKeys"
       responses:
         201:
           description: Created New API-Key Configuration
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackApiKeyConfig'
+                $ref: "#/components/schemas/PlaybackApiKeyConfig"
         401:
           description: Unauthorized
           content:
             application/json:
               schema:
                 description: No permissions to create API Key Configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
+
+  /configuration/{configId}/apikey/{keyId}:
+    get:
+      tags:
+        - API Key Configuration
+      summary: Get single playback API key
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: configId
+          in: path
+          description: Identifier of the client to retrieve API key for
+          required: true
+          schema:
+            type: string
+        - name: keyId
+          in: path
+          description: Identifier of the API key
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaybackApiKeyConfig"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to get API Key Configuration
                 type: object
                 properties:
                   status:
@@ -499,9 +474,15 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: configurationId
+        - name: configId
           in: path
-          description: Identifier of the client to delete api-key configuration for
+          description: Identifier of the client to remove API key for
+          required: true
+          schema:
+            type: string
+        - name: keyId
+          in: path
+          description: Identifier of the API key
           required: true
           schema:
             type: string
@@ -557,7 +538,7 @@ paths:
                 Invalid Client Identifier:
                   value:
                     status: 404
-                    message: 'Not Found apikey configuration: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9'
+                    message: "Specified api key not found: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9"
                     error: Not Found
   /player:
     get:
@@ -573,7 +554,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Player'
+                $ref: "#/components/schemas/Player"
         403:
           description: Unauthorized
           content:
@@ -614,19 +595,19 @@ components:
         id:
           type: string
           minLength: 1
-          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-          example: '12345678-1111-1111-1111-123456789012'
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          example: "12345678-1111-1111-1111-123456789012"
       required:
         - id
 
-    PlaybackKeys:
+    PlaybackApiKeys:
       type: object
       properties:
         configId:
           type: string
           minLength: 1
-          pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-          example: '12345678-1111-1111-1111-123456789012'
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+          example: "12345678-1111-1111-1111-123456789012"
       required:
         - configId
 
@@ -689,14 +670,14 @@ components:
           additionalProperties:
             type: string
           example:
-            site: 'some-site'
+            site: "some-site"
       required:
         - cloudpay
 
     PlaybackConfig:
       allOf:
-        - $ref: '#/components/schemas/PlaybackConfigKeys'
-        - $ref: '#/components/schemas/PlaybackConfigData'
+        - $ref: "#/components/schemas/PlaybackConfigKeys"
+        - $ref: "#/components/schemas/PlaybackConfigData"
 
     PlaybackConfigData:
       allOf:
@@ -704,56 +685,64 @@ components:
           properties:
             description:
               type: string
-              example: 'Playback configuration example'
+              example: "Playback configuration example"
             tags:
               type: array
               items:
                 type: string
-                example: 'Tag'
+                example: "Tag"
             auth:
-              $ref: '#/components/schemas/Auth'
+              $ref: "#/components/schemas/Auth"
             domains:
               type: array
               items:
                 type: string
-                example: 'some-host1.com'
+              example: ["some-host1.com", "some-host2.com"]
             entitlementsUrl:
               type: string
               minLength: 1
             platform:
               type: object
-              minProperties: 1
+              minProperties: 2
               additionalProperties:
                 type: object
               example:
                 kaltura:
-                  partnerId: '1234567'
-                  partnerAdminSecret: 'some-secret'
+                  partnerId: "1234567"
+                  partnerAdminSecret: "admin secret value"
+              required:
+                - partnerId
+                - partnerAdminSecret
             player:
-              $ref: '#/components/schemas/Player'
+              $ref: "#/components/schemas/Player"
               minProperties: 1
             globalAdverts:
-              $ref: '#/components/schemas/GlobalAdvert'
+              $ref: "#/components/schemas/GlobalAdvert"
             defaults:
               type: object
+              minProperties: 3
               properties:
-                auth:
-                  type: string
-                  minLength: 1
-                  example: 'cloudpay'
                 player:
                   type: string
-                  minLength: 1
-                  example: 'bitmovin'
+                  example: bitmovin
+                auth:
+                  type: string
+                  example: cloudpay
                 platform:
                   type: string
-                  minLength: 1
-                  example: 'kaltura'
+                  example: kaltura
+              required:
+                - player
+                - auth
+                - platform
           required:
             - domains
             - entitlementsUrl
             - platform
             - player
+            - auth
+            - description
+            - defaults
 
     player:
       type: object
@@ -763,28 +752,25 @@ components:
           type: object
           additionalProperties:
             type: object
-            additionalProperties:
-              type: object
       example:
         bitmovin:
+          type: bitmovin
           license: 12345678-1111-1111-1111-123456789012
           integrations:
             mux:
-              player_name: 'some name'
               env_key: env_key_123
-            resume:
-              enabled: true
-              jwtSecretKey: 'some key'
+              player_name: some_player_name
+        default: bitmovin
 
     PlaybackApiKeyConfig:
       allOf:
-        - $ref: '#/components/schemas/PlaybackKeys'
+        - $ref: "#/components/schemas/PlaybackApiKeys"
         - type: object
           properties:
             apiKey:
               type: string
               minLength: 1
-              example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
+              example: apikeyvalue
             id:
               type: string
               minLength: 1
@@ -793,52 +779,30 @@ components:
             - apiKey
             - id
 
-    PlaybackApiKeysConfig:
-      allOf:
-        - type: array
-          items: 
-            - type: object
-              properties: 
-                configId:
-                  type: string
-                  minLength: 1
-                  pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-                  example: '12345678-1111-1111-1111-123456789012'
-                apiKey:
-                  type: string
-                  minLength: 1
-                  example: HUGUIFFBCBDGDG6GTSFVXLKZCFSSSFHJJGJKHYJQ
-                id:
-                  type: string
-                  minLength: 1
-                  example:  ghb4ok1234
-          required:
-            - configId
-            - apiKey
-            - id
-          
     Player:
       allOf:
         - type: object
-          properties:
-            license:
-              type: string
-              minLength: 1
-            integrations:
-              type: object
-              additionalProperties:
+          additionalProperties:
+            type: object
+            properties:
+              license:
+                type: string
+                minLength: 1
+              integrations:
                 type: object
                 additionalProperties:
-                  type: string
-          required:
-            - license
+                  type: object
+                  additionalProperties:
+                    type: string
+            required:
+              - license
           example:
             bitmovin:
               license: 12345678-1111-1111-1111-123456789012
               integrations:
                 mux:
-                  player_name: 'some name'
+                  player_name: "some name"
                   env_key: env_key_123
                 resume:
                   enabled: true
-                  jwtSecretKey: 'some key'
+                  jwtSecretKey: "some key"
