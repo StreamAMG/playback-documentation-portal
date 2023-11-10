@@ -416,6 +416,29 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: Configuration not found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                NotFound:
+                  value:
+                    status: 404
+                    message: "Not Found configuration: 123-123-123"
 
   /configuration/{configId}/apikey/{keyId}:
     get:
