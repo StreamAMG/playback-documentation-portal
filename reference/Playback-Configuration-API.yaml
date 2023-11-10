@@ -467,6 +467,34 @@ paths:
                   value:
                     status: 401
                     message: Unauthorized
+          404:
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  description: Api key configuration not found
+                  type: object
+                  properties:
+                    status:
+                      type: number
+                      enum:
+                        - 404
+                    message:
+                      type: string
+                      minLength: 1
+                    error:
+                      type: string
+                      minLength: 1
+                  required:
+                    - status
+                    - message
+                    - error
+                examples:
+                  Invalid Client Identifier:
+                    value:
+                      status: 404
+                      message: "Specified api key not found: 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9"
+                      error: Not Found
     delete:
       tags:
         - API Key Configuration
