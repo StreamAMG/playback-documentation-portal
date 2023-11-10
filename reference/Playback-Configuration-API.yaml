@@ -582,7 +582,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Player"
+                type: object
+                properties:
+                  player:
+                    type: object
+                    $ref: "#/components/schemas/Player"
+                  defaults:
+                    type: object
+                    properties:
+                      player:
+                        type: string
+                        example: 'bitmovin'
+                
         403:
           description: Unauthorized
           content:
