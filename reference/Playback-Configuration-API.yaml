@@ -689,6 +689,11 @@ components:
         position: 00:10:30.000
         url: https://<some-global-advert>
 
+    GlobalAdverts:
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/GlobalAdvert"
+
     Auth:
       type: object
       properties:
@@ -745,7 +750,7 @@ components:
               $ref: "#/components/schemas/Player"
               minProperties: 1
             globalAdverts:
-              $ref: "#/components/schemas/GlobalAdvert"
+              $ref: "#/components/schemas/GlobalAdverts"
             defaults:
               type: object
               minProperties: 3
