@@ -611,24 +611,18 @@ paths:
           content:
             application/json:
               schema:
-                description: Invalid API-Key
+                description: Unauthorized
                 type: object
                 properties:
-                  status:
-                    type: number
-                    enum:
-                      - 401
                   message:
                     type: string
                     minLength: 1
                 required:
-                  - status
                   - message
               examples:
-                Unauthorized:
+                InvalidAPIKey:
                   value:
-                    status: 403
-                    message: Unauthorized
+                    message: API Key not provided or not valid
 components:
   securitySchemes:
     bearerAuth:
