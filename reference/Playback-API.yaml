@@ -68,6 +68,10 @@ paths:
                     duration: 2800000
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+                    coverImg:
+                      360: 'https://video-store/test/12345/width/360'
+                      720: 'https://video-store/test/12345/width/720'
+                      1080: 'https://video-store/test/12345/width/1080' 
                 Example - Success Live:
                   value:
                     id: 0_4l1aj0bo
@@ -368,6 +372,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Advert'
+        coverImg:
+          type: object
+          properties:   
+            360:
+              type: string
+            720:
+              type: string
+            1080:
+              type: string  
     Advert:
       type: object
       properties:
