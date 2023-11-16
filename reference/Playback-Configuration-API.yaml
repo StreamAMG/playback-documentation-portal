@@ -586,7 +586,7 @@ paths:
                 properties:
                   player:
                     type: object
-                    $ref: "#/components/schemas/Player"
+                    $ref: "#/components/schemas/PlayerResponse"
                   defaults:
                     type: object
                     properties:
@@ -845,3 +845,30 @@ components:
                 resume:
                   enabled: true
                   jwtSecretKey: "some key"
+
+    PlayerResponse:
+      allOf:
+        - type: object
+          additionalProperties:
+            type: object
+            properties:
+              license:
+                type: string
+                minLength: 1
+              integrations:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: string
+            required:
+              - license
+          example:
+            bitmovin:
+              license: 12345678-1111-1111-1111-123456789012
+              integrations:
+                mux:
+                  player_name: "some name"
+                  env_key: env_key_123
+                resume:
+                  enabled: true
