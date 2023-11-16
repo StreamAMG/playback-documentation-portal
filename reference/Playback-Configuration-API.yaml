@@ -380,6 +380,15 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: Web
       responses:
         201:
           description: Created New API-Key Configuration
@@ -387,6 +396,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PlaybackApiKeyConfig"
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: Invalid request
+                type: object
+                properties:
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                  statusCode:
+                    type: number
+                    enum:
+                      - 400
+                required:
+                  - message
+                  - statusCode
+                  - error
+              examples:
+                BadRequest:
+                  value:
+                    statusCode: 400
+                    error: Bad Request
+                    message: Api key configuration with 'some name' name already exists, please provide a unique name.
         401:
           description: Unauthorized
           content:
@@ -822,17 +859,21 @@ components:
         - $ref: "#/components/schemas/PlaybackApiKeys"
         - type: object
           properties:
-            apiKey:
-              type: string
-              minLength: 1
-              example: apikeyvalue
             id:
               type: string
               minLength: 1
               example: ghb4ok1234
+            apiKey:
+              type: string
+              minLength: 1
+              example: apikeyvalue
+            name:
+              type: string
+              minLength: 1
+              example: Web
           required:
-            - apiKey
             - id
+            - apiKey
 
     Player:
       allOf:
