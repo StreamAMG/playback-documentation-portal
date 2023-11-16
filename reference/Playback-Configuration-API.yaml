@@ -423,7 +423,7 @@ paths:
                   value:
                     statusCode: 400
                     error: Bad Request
-                    message: Api key configuration with 'some name' name already exists, please provide a unique name.
+                    message: API key configuration with 'Web' name already exists, please provide a unique name.
         401:
           description: Unauthorized
           content:
