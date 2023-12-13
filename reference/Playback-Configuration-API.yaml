@@ -641,6 +641,12 @@ paths:
                   player:
                     type: object
                     $ref: "#/components/schemas/PlayerResponse"
+                  featureFlags:
+                    type: object
+                    properties:
+                      customErrorScreen:
+                        type: boolean
+                        example: false
                   defaults:
                     type: object
                     properties:
