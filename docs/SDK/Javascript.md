@@ -11,10 +11,6 @@ The goal of the SDK is to offer versatility and a range of tools for crafting a 
 allowing you various methods to seamlessly incorporate a video player into your web application, enabling you to make
 well-informed decisions regarding the most optimal integration approach.
 
-## Latest SDK To Download
-
->The latest JavaScript SDK for Playback v1  is available here:
->[v1 Playback SDK](https://sdk.playback.streamamg.com/v1/playback.js)
 
 ## SDK Reference Documentation
 
@@ -42,12 +38,6 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
 called 'playback.js' is available for downloading into your application.
-
->Versions are available for every major and minor release e.g. v1, v1.23, v1.23.9 should you require a specific version.
-> 
->Specific versions may be obtained from ```https://sdk.playback.streamamg.com/<version>/playback.js```
-> 
->However, it is advisable to use the latest major version which is available [here](https://sdk.playback.streamamg.com/v1/playback.js).
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -83,8 +73,7 @@ Playback.initialize('client-api-key', { autoplay: true });
 
 Next, to play a video in the player identify the video to play and start the player:
 ```javascript
- // Identity the video to play by the entry identifier:
- //     this is the MediaPlatform identifier.
+ // Identify the video to play by the entry identifier.
  //  - also provide the DOM element container identifier:
  //     e.g. <div id="player"></div> so pass over 'player'.  
  //  - also provide the access token:
