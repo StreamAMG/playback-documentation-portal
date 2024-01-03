@@ -37,7 +37,15 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 ### Installing the SDK
 
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
-called 'playback.js' is available for downloading into your application.
+called 'playback.js' is available for downloading into your application at the following URL: 
+```
+https://sdk.playback.streamamg.com/v1/playback.js
+```
+
+---
+**NOTE**
+Currently, there is no public NPM package for the SDK.
+---
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -82,7 +90,7 @@ All the optional [PlayerOptions](https://sdk-docs.playback.streamamg.com/v1/docs
 To use the SDK with protected video resources, you will need to provide an access token from your authentication provider e.g. AWS Cognito, Auth0, etc. This is passed through 
 when playing the video through the static [Playback.play](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#play) or instance [player.play](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#play-2) methods. 
 This access token can be automatically refreshed on expiry by providing a [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#retrieveSessionToken) function (the implementation of
-the actual function is dependent on your authentication provider) to refresh the access token.
+the actual function is dependent on your authentication provider) to refresh the access token. The token is only refreshed once per session using the supplied bespoke function which is optional.
 
 A generic example of defining and passing over a [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#retrieveSessionToken) function is shown below:
 ```javascript
