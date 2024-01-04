@@ -37,7 +37,15 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 ### Installing the SDK
 
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
-called 'playback.js' is available for downloading into your application.
+called 'playback.js' is available for downloading into your application at the following URL: 
+```
+https://sdk.playback.streamamg.com/v1/playback.js
+```
+
+---
+**NOTE**
+Currently, there is no public NPM package for the SDK.
+---
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -69,6 +77,62 @@ would like to use as follows:
 Playback.initialize('client-api-key', { autoplay: true });
 ```
 
+All the optional [PlayerOptions](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html) available are as follows :
+ - [autoplay](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#autoplay) - a boolean value indicating if the video should play automatically.
+ - [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) - a boolean value indicating if the audio output of the video should be muted.
+ - [seekInterval](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#seekInterval) - the time interval in milliseconds at which the video should be seeked.
+ - [forwardButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#forwardButtonClassName) - the class name of the forward button.
+ - [rewindButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#rewindButtonClassName) - the class name of the rewind button.
+ - [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#retrieveSessionToken) - function to fetch/refresh the session token.
+
+##### Access Tokens #####
+
+To use the SDK with protected video resources, you will need to provide an access token from your authentication provider e.g. AWS Cognito, Auth0, etc. This is passed through 
+when playing the video through the static [Playback.play](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#play) or instance [player.play](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#play-2) methods. 
+This access token can be automatically refreshed on expiry by providing a [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#retrieveSessionToken) function (the implementation of
+the actual function is dependent on your authentication provider) to refresh the access token. The token is only refreshed once per session using the supplied bespoke function which is optional.
+
+A generic example of defining and passing over a [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#retrieveSessionToken) function is shown below:
+```javascript
+// Define a function that returns a session token
+function getSessionToken() {
+    // Logic to retrieve or generate the session token
+    return 'example_session_token';
+}
+
+// Pass over the retrieveSessionToken function into the initialise playback call
+Playback.initialize('client-api-key', { retrieveSessionToken: getSessionToken });
+```
+
+A further example of a function to refresh an AWS Cognito session token is shown below (this example uses the AWS 
+Cognito OAuth2 token endpoint and is only intended for illustrative purposes):
+
+```javascript
+function getSessionToken(refreshToken, clientId, clientSecret = null) {
+    const params = new URLSearchParams({
+        grant_type: 'refresh_token',
+        client_id: clientId,
+        refresh_token: refreshToken,
+        client_secret: clientSecret
+    });
+
+    // Call the Cognito OAuth 2.0 Token endpoint for your user pool by submitting your refresh token.
+    return fetch('https://your-user-pool-domain.auth.eu-west-1.amazoncognito.com/oauth2/token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params
+    })
+    .then(response => {
+        // Check for errors and if all ok return the new access token.
+    })
+}
+
+// Pass over the retrieveSessionToken function into the initialise playback call with the refresh token etc required.
+Playback.initialize('client-api-key', { retrieveSessionToken: () => getSessionToken('your_refresh_token', 'your_client_id', 'your_client_secret') });
+```
+
 #### Playing a Video
 
 Next, to play a video in the player identify the video to play and start the player:
@@ -76,8 +140,8 @@ Next, to play a video in the player identify the video to play and start the pla
  // Identify the video to play by the entry identifier.
  //  - also provide the DOM element container identifier:
  //     e.g. <div id="player"></div> so pass over 'player'.  
- //  - also provide the access token:
- //     this is required to access the protected resources.
+ //  - also provide an access token from your authentication provider:
+ //     this is required to access protected video resources.
  const playOptions = {
    container: 'player',
    entryId: '0_xxxxxxxx',
