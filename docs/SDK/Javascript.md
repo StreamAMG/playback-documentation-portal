@@ -11,7 +11,6 @@ The goal of the SDK is to offer versatility and a range of tools for crafting a 
 allowing you various methods to seamlessly incorporate a video player into your web application, enabling you to make
 well-informed decisions regarding the most optimal integration approach.
 
-
 ## SDK Reference Documentation
 
 >The latest JavaScript SDK for Playback v1 reference documentation is available here:
@@ -38,14 +37,10 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
 called 'playback.js' is available for downloading into your application at the following URL: 
-```
-https://sdk.playback.streamamg.com/v1/playback.js
-```
 
----
-**NOTE**
-Currently, there is no public NPM package for the SDK.
----
+>https://sdk.playback.streamamg.com/v1/playback.js
+>
+>> Currently, there is no public NPM package published for this SDK.
 
 Here is an example of loading the SDK into an HTML 5 script:
 
@@ -163,6 +158,7 @@ Refer to the SDK reference documentation starting with the [Playback Class](http
 
 The underlying video player, e.g. [Bitmovin](https://cdn.bitmovin.com/player/web/8/docs/interfaces/Core.PlayerAPI.html), may also be obtained [here](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Bitmovin.html#getRawPlayer) - this is 
 offered for advanced integration and is typically not a recommended use-case.
+
 
 
 
