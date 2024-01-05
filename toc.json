@@ -17,6 +17,11 @@
     },
     {
       "type": "item",
+      "title": "Video Player Configuration",
+      "uri": "docs/Video-Players.md"
+    },
+    {
+      "type": "item",
       "title": "Client Onboarding (internal)",
       "uri": "docs/Client-Onboarding.md"
     },
