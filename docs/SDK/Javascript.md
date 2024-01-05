@@ -38,15 +38,17 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
 called 'playback.js' is available for downloading into your application at the following URL: 
 
->https://sdk.playback.streamamg.com/v1/playback.js
->
->> Currently, there is no public NPM package published for this SDK.
+```
+https://sdk.playback.streamamg.com/v1/playback.js
+```
+
+> Currently, there is no public NPM package published for this SDK.
 
 Here is an example of loading the SDK into an HTML 5 script:
 
 ```html
 <head>
-    <script src="https://sdk.playback.streamamg.com/v1/playback.js"/>
+    <script src="https://sdk.playback.streamamg.com/v1/playback.js"></script>
 </head>
 ```
 
