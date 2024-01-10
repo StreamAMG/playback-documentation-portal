@@ -33,7 +33,12 @@
       "type": "item",
       "title": "Javascript",
       "uri": "docs/SDK/Javascript.md"
-    },  
+    },
+    {
+      "type": "item",
+      "title": "Error Handling",
+      "uri": "docs/SDK/Error-Handling.md"
+    },
     {
       "type": "divider",
       "title": "API (internal)"

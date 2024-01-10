@@ -44,12 +44,13 @@ https://sdk.playback.streamamg.com/v1/playback.js
 
 > Currently, there is no public NPM package published for this SDK.
 
-Here is an example of loading the SDK into an HTML 5 script:
+Here is an example of loading the SDK into an HTML 5 script (it is a good idea to place scripts at the bottom of the 
+`<body>` element: this can improve page load, because script compilation can slow down the display):
 
 ```html
-<head>
-    <script src="https://sdk.playback.streamamg.com/v1/playback.js"></script>
-</head>
+<body>
+    <script src="https://sdk.playback.streamamg.com/v1/playback.js" type="text/javascript"></script>
+</body>
 ```
 
 Including type="text/javascript" is considered good practice in older versions of HTML (prior to HTML5), but it's not

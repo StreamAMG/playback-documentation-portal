@@ -44,7 +44,7 @@ If the css is in an external file called say bitmovin-styles.css, you can includ
 
 ### Rewind and Forward Buttons
 
-Rewind and Forward Buttons can be styled by passing into the player options the following CSS (optional styles):
+Rewind and Forward Buttons can be styled by passing into the player options via the Javascript SDK the following CSS (optional styles):
 
 - [forwardButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#forwardButtonClassName) - the class name of the forward button.
 - [rewindButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#rewindButtonClassName) - the class name of the rewind button.
