@@ -76,7 +76,7 @@ Playback.initialize('client-api-key', { autoplay: true });
 ```
 
 All the optional [PlayerOptions](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html) available are as follows :
- - [autoplay](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#autoplay) - a boolean value indicating if the video should play automatically.
+ - [autoplay](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#autoplay) - a boolean value indicating if the video should play automatically. Note that this feature may be blocked by the browser, refer to the relevant section further down the page for more information.
  - [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) - a boolean value indicating if the audio output of the video should be muted.
  - [seekInterval](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#seekInterval) - the time interval in milliseconds at which the video should be seeked.
  - [forwardButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#forwardButtonClassName) - the class name of the forward button.
@@ -140,10 +140,16 @@ Next, to play a video in the player identify the video to play and start the pla
  //     e.g. <div id="player"></div> so pass over 'player'.  
  //  - also provide an access token from your authentication provider:
  //     this is required to access protected video resources.
+ //  - optionally provide a list of options to be passed to the player
+ //     which will overwrite those passed during initialization (if duplicated)
  const playOptions = {
    container: 'player',
    entryId: '0_xxxxxxxx',
    token: 'access_token'
+   options: {
+    autoplay: true,
+    muted: true,
+   }
  };
 
  // Play the video (this example uses the 'static' calling approach):
@@ -155,13 +161,15 @@ Next, to play a video in the player identify the video to play and start the pla
    });
 ```
 
+#### Video autoplay
+
+Different web browsers have their own policies regarding video autoplays. In general, muted autoplays are typically allowed across most browsers. However, enabling unmuted autoplays for a specific user on your site may require them to interact with your site for a certain duration before this feature becomes available.
+
+For instance, here is an example of Chrome browser's autoplay policy: [Chrome autoplay policy](https://developer.chrome.com/blog/autoplay)
+
 #### Further Integration 
 
 Refer to the SDK reference documentation starting with the [Playback Class](https://sdk-docs.playback.streamamg.com/v1/docs/classes/playback.Playback.html) which is the main entry for the playback service offered. 
 
 The underlying video player, e.g. [Bitmovin](https://cdn.bitmovin.com/player/web/8/docs/interfaces/Core.PlayerAPI.html), may also be obtained [here](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Bitmovin.html#getRawPlayer) - this is 
 offered for advanced integration and is typically not a recommended use-case.
-
-
-
-
