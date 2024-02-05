@@ -165,7 +165,7 @@ Next, to play a video in the player identify the video to play and start the pla
 
 Different web browsers have their own policies regarding video autoplays. In general, muted autoplays are typically allowed across most browsers. However, enabling unmuted autoplays for a specific user on your site may require them to interact with your site for a certain duration before this feature becomes available.
 
-For instance, here is an example of Chrome browser's autoplay policy: (Chrome autoplay policy)[https://developer.chrome.com/blog/autoplay]
+For instance, here is an example of Chrome browser's autoplay policy: [Chrome autoplay policy](https://developer.chrome.com/blog/autoplay)
 
 #### Further Integration 
 
