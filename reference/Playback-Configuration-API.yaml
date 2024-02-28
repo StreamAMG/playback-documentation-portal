@@ -170,6 +170,81 @@ paths:
                     status: 404
                     message: "Configuration for 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9 was not found"
                     error: Not Found
+    patch:
+      tags:
+        - Playback Configuration
+      summary: partially updates playback configuration
+      description: |-
+        Update the playback configuration for a client. 
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the client to update the configuration for
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PartialPlaybackConfigData"
+      responses:
+        200:
+          description: OK
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: No permissions to update the playback configuration
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Unauthorized:
+                  value:
+                    status: 401
+                    message: Unauthorized
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: No playback configuration found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+                  - error
+              examples:
+                Invalid Client Identifier:
+                  value:
+                    status: 404
+                    message: "Configuration for 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9 was not found"
+                    error: Not Found                
     delete:
       tags:
         - Playback Configuration
@@ -839,6 +914,7 @@ components:
                 - player
                 - auth
                 - platform
+            tenantId: string    
           required:
             - domains
             - entitlementsUrl
@@ -847,7 +923,69 @@ components:
             - auth
             - description
             - defaults
-
+    PartialPlaybackConfigData:
+      allOf:
+        - type: object
+          properties:
+            description:
+              type: string
+              example: "Playback configuration example"
+            tags:
+              type: array
+              items:
+                type: string
+                example: "Tag"
+            auth:
+              $ref: "#/components/schemas/Auth"
+            domains:
+              type: array
+              items:
+                type: string
+              example: ["some-host1.com", "some-host2.com"]
+            entitlementsUrl:
+              type: string
+              minLength: 1
+            platform:
+              type: object
+              minProperties: 2
+              additionalProperties:
+                type: object
+              example:
+                kaltura:
+                  partnerId: "1234567"
+                  partnerAdminSecret: "admin secret value"
+              required:
+                - partnerId
+                - partnerAdminSecret
+            player:
+              $ref: "#/components/schemas/Player"
+              minProperties: 1
+            globalAdverts:
+              $ref: "#/components/schemas/GlobalAdverts"
+            featureFlags:
+              type: object
+              properties:
+                customErrorScreen:
+                  type: boolean
+                  example: false
+            defaults:
+              type: object
+              minProperties: 3
+              properties:
+                player:
+                  type: string
+                  example: bitmovin
+                auth:
+                  type: string
+                  example: cloudpay
+                platform:
+                  type: string
+                  example: kaltura
+              required:
+                - player
+                - auth
+                - platform
+            tenantId: string    
     player:
       type: object
       additionalProperties:
