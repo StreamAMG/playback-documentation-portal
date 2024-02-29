@@ -985,8 +985,9 @@ components:
                 - player
                 - auth
                 - platform
-            tenantId: string    
-            example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
+            tenantId: 
+              type: string    
+              example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
     player:
       type: object
       additionalProperties:
