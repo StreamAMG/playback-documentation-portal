@@ -173,7 +173,7 @@ paths:
     patch:
       tags:
         - Playback Configuration
-      summary: partially updates playback configuration
+      summary: Partially update playback configuration
       description: |-
         Update the playback configuration for a client. 
       security:
@@ -986,6 +986,7 @@ components:
                 - auth
                 - platform
             tenantId: string    
+            example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
     player:
       type: object
       additionalProperties:
