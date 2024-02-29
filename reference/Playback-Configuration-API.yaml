@@ -914,7 +914,9 @@ components:
                 - player
                 - auth
                 - platform
-            tenantId: string    
+            tenantId: 
+              type: string    
+              example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d  
           required:
             - domains
             - entitlementsUrl
@@ -923,6 +925,7 @@ components:
             - auth
             - description
             - defaults
+            - tenantId
     PartialPlaybackConfigData:
       allOf:
         - type: object
