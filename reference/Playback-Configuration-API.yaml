@@ -991,6 +991,8 @@ components:
             tenantId: 
               type: string    
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
+          required:
+              - tenantId    
     player:
       type: object
       additionalProperties:
