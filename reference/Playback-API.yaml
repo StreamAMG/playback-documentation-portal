@@ -26,7 +26,7 @@ tags:
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
-  /entry/{entryId}:
+  /entry/{entryId}|{uuid}:
     get:
       summary: Get Video Playback Data
       description: |-
@@ -51,13 +51,21 @@ paths:
             type: string
           required: true
           description: Entry Identifier in MediaPlatform
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Entry Identifier in Playback store
       responses:
         200:
           description: Success - get playback data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PlaybackEndpointResponse'
+                oneOf: 
+                - $ref: '#/components/schemas/PlaybackEndpointResponse'
+                - $ref: '#/components/schemas/PlaybackEndpointResponseUUID'
               examples:
                 Example - Success VoD:
                   value:
@@ -368,6 +376,8 @@ components:
           type: object
         playFrom:
           type: number
+
+
         adverts:
           type: array
           items:
@@ -431,3 +441,43 @@ components:
           type: string
         applehttp:
           type: string
+
+    PlaybackEndpointResponseUUID:  
+      type: object    
+      properties: 
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        thumbnail:
+          type: string
+        duration:
+          type: number  
+        media:
+          type: object
+        playFrom:
+          type: number  
+        tenantId:
+          type: string  
+        updatedAt:
+          type: string  
+        createdAt: 
+          type: string
+        sourceId:
+          type: string    
+        mediaData: 
+          type: object
+          properties:
+              type: 
+                type: string
+                Kaltura: 
+                  type: object 
+                  properties:
+                    entryStatus: 
+                      type: string
+                    mediatype: 
+                      type: string 
+                    entryId: 
+                      type: string     
