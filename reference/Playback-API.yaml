@@ -63,8 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf: 
-                - $ref: '#/components/schemas/PlaybackEndpointResponse'
+                $ref: '#/components/schemas/PlaybackEndpointResponse'
               examples:
                 Example - Success VoD:
                   value:
