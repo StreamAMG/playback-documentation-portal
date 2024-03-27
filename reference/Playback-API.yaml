@@ -26,7 +26,7 @@ tags:
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
-  /entry/{entryId}:
+  /entry/{entryId}|{uuid}:
     get:
       summary: Get Video Playback Data
       description: |-
@@ -51,6 +51,12 @@ paths:
             type: string
           required: true
           description: Entry Identifier in MediaPlatform
+        - name: uuid
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Entry Identifier in Playback store
       responses:
         200:
           description: Success - get playback data
@@ -368,6 +374,8 @@ components:
           type: object
         playFrom:
           type: number
+
+
         adverts:
           type: array
           items:
