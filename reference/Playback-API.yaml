@@ -65,7 +65,6 @@ paths:
               schema:
                 oneOf: 
                 - $ref: '#/components/schemas/PlaybackEndpointResponse'
-                - $ref: '#/components/schemas/PlaybackEndpointResponseUUID'
               examples:
                 Example - Success VoD:
                   value:
@@ -441,43 +440,3 @@ components:
           type: string
         applehttp:
           type: string
-
-    PlaybackEndpointResponseUUID:  
-      type: object    
-      properties: 
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        thumbnail:
-          type: string
-        duration:
-          type: number  
-        media:
-          type: object
-        playFrom:
-          type: number  
-        tenantId:
-          type: string  
-        updatedAt:
-          type: string  
-        createdAt: 
-          type: string
-        sourceId:
-          type: string    
-        mediaData: 
-          type: object
-          properties:
-              type: 
-                type: string
-                Kaltura: 
-                  type: object 
-                  properties:
-                    entryStatus: 
-                      type: string
-                    mediatype: 
-                      type: string 
-                    entryId: 
-                      type: string     
