@@ -36,7 +36,7 @@ paths:
         In addition, for non-public videos (protected resources) a JWT access token should also be passed through in 
         the `Authorization` Bearer header (`Authorization: Bearer <token>`).
 
-        The API call should be made with the video id as a path parameter which can be a MediaPlatform ID or UUID.
+        The API call should be made with the video id as a path parameter which should be a MediaPlatform ID.
       tags:
         - Playback
       operationId: get-playback-data
