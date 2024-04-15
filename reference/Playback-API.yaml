@@ -14,9 +14,9 @@ info:
   summary: Service that retrieve back video metadata url and signed manifests.
   description: |-
     Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
-    
+
     This API is a part of the Playback service that sits between the video player and Kaltura. 
-    
+
     Pass an `entryId` (<=> video identifier) plus a token API-Key (for authentication) to the Playback API and it 
     will return the signed playback URL. In addition an access token must be passed through as the `Authorization` 
     Bearer header (`Authorization: Bearer <token>`) for access to protected (aka non-public) resources (public resources 
@@ -26,18 +26,17 @@ tags:
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
-  /entry/{entryId}|{uuid}:
+  /entry/{id}:
     get:
       summary: Get Video Playback Data
       description: |-
         In order to fetch the video data, the user must first be authenticated (via an API-Key). This token
         should be passed during the API call through the `x-api-key` header. 
-        
+
         In addition, for non-public videos (protected resources) a JWT access token should also be passed through in 
         the `Authorization` Bearer header (`Authorization: Bearer <token>`).
 
-        The API call should be made with the video 'entryId' as a path parameter to identify the resource to retrieve 
-        information about.
+        The API call should be made with the video id as a path parameter which should be a MediaPlatform ID.
       tags:
         - Playback
       operationId: get-playback-data
@@ -45,18 +44,12 @@ paths:
         - bearerAuth: []
           ApiKey: []
       parameters:
-        - name: entryId
+        - name: id
           in: path
           schema:
             type: string
           required: true
-          description: Entry Identifier in MediaPlatform
-        - name: uuid
-          in: path
-          schema:
-            type: string
-          required: true
-          description: Entry Identifier in Playback store
+          description: Entry Identifier
       responses:
         200:
           description: Success - get playback data
@@ -77,7 +70,7 @@ paths:
                     coverImg:
                       360: 'https://video-store/test/12345/width/360'
                       720: 'https://video-store/test/12345/width/720'
-                      1080: 'https://video-store/test/12345/width/1080' 
+                      1080: 'https://video-store/test/12345/width/1080'
                 Example - Success Live:
                   value:
                     id: 0_4l1aj0bo
@@ -375,20 +368,19 @@ components:
         playFrom:
           type: number
 
-
         adverts:
           type: array
           items:
             $ref: '#/components/schemas/Advert'
         coverImg:
           type: object
-          properties:   
+          properties:
             360:
               type: string
             720:
               type: string
             1080:
-              type: string  
+              type: string
     Advert:
       type: object
       properties:
