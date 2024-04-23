@@ -976,7 +976,7 @@ components:
 
     BitrateLimitationConfig:
       allOf:
-        - type: Object
+        - type: object
           properties:
             minSelectableVideoBitrate:
               oneOf:
