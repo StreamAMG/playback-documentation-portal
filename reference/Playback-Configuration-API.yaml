@@ -974,6 +974,59 @@ components:
             - id
             - apiKey
 
+    BitrateLimitationConfig:
+      allOf:
+        - type: Object
+          properties:
+            minSelectableVideoBitrate:
+              oneOf:
+                - type: string
+                - type: number
+              example: "100bps"
+            maxSelectableVideoBitrate:
+              oneOf:
+                - type: string
+                - type: number
+              example: 100
+            minSelectableAudioBitrate:
+              oneOf:
+                - type: string
+                - type: number
+              example: 0
+            maxSelectableAudioBitrate:
+              oneOf:
+                - type: string
+                - type: number
+              example: Infinity
+
+    AdaptationConfig:
+      allOf:
+        - type: Object
+          properties:
+            bitrates:
+              $ref: "#/components/schemas/BitrateLimitationConfig"
+            qualityStabilityBalance:
+              type: number
+              minimum: 0
+              maximum: 1
+              example: 0.5
+            limitToPlayerSize:
+              type: boolean
+              example: false
+            exclude:
+              type: boolean
+              example: true
+
+    AdaptationPlatformConfig:
+      allOf:
+        - $ref: "#/components/schemas/AdaptationConfig"
+        - type: Object
+          properties:
+            desktop:
+              $ref: "#/components/schemas/AdaptationConfig"
+            mobile:
+              $ref: "#/components/schemas/AdaptationConfig"
+
     Player:
       allOf:
         - type: object
@@ -989,6 +1042,8 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+              adaptation:
+                $ref: "#/components/schemas/AdaptationPlatformConfig"
             required:
               - license
           example:
@@ -1001,6 +1056,10 @@ components:
                 resume:
                   enabled: true
                   jwtSecretKey: "some key"
+              adaptation:
+                bitrates:
+                  minSelectableVideoBitrate: "500kbps"
+                  maxSelectableVideoBitrate: "1mbps"
 
     PlayerResponse:
       allOf:
@@ -1017,6 +1076,8 @@ components:
                   type: object
                   additionalProperties:
                     type: string
+              adaptation:
+                $ref: "#/components/schemas/AdaptationPlatformConfig"
             required:
               - license
           example:
@@ -1028,3 +1089,7 @@ components:
                   env_key: env_key_123
                 resume:
                   enabled: true
+              adaptation:
+                bitrates:
+                  minSelectableVideoBitrate: "500kbps"
+                  maxSelectableVideoBitrate: "1mbps"
