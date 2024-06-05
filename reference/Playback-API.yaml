@@ -1,9 +1,6 @@
 x-stoplight:
   docs:
     showModels: false
-
-x-internal: true
-
 openapi: 3.1.0
 info:
   title: API Reference
@@ -26,7 +23,7 @@ tags:
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
-  /entry/{id}:
+  '/entry/{id}':
     get:
       summary: Get Video Playback Data
       description: |-
@@ -51,7 +48,7 @@ paths:
           required: true
           description: Entry Identifier
       responses:
-        200:
+        '200':
           description: Success - get playback data
           content:
             application/json:
@@ -68,9 +65,9 @@ paths:
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                     coverImg:
-                      360: 'https://video-store/test/12345/width/360'
-                      720: 'https://video-store/test/12345/width/720'
-                      1080: 'https://video-store/test/12345/width/1080'
+                      '360': 'https://video-store/test/12345/width/360'
+                      '720': 'https://video-store/test/12345/width/720'
+                      '1080': 'https://video-store/test/12345/width/1080'
                 Example - Success Live:
                   value:
                     id: 0_4l1aj0bo
@@ -100,21 +97,21 @@ paths:
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     adverts:
-                      - adType: 'vast'
-                        id: 'id123'
-                        position: 'pre'
-                        url: 'url-for-pre-add-server'
-                      - adType: 'vast'
-                        id: 'id456'
-                        position: 'mid'
-                        url: 'url-for-mid-add-server'
-                      - adType: 'vast'
-                        id: 'id789'
-                        position: 'post'
-                        url: 'url-for-post-add-server'
+                      - adType: vast
+                        id: id123
+                        position: pre
+                        url: url-for-pre-add-server
+                      - adType: vast
+                        id: id456
+                        position: mid
+                        url: url-for-mid-add-server
+                      - adType: vast
+                        id: id789
+                        position: post
+                        url: url-for-post-add-server
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
-        400:
+        '400':
           description: Bad Request
           content:
             application/json:
@@ -167,7 +164,7 @@ paths:
                     status: 400
                     message: Missing partner admin secret for a given clientId
                     reason: MP_PARTNER_ERROR
-        401:
+        '401':
           description: Unauthorized
           content:
             application/json:
@@ -211,12 +208,12 @@ paths:
                 Invalid Authentication:
                   value:
                     status: 401
-                    message: Customer not authenticated, user must be authenticated to play the video
+                    message: 'Customer not authenticated, user must be authenticated to play the video'
                     reason: NOT_AUTHENTICATED
                 Invalid Subscription State:
                   value:
                     status: 401
-                    message: Subscription deactivated, renewal requires customer Authentication
+                    message: 'Subscription deactivated, renewal requires customer Authentication'
                     reason: NOT_AUTHENTICATED
                 Invalid Subscription:
                   value:
@@ -243,7 +240,7 @@ paths:
                     status: 401
                     message: The authorization provider is not supported. Supported provider - cloudpay
                     reason: CONFIGURATION_ERROR
-        403:
+        '403':
           description: Forbidden
           content:
             application/json:
@@ -260,7 +257,7 @@ paths:
                 Invalid API Key:
                   value:
                     message: Forbidden
-        404:
+        '404':
           description: Not Found
           content:
             application/json:
@@ -287,8 +284,8 @@ paths:
                   value:
                     status: 404
                     message: No entitlements for entryId
-                    reason: 'NO_ENTITY_EXIST'
-        440:
+                    reason: NO_ENTITY_EXIST
+        '440':
           description: Login Time-out
           content:
             application/json:
@@ -316,7 +313,7 @@ paths:
                     status: 440
                     message: session expired
                     reason: NO_ACTIVE_SESSION
-        500:
+        '500':
           description: Internal Server Error
           content:
             application/json:
@@ -339,6 +336,7 @@ paths:
                   value:
                     status: 500
                     message: 'Error getting playback data [Error stack]'
+      x-internal: false
 components:
   securitySchemes:
     bearerAuth:
@@ -367,7 +365,6 @@ components:
           type: object
         playFrom:
           type: number
-
         adverts:
           type: array
           items:
@@ -375,11 +372,11 @@ components:
         coverImg:
           type: object
           properties:
-            360:
+            '360':
               type: string
-            720:
+            '720':
               type: string
-            1080:
+            '1080':
               type: string
     Advert:
       type: object
@@ -395,10 +392,10 @@ components:
           description: Unique identifier for the advertisement.
         position:
           type: string
-          description: ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm
+          description: 'ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm'
         persistent:
           type: boolean
-          description: If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.
+          description: 'If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.'
         discardAfterPlayback:
           type: boolean
           description: Specifies whether ad breaks are discarded after playback.
