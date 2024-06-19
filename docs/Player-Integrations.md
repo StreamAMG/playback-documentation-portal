@@ -8,3 +8,11 @@ The supported player(s) may be integrated with the following features:
 
 All additional features, as above, are managed by the [onboarding process](./Client-Onboarding.md) so please contact the
 client delivery team for further information and the onboarding of these features etc.
+
+## Staging Playback SDK
+
+Staging Playback SDK is available at 
+```
+https://sdk.playback.staging.streamamg.com/v1/playback.js
+```
+This is required when testing with Staging Playback Keys.

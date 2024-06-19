@@ -31,6 +31,8 @@ Currently, these are the supported video player features you may configure:
 
 These may be defined during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the player by passing in some optional player [options](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html).
 
+>If the player is configured to mute the audio by default, users will need to turn up the volume using the volume control to unmute.
+
 ## Setting Up and Configuring the SDK
 
 ### Installing the SDK
@@ -145,7 +147,7 @@ Next, to play a video in the player identify the video to play and start the pla
  const playOptions = {
    container: 'player',
    entryId: '0_xxxxxxxx',
-   token: 'access_token'
+   token: 'access_token',
    options: {
     autoplay: true,
     muted: true,
@@ -161,11 +163,51 @@ Next, to play a video in the player identify the video to play and start the pla
    });
 ```
 
-#### Video autoplay
+#### Video Autoplay
 
 Different web browsers have their own policies regarding video autoplays. In general, muted autoplays are typically allowed across most browsers. However, enabling unmuted autoplays for a specific user on your site may require them to interact with your site for a certain duration before this feature becomes available.
 
 For instance, here is an example of Chrome browser's autoplay policy: [Chrome autoplay policy](https://developer.chrome.com/blog/autoplay)
+
+#### Automatically Mute For First Play Only
+
+A requirement may be to automatically mute the video for the first play only. This can be achieved by setting the [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) option to true during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the underlying raw player. This will mute the audio output of the video for the first play only.
+After the first play, you can then programmatically set the muted option to false to allow the audio to play. 
+
+```Javascript
+// Initialize the Playback SDK with autoplay and muted options set to true
+Playback.initialize('client-api-key', { autoplay: true, muted: true });
+
+// Define your play options
+const container = 'player';
+const playOptions = {
+  container: 'player',
+  entryId: '0_xxxxxxxx',
+  token: 'access_token', 
+  options: {
+    autoplay: true,
+    muted: true,
+  }
+};
+// Get the raw underlying video player so we can unmute it after the first play.
+const rawPlayer  = Playback.getRawPlayer(container);
+
+// Play the video
+Playback.play(playOptions)
+  .then((player) => {
+    // After the video starts playing, you can unmute the player as follows.
+    rawPlayer.unmute();
+  })
+  .catch((error) => {
+    console.log('error playing the video:', error);
+  });
+
+// You can also listen for the playback finished event to unmute the player after the first play.
+rawPlayer.on(bitmovin.player.PlayerEvent.PlaybackFinished, () => {
+    console.log('Playback finished so unmute for subsequent video plays when autoplay is on');
+    player.unmute(); // Unmute the player after the initial video has finished playing.
+});
+```
 
 #### Further Integration 
 
