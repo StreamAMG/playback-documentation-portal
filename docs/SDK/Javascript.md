@@ -172,40 +172,18 @@ For instance, here is an example of Chrome browser's autoplay policy: [Chrome au
 #### Automatically Mute For First Play Only
 
 A requirement may be to automatically mute the video for the first play only. This can be achieved by setting the [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) option to true during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the underlying raw player. This will mute the audio output of the video for the first play only.
-After the first play, you can then programmatically set the muted option to false to allow the audio to play. 
+After the first play, you can then programmatically set the muted option to false to allow the audio to play.
 
 ```Javascript
-// Initialize the Playback SDK with autoplay and muted options set to true
+// Initialize the Playback SDK with autoplay and muted options set to true to play the first video muted.
 Playback.initialize('client-api-key', { autoplay: true, muted: true });
-
-// Define your play options
-const container = 'player';
-const playOptions = {
-  container: 'player',
-  entryId: '0_xxxxxxxx',
-  token: 'access_token', 
-  options: {
-    autoplay: true,
-    muted: true,
-  }
-};
-// Get the raw underlying video player so we can unmute it after the first play.
-const rawPlayer  = Playback.getRawPlayer(container);
-
-// Play the video
-Playback.play(playOptions)
-  .then((player) => {
-    // After the video starts playing, you can unmute the player as follows.
-    rawPlayer.unmute();
-  })
-  .catch((error) => {
-    console.log('error playing the video:', error);
-  });
-
-// You can also listen for the playback finished event to unmute the player after the first play.
-rawPlayer.on(bitmovin.player.PlayerEvent.PlaybackFinished, () => {
-    console.log('Playback finished so unmute for subsequent video plays when autoplay is on');
-    player.unmute(); // Unmute the player after the initial video has finished playing.
+...
+// Call the 'getRawPlayer' method to get the underlying Bitmovin Player instance.
+Playback.getRawPlayer(container).then(rawPlayer => {
+    // Subscribe to the 'playbackfinished' event to know when the video has finished playing.
+    rawPlayer.player.on('playbackfinished', ()=> {
+        rawPlayer.player.unmute(); // Unmute the player after the initial video has finished playing.
+    });
 });
 ```
 
