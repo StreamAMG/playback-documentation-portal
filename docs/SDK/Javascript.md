@@ -171,21 +171,61 @@ For instance, here is an example of Chrome browser's autoplay policy: [Chrome au
 
 #### Automatically Mute For First Play Only
 
-A requirement may be to automatically mute the video for the first play only. This can be achieved by setting the [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) option to true during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the underlying raw player. This will mute the audio output of the video for the first play only.
-After the first play, you can then programmatically set the muted option to false to allow the audio to play.
+A requirement may be to automatically mute the video for the first play only. This can be achieved by setting the [muted](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#muted) option to true during [initialisation](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#initialize) of the underlying raw player. 
+This will mute the audio output of the video for the first play only. You can then programmatically set an event to unmute the audio for subsequent plays as shown below - based on an event of your choice - in this case on `PlaybackPlayerFinished` (but any event could be used as desired). 
+Thus, the two exposed SDK calls `Playback.mute(<container-id>)` and `Playback.unmute(<container-id>)` can be used to mute and unmute the player respectively.
 
-```Javascript
+```javascript
 // Initialize the Playback SDK with autoplay and muted options set to true to play the first video muted.
 Playback.initialize('client-api-key', { autoplay: true, muted: true });
-...
-// Call the 'getRawPlayer' method to get the underlying Bitmovin Player instance.
-Playback.getRawPlayer(container).then(rawPlayer => {
-    // Subscribe to the 'playbackfinished' event to know when the video has finished playing.
-    rawPlayer.player.on('playbackfinished', ()=> {
-        rawPlayer.player.unmute(); // Unmute the player after the initial video has finished playing.
-    });
+
+const playOptions = {
+    container: 'player',
+    entryId: '0_xxxxxxxx',
+    token: 'access_token',
+    events: {
+        // Unmute the player after the initial video has finished playing.
+        PlaybackPlayerFinished: (event) => {
+            Playback.unmute('player');
+        },
+    },
+};
+
+Playback.play(playOptions).then((playback) => {
+    console.log('Successfully playing video');
+    // To immediately unmute the player once playing if required. Due to auto-play policies of browsers the video
+    // element may automatically pause when and if the video becomes unmuted without user interaction.
+    // This is documented at https://developer.bitmovin.com/playback/docs/why-doesnt-autoplay-work-consistently-on-browsers
+    Playback.unmute('player');
+.catch((error) => {
+    // Handle any unexpected error as you desire.
+    console.log('error playing the video:', error);
 });
 ```
+
+#### Events For Playback
+
+In the above example, the `PlaybackPlayerFinished` event is used to unmute the player after the first video has finished playing but there are other events that
+can be triggered during playback. These are documented in the [PlaybackEvents](https://sdk-docs.playback.streamamg.com/v1/docs/enums/PlaybackEvents.html) enum.
+In order to provide a handler for these events, you can pass over an `events` object in the play options as shown below:
+
+```javascript
+const createPlayOptions = {
+    container: 'player',
+    entryId: '0_smdu38ct',
+    token: JWT,
+    events: {
+      // After the video has finished playing unmute the player.
+      PlaybackPlayerFinished: (event) => {
+        Playback.unmute('player');
+      },
+      // Example of subscribing to a paused event and logging a message to the console.
+      PlaybackPaused: (event) => {
+        console.log('Playback paused');
+      },  
+    },
+  };
+ ``` 
 
 #### Further Integration 
 
