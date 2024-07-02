@@ -13,9 +13,9 @@ documentation for more information regarding how you can adapt the UI to better 
 
 To overwrite default styles with your own values, you can put them anywhere you would normally put CSS styles (i.e. external .css file or inline style blocks).
 
-#### Example:
+#### Examples
 
-The CSS for overwriting the font and disabling animations of the play button overlay would thus look like this (where #player is the id of your player element):
+The CSS for overriding the font and disabling animations of the play button overlay would thus look like this (where #player is the id of your player element container):
 
 ```css
 #player .bmpui-ui-uicontainer {
@@ -36,11 +36,33 @@ animation: none;
 }
 ```
 
-If the css is in an external file called say bitmovin-styles.css, you can include it in your player HTML file as:
+If the css is in an external file called say client-styles.css, you can include it in your player HTML file as:
 
 ```html
-<link rel="stylesheet" type="text/css" href="bitmovin-styles.css">
+<link rel="stylesheet" type="text/css" href="client-styles.css">
 ``` 
+
+#### Adding Watermarks
+
+Player specific watermarks are disabled by default. Client specific watermarks may be added as follows:
+
+1. Create a bespoke css file like client-styles.css if one doesn't already exist.
+2. Add the following content:
+```css
+/* Override the default watermark which is turned off (use css styles to control display as required) */
+#player .bmpui-ui-watermark {
+  background-image: url("<your-watermark-image>") !important;
+  display: block; /* (mandatory) to override default behaviour */ 
+    
+  /* FOLLOWING ARE EXAMPLES OF CONTROLLING THE DISPLAY USING CSS STYLES TO TAILOR THE WATERMARK TO YOUR REQUIREMENTS */
+  background-size: cover; /* (optional) scale image to fit the watermark container */
+  opacity: 0.2; /* (optional) set desired opacity etc for your watermark */
+}
+```
+3. Include the css file in your player HTML file as:
+```html
+<link rel="stylesheet" type="text/css" href="client-styles.css">
+```
 
 ### Rewind and Forward Buttons
 
