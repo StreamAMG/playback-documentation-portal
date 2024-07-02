@@ -133,6 +133,11 @@ function getSessionToken(refreshToken, clientId, clientSecret = null) {
 Playback.initialize('client-api-key', { retrieveSessionToken: () => getSessionToken('your_refresh_token', 'your_client_id', 'your_client_secret') });
 ```
 
+#### CloudPay Integration
+
+To integrate with CloudPay for their video content, clients should call the following to start an SSO session passing over their identifier token:
+[Start SSO Session](https://streamamg.stoplight.io/docs/cloudpay/a0c77a8e1e511-start-a-sso-session).
+
 #### Playing a Video
 
 Next, to play a video in the player identify the video to play and start the player:
@@ -162,6 +167,29 @@ Next, to play a video in the player identify the video to play and start the pla
      console.log('error playing the video:', error);
    });
 ```
+
+#### Destroying the Player
+
+To destroy the player and release any resources associated with it, you can call the [destroy](https://sdk-docs.playback.streamamg.com/v1/docs/classes/Playback.html#destroy) method as shown below:
+```javascript
+// Destroy the player and release any resources associated with it.
+Playback.destroy('player'); // player is the container identifier.
+```
+This may be triggered on an event such as a page unload or when the player is no longer required.
+\
+An example of calling it when a video finishes playback is as follows:
+```javascript
+const playOptions = {
+  ...
+  events: {
+    // Destroy the player after the video has finished playing.
+    PlaybackPlayerFinished: (event) => {
+      Playback.destroy('player');
+    },
+  },
+  ...
+```
+
 
 #### Video Autoplay
 
