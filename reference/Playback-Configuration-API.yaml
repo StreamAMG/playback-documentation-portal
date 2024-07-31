@@ -703,6 +703,46 @@ components:
       required:
         - configId
 
+    AkamaiTokenizer:
+      type: object
+      properties:
+        type:
+          type: string
+          example: "akamai"
+          enum:
+            - akamai
+        key:
+          type: string
+          example: "key"
+        windowSeconds:
+          type: number
+          example: 3600
+        tokenName:
+          type: string
+          example: "tokenName"
+      required:
+        - type
+        - key
+        - windowSeconds
+        - tokenName
+
+    Tokenizer:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/AkamaiTokenizer"
+      example:
+        "streamamg-vbtv-vod.akamaized.net": 
+          type: "akamai"
+          key: "key"
+          windowSeconds: 3600
+          tokenName: "tokenName"
+
+    DeliveryConfiguration:
+      type: object
+      properties:
+        tokenizer:
+            $ref: "#/components/schemas/Tokenizer"
+
     GlobalAdvert:
       type: object
       properties:
@@ -819,6 +859,8 @@ components:
               required:
                 - partnerId
                 - partnerAdminSecret
+            deliveryConfiguration:
+              $ref: "#/components/schemas/DeliveryConfiguration"
             player:
               $ref: "#/components/schemas/Player"
               minProperties: 1
@@ -902,6 +944,8 @@ components:
               required:
                 - partnerId
                 - partnerAdminSecret
+            deliveryConfiguration:
+              $ref: "#/components/schemas/DeliveryConfiguration"
             player:
               $ref: "#/components/schemas/Player"
               minProperties: 1
