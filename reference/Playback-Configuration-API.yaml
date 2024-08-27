@@ -1154,6 +1154,9 @@ components:
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
+              buffer:
+                type: object
+                $ref: "#/components/schemas/Buffer"
             required:
               - license
           example:
