@@ -754,17 +754,14 @@ components:
           example: 10
 
     BufferMediaType:
-      # type: object
-      # additionalProperties:
-      #   $ref: "#/components/schemas/BufferConfigurations"
       properties:
         audio:
           type: object
-          example: "backwardduration: 20, forwardduration: 10"
+          example: "{backwardduration: 20, forwardduration: 10}"
           $ref: "#/components/schemas/BufferConfigurations"
         video:
           type: object
-          example: "backwardduration: 20, forwardduration: 10"
+          example: "{backwardduration: 20, forwardduration: 10}"
           $ref: "#/components/schemas/BufferConfigurations"
 
     Buffer:
@@ -772,8 +769,8 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/BufferMediaType"
       example:
-        video: "backwardduration: 20, forwardduration: 10"
-        audio: "backwardduration: 20, forwardduration: 10"
+        video: "{backwardduration: 20, forwardduration: 10}"
+        audio: "{backwardduration: 20, forwardduration: 10}"
 
     GlobalAdvert:
       type: object
@@ -893,7 +890,7 @@ components:
                 - partnerAdminSecret
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
-            Buffer:
+            buffer:
               $ref: "#/components/schemas/Buffer"
             player:
               $ref: "#/components/schemas/Player"
