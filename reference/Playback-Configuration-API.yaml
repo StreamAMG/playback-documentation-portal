@@ -765,7 +765,7 @@ components:
     #       $ref: "#/components/schemas/BufferConfigurations"
 
     Buffer:
-      type: object
+      # type: object
       properties:
         audio:
           type: object
