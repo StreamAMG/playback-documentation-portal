@@ -754,9 +754,9 @@ components:
           example: 10
 
     BufferMediaType:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/BufferConfigurations"
+      # type: object
+      # additionalProperties:
+      #   $ref: "#/components/schemas/BufferConfigurations"
       properties:
         audio:
           type: object
