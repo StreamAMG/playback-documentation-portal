@@ -746,10 +746,22 @@ components:
     Buffer:
       type: object
       additionalProperties:
-        $ref: "#/components/schemas/BufferConfigurations"
+        $ref: "#/components/schemas/BufferMediaType"
       example:
         video: object
         audio: object
+
+    BufferMediaType:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/BufferConfigurations"
+      properties:
+        audio:
+          type: object
+          example: 20
+        video:
+          type: object
+          example: 10
 
     BufferConfigurations:
       type: object
