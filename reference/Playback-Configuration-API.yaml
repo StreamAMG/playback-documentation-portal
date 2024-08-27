@@ -890,8 +890,6 @@ components:
                 - partnerAdminSecret
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
-            buffer:
-              $ref: "#/components/schemas/Buffer"
             player:
               $ref: "#/components/schemas/Player"
               minProperties: 1
@@ -1118,6 +1116,8 @@ components:
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
+            buffer:
+              $ref: "#/components/schemas/Buffer"
             required:
               - license
           example:
