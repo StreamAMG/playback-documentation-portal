@@ -753,7 +753,19 @@ components:
           type: number
           example: 10
 
-    BufferMediaType:
+    # BufferMediaType:
+    #   properties:
+    #     audio:
+    #       type: object
+    #       example: { backwardduration: 20, forwardduration: 10 }
+    #       $ref: "#/components/schemas/BufferConfigurations"
+    #     video:
+    #       type: object
+    #       example: { backwardduration: 20, forwardduration: 10 }
+    #       $ref: "#/components/schemas/BufferConfigurations"
+
+    Buffer:
+      type: object
       properties:
         audio:
           type: object
@@ -763,11 +775,6 @@ components:
           type: object
           example: { backwardduration: 20, forwardduration: 10 }
           $ref: "#/components/schemas/BufferConfigurations"
-
-    Buffer:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/BufferMediaType"
       example:
         video: { backwardduration: 20, forwardduration: 10 }
         audio: { backwardduration: 20, forwardduration: 10 }
@@ -1116,8 +1123,9 @@ components:
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
-            buffer:
-              $ref: "#/components/schemas/Buffer"
+              buffer:
+                type: object
+                $ref: "#/components/schemas/Buffer"
             required:
               - license
           example:
