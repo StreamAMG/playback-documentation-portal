@@ -99,7 +99,7 @@ paths:
         - Playback Configuration
       summary: Partially update playback configuration
       description: |-
-        Update the playback configuration for a client. 
+        Update the playback configuration for a client.
       security:
         - bearerAuth: []
       parameters:
@@ -168,7 +168,7 @@ paths:
                   value:
                     status: 404
                     message: "Configuration for 46033f3f-9a81-9c69-4ad9-b58b72e6c9e9 was not found"
-                    error: Not Found                
+                    error: Not Found
     delete:
       tags:
         - Playback Configuration
@@ -385,7 +385,7 @@ paths:
             schema:
               type: object
               properties:
-                name: 
+                name:
                   type: string
                   example: Web
       responses:
@@ -651,8 +651,8 @@ paths:
                     properties:
                       player:
                         type: string
-                        example: 'bitmovin'
-                
+                        example: "bitmovin"
+
         403:
           description: Unauthorized
           content:
@@ -731,7 +731,7 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/AkamaiTokenizer"
       example:
-        "streamamg-vbtv-vod.akamaized.net": 
+        "streamamg-vbtv-vod.akamaized.net":
           type: "akamai"
           key: "key"
           windowSeconds: 3600
@@ -741,7 +741,25 @@ components:
       type: object
       properties:
         tokenizer:
-            $ref: "#/components/schemas/Tokenizer"
+          $ref: "#/components/schemas/Tokenizer"
+
+    Buffer:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/BufferConfigurations"
+      example:
+        video: object
+        audio: object
+
+    BufferConfigurations:
+      type: object
+      properties:
+        backwardduration:
+          type: number
+          example: 20
+        forwardduration:
+          type: number
+          example: 10
 
     GlobalAdvert:
       type: object
@@ -839,14 +857,14 @@ components:
               type: string
               minLength: 1
             entitlements:
-                type: object
-                properties:
-                  defaultEntryEntitlement:
-                    type: array
-                    minItems: 1
-                    items: 
-                      type: string
-                    example: ["*"]
+              type: object
+              properties:
+                defaultEntryEntitlement:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                  example: ["*"]
             platform:
               type: object
               minProperties: 2
@@ -861,6 +879,8 @@ components:
                 - partnerAdminSecret
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
+            Buffer:
+              $ref: "#/components/schemas/Buffer"
             player:
               $ref: "#/components/schemas/Player"
               minProperties: 1
@@ -889,9 +909,9 @@ components:
                 - player
                 - auth
                 - platform
-            tenantId: 
-              type: string    
-              example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d  
+            tenantId:
+              type: string
+              example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
           required:
             - domains
             - entitlementsUrl
@@ -924,14 +944,14 @@ components:
               type: string
               minLength: 1
             entitlements:
-                type: object
-                properties:
-                  defaultEntryEntitlement:
-                    type: array
-                    minItems: 1
-                    items: 
-                      type: string
-                    example: ["*"]
+              type: object
+              properties:
+                defaultEntryEntitlement:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                  example: ["*"]
             platform:
               type: object
               minProperties: 2
@@ -974,11 +994,11 @@ components:
                 - player
                 - auth
                 - platform
-            tenantId: 
-              type: string    
+            tenantId:
+              type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
           required:
-              - tenantId    
+            - tenantId
     player:
       type: object
       additionalProperties:
