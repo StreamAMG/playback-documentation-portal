@@ -748,8 +748,8 @@ components:
       additionalProperties:
         $ref: "#/components/schemas/BufferMediaType"
       example:
-        video: object
-        audio: object
+        video: "backwardduration: 20, forwardduration: 10"
+        audio: "backwardduration: 20, forwardduration: 10"
 
     BufferMediaType:
       type: object
@@ -758,10 +758,10 @@ components:
       properties:
         audio:
           type: object
-          example: 20
+          example: "backwardduration: 20, forwardduration: 10"
         video:
           type: object
-          example: 10
+          example: "backwardduration: 20, forwardduration: 10"
 
     BufferConfigurations:
       type: object
