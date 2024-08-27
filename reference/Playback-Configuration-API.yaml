@@ -743,26 +743,6 @@ components:
         tokenizer:
           $ref: "#/components/schemas/Tokenizer"
 
-    Buffer:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/BufferMediaType"
-      example:
-        video: "backwardduration: 20, forwardduration: 10"
-        audio: "backwardduration: 20, forwardduration: 10"
-
-    BufferMediaType:
-      type: object
-      additionalProperties:
-        $ref: "#/components/schemas/BufferConfigurations"
-      properties:
-        audio:
-          type: object
-          example: "backwardduration: 20, forwardduration: 10"
-        video:
-          type: object
-          example: "backwardduration: 20, forwardduration: 10"
-
     BufferConfigurations:
       type: object
       properties:
@@ -772,6 +752,28 @@ components:
         forwardduration:
           type: number
           example: 10
+
+    BufferMediaType:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/BufferConfigurations"
+      properties:
+        audio:
+          type: object
+          example: "backwardduration: 20, forwardduration: 10"
+          $ref: "#/components/schemas/BufferConfigurations"
+        video:
+          type: object
+          example: "backwardduration: 20, forwardduration: 10"
+          $ref: "#/components/schemas/BufferConfigurations"
+
+    Buffer:
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/BufferMediaType"
+      example:
+        video: "backwardduration: 20, forwardduration: 10"
+        audio: "backwardduration: 20, forwardduration: 10"
 
     GlobalAdvert:
       type: object
