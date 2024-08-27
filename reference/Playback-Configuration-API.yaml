@@ -753,19 +753,7 @@ components:
           type: number
           example: 10
 
-    # BufferMediaType:
-    #   properties:
-    #     audio:
-    #       type: object
-    #       example: { backwardduration: 20, forwardduration: 10 }
-    #       $ref: "#/components/schemas/BufferConfigurations"
-    #     video:
-    #       type: object
-    #       example: { backwardduration: 20, forwardduration: 10 }
-    #       $ref: "#/components/schemas/BufferConfigurations"
-
     Buffer:
-      # type: object
       properties:
         audio:
           type: object
@@ -982,8 +970,6 @@ components:
                 - partnerAdminSecret
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
-            buffer:
-              $ref: "#/components/schemas/Buffer"
             player:
               $ref: "#/components/schemas/Player"
               minProperties: 1
@@ -1142,6 +1128,13 @@ components:
                 bitrates:
                   minSelectableVideoBitrate: "500kbps"
                   maxSelectableVideoBitrate: "1mbps"
+              buffer:
+                audio:
+                  backwardduration: 10
+                  forwardduration: 40
+                video:
+                  backwardduration: 10
+                  forwardduration: 70  
 
     PlayerResponse:
       allOf:
@@ -1176,3 +1169,10 @@ components:
                 bitrates:
                   minSelectableVideoBitrate: "500kbps"
                   maxSelectableVideoBitrate: "1mbps"
+              buffer:
+                audio:
+                  backwardduration: 10
+                  forwardduration: 40
+                video:
+                  backwardduration: 10
+                  forwardduration: 70  
