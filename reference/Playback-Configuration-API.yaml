@@ -786,9 +786,7 @@ components:
           enum:
             - pre
             - post
-            - pattern: '^(\d+(\.\d+)?)$'
-            - pattern: '^\d+%'
-            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
+            - mid
         preloadOffset:
           type: number
         skippableAfter:
