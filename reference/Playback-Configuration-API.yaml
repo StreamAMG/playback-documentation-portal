@@ -787,6 +787,9 @@ components:
             - pre
             - post
             - mid
+            - 10 / 10.5 
+            - 25%
+            - 00:10:30.000
         preloadOffset:
           type: number
         skippableAfter:
