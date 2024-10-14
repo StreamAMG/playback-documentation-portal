@@ -775,6 +775,11 @@ components:
           enum:
             - vast
             - vmap
+        slime:
+          type: string
+          enum:
+            - slime1
+            - slime2
         discardAfterPlayback:
           type: boolean
         id:
@@ -783,13 +788,13 @@ components:
           type: boolean
         position:
           type: string
-          enum:
-            - pre
-            - mid
-            - post
-            - '^(\d+(\.\d+)?)$'
-            - '^\d+%'
-            - '^\d{2}:\d{2}:\d{2}\.\d{3}'
+          oneOf:
+            - enum:
+                - pre
+                - post
+            - pattern: '^(\d+(\.\d+)?)$'
+            - pattern: '^\d+%'
+            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
         preloadOffset:
           type: number
         skippableAfter:
