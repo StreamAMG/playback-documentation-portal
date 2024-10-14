@@ -51,7 +51,7 @@ paths:
         - `Authorization: Bearer {token}`: The JWT token for user authentication (required for freemium and premium videos only).
 
         **Optional Response Items:**
-        - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled
+        - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
       tags:
