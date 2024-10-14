@@ -82,6 +82,8 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                     coverImg:
@@ -95,6 +97,8 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     media:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
@@ -104,6 +108,8 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     playFrom: 341
@@ -114,6 +120,8 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     adverts:
