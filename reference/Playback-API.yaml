@@ -50,7 +50,7 @@ paths:
         - `x-api-key`: The API key for authenticating the request (required for all videos).
         - `Authorization: Bearer {token}`: The JWT token for user authentication (required for freemium and premium videos only).
 
-        **Optional Response Items:**
+        **Optional Response Items Only Returned when Authenticated:**
         - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
