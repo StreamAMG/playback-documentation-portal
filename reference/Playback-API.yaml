@@ -49,6 +49,11 @@ paths:
         **Headers:**
         - `x-api-key`: The API key for authenticating the request (required for all videos).
         - `Authorization: Bearer {token}`: The JWT token for user authentication (required for freemium and premium videos only).
+
+        **Optional Response Items:**
+        - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled
+        - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
+
       tags:
         - Playback
       operationId: get-playback-data
@@ -378,6 +383,11 @@ components:
           type: number
         media:
           type: object
+        metaData:
+          type: object
+          properties:
+            'customerId':
+              type: string
         playFrom:
           type: number
         adverts:
@@ -407,7 +417,7 @@ components:
           description: Unique identifier for the advertisement.
         position:
           type: string
-          description: 'ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm'
+          description: 'pre | mid | post | ad position as fractional seconds (e.g. 10.1) | percentage (e.g. 25%) | timecode in format hh:mm:ss.mmm'
         persistent:
           type: boolean
           description: 'If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.'
