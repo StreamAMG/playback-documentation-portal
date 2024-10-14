@@ -782,17 +782,14 @@ components:
         persistent:
           type: boolean
         position:
+          type: string
           oneOf:
-            - type: string
-              enum:
-                - pre
-                - post
-            - type: string
-              pattern: '^(\d+(\.\d+)?)$'
-            - type: string
-              pattern: '^\d+%'
-            - type: string
-              pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
+            - string:  pre
+            - string:  mid
+            - string:  post
+            - pattern: '^(\d+(\.\d+)?)$'
+            - pattern: '^\d+%'
+            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
         preloadOffset:
           type: number
         skippableAfter:
