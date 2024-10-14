@@ -783,13 +783,13 @@ components:
           type: boolean
         position:
           type: string
-          oneOf:
-            - string:  pre
-            - string:  mid
-            - string:  post
-            - pattern: '^(\d+(\.\d+)?)$'
-            - pattern: '^\d+%'
-            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
+          enum:
+            - pre
+            - mid
+            - post
+            - '^(\d+(\.\d+)?)$'
+            - '^\d+%'
+            - '^\d{2}:\d{2}:\d{2}\.\d{3}'
         preloadOffset:
           type: number
         skippableAfter:
