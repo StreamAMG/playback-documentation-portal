@@ -803,16 +803,6 @@ components:
         id: id123
         position: pre
         url: https://<some-global-advert>
-      x-example-percentage-position:
-        adType: vast
-        id: id123
-        position: 25%
-        url: https://<some-global-advert>
-      x-example-timecode-position:
-        adType: vast
-        id: id123
-        position: 00:10:30.000
-        url: https://<some-global-advert>
 
     GlobalAdverts:
       items:
