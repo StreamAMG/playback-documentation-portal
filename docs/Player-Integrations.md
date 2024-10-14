@@ -19,6 +19,14 @@ To integrate global advertisements with CloudMatrix, you'll need to include the 
 - Create a new playback configuration for a client
 - Partially update an existing playback configuration
 
+### Position
+
+- Pre
+- Mid
+- Post
+
+Are the only values that can be used currently when mixing adverts with onDemand and Live Video formats
+
 ## Staging Playback SDK
 
 Staging Playback SDK is available at 
