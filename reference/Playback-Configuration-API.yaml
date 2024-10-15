@@ -783,13 +783,13 @@ components:
           type: boolean
         position:
           type: string
-          oneOf:
-            - enum:
-                - pre
-                - post
-            - pattern: '^(\d+(\.\d+)?)$'
-            - pattern: '^\d+%'
-            - pattern: '^\d{2}:\d{2}:\d{2}\.\d{3}'
+          enum:
+            - pre
+            - post
+            - mid
+            - 10 / 10.5 
+            - 25%
+            - 00:10:30.000
         preloadOffset:
           type: number
         skippableAfter:
@@ -805,16 +805,6 @@ components:
         adType: vast
         id: id123
         position: pre
-        url: https://<some-global-advert>
-      x-example-percentage-position:
-        adType: vast
-        id: id123
-        position: 25%
-        url: https://<some-global-advert>
-      x-example-timecode-position:
-        adType: vast
-        id: id123
-        position: 00:10:30.000
         url: https://<some-global-advert>
 
     GlobalAdverts:

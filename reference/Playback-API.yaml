@@ -49,6 +49,11 @@ paths:
         **Headers:**
         - `x-api-key`: The API key for authenticating the request (required for all videos).
         - `Authorization: Bearer {token}`: The JWT token for user authentication (required for freemium and premium videos only).
+
+        **Optional Response Items Only Returned when Authenticated:**
+        - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
+        - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
+
       tags:
         - Playback
       operationId: get-playback-data
@@ -77,6 +82,8 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     media:
                       hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
                     coverImg:
@@ -90,6 +97,8 @@ paths:
                     description: Test Video
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     media:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
@@ -99,6 +108,8 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     playFrom: 341
@@ -109,6 +120,8 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    metaData:
+                        customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     adverts:
@@ -378,6 +391,11 @@ components:
           type: number
         media:
           type: object
+        metaData:
+          type: object
+          properties:
+            'customerId':
+              type: string
         playFrom:
           type: number
         adverts:
@@ -407,7 +425,7 @@ components:
           description: Unique identifier for the advertisement.
         position:
           type: string
-          description: 'ad position as fractional seconds (e.g. 10.1), percentage (e.g. 25%), or timecode in format hh:mm:ss.mmm'
+          description: 'pre | mid | post | ad position as fractional seconds (e.g. 10.1) | percentage (e.g. 25%) | timecode in format hh:mm:ss.mmm'
         persistent:
           type: boolean
           description: 'If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.'
