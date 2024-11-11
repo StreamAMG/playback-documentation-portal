@@ -84,6 +84,7 @@ All the optional [PlayerOptions](https://sdk-docs.playback.streamamg.com/v1/docs
  - [forwardButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#forwardButtonClassName) - the class name of the forward button.
  - [rewindButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#rewindButtonClassName) - the class name of the rewind button.
  - [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#retrieveSessionToken) - function to fetch/refresh the session token.
+ - [headers](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#headers) - function to pass a set of key value pairs
 
 ##### Access Tokens #####
 
@@ -254,6 +255,43 @@ const createPlayOptions = {
     },
   };
  ``` 
+
+#### Passing custom headers For Playback
+The example below shows how you can pass optional headers to the Playback SDK and have them sent in the request headers. Below are examples of a single and multiple headers being passed to the `Playback.initialize` function
+
+Single
+```javascript
+Playback.initialize('client-apiKey', {});
+
+Playback.play({
+    container: "containerId",
+    entryId: '0_ma2uklj8',
+    options: {
+        autoplay: true,
+        muted: true,
+        headers: {
+            "X-operator-id": "100"
+        }
+    }
+}).catch(console.error);
+```
+Multiple
+```javascript
+Playback.initialize('client-apiKey', {});
+
+Playback.play({
+    container: "containerId",
+    entryId: '0_ma2uklj8',
+    options: {
+        autoplay: true,
+        muted: true,
+        headers: {
+            "X-operator-id": "100",
+            "Another-Header": "HeaderValue"            
+        }
+    }
+}).catch(console.error);
+```
 
 #### Further Integration 
 
