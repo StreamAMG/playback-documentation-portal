@@ -261,7 +261,6 @@ The example below shows how you can pass optional headers to the Playback SDK an
 
 Single
 ```javascript
-// Pass over the retrieveSessionToken function into the initialise playback call
 Playback.initialize('client-apiKey', {});
 
 Playback.play({
@@ -278,7 +277,6 @@ Playback.play({
 ```
 Multiple
 ```javascript
-// Pass over the retrieveSessionToken function into the initialise playback call
 Playback.initialize('client-apiKey', {});
 
 Playback.play({
