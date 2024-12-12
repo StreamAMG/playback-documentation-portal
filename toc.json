@@ -40,6 +40,11 @@
       "uri": "docs/SDK/Error-Handling.md"
     },
     {
+      "type": "item",
+      "title": "Playlist",
+      "uri": "docs/SDK/Playlist.md"
+    },
+    {
       "type": "divider",
       "title": "API"
     },
