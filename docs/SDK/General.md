@@ -13,14 +13,14 @@ well-informed decisions regarding the most optimal integration approach.
 
 ## SDK Reference Documentation
 
->The latest JavaScript SDK for Playback v1 reference documentation is available here:
->[v1 Playback SDK Documentation](https://sdk-docs.playback.streamamg.com/v1/docs/index.html)
+> The latest JavaScript SDK for Playback v1 reference documentation is available here:
+> [v1 Playback SDK Documentation](https://sdk-docs.playback.streamamg.com/v1/docs/index.html)
 
 ## Integrated Video Players Supported
 
 Currently, these are the supported video players:
 
-- [Bitmovin Player](https://bitmovin.com/video-player) 
+- [Bitmovin Player](https://bitmovin.com/video-player)
 
 ## Video Player Supported Features
 
@@ -38,7 +38,7 @@ These may be defined during [initialisation](https://sdk-docs.playback.streamamg
 ### Installing the SDK
 
 The StreamAMG SDK for JavaScript provides a JavaScript API for Video Player Integration. A single Javascript file
-called 'playback.js' is available for downloading into your application at the following URL: 
+called 'playback.js' is available for downloading into your application at the following URL:
 
 ```
 https://sdk.playback.streamamg.com/v1/playback.js
@@ -46,7 +46,7 @@ https://sdk.playback.streamamg.com/v1/playback.js
 
 > Currently, there is no public NPM package published for this SDK.
 
-Here is an example of loading the SDK into an HTML 5 script (it is a good idea to place scripts at the bottom of the 
+Here is an example of loading the SDK into an HTML 5 script (it is a good idea to place scripts at the bottom of the
 `<body>` element: this can improve page load, because script compilation can slow down the display):
 
 ```html
@@ -73,7 +73,7 @@ would like to use as follows:
 
 ```javascript
 // Initialize the Playback SDK with your provided Client API Key:
-//  also pass over any playback options you desire e.g. 'autoplay'.
+// also pass over any playback options you desire e.g. 'autoplay'.
 Playback.initialize('client-api-key', { autoplay: true });
 ```
 
@@ -97,37 +97,36 @@ A generic example of defining and passing over a [retrieveSessionToken](https://
 ```javascript
 // Define a function that returns a session token
 function getSessionToken() {
-    // Logic to retrieve or generate the session token
-    return 'example_session_token';
+  // Logic to retrieve or generate the session token
+  return 'example_session_token';
 }
 
 // Pass over the retrieveSessionToken function into the initialise playback call
 Playback.initialize('client-api-key', { retrieveSessionToken: getSessionToken });
 ```
 
-A further example of a function to refresh an AWS Cognito session token is shown below (this example uses the AWS 
+A further example of a function to refresh an AWS Cognito session token is shown below (this example uses the AWS
 Cognito OAuth2 token endpoint and is only intended for illustrative purposes):
 
 ```javascript
 function getSessionToken(refreshToken, clientId, clientSecret = null) {
-    const params = new URLSearchParams({
-        grant_type: 'refresh_token',
-        client_id: clientId,
-        refresh_token: refreshToken,
-        client_secret: clientSecret
-    });
+  const params = new URLSearchParams({
+    grant_type: 'refresh_token',
+    client_id: clientId,
+    refresh_token: refreshToken,
+    client_secret: clientSecret
+  });
 
-    // Call the Cognito OAuth 2.0 Token endpoint for your user pool by submitting your refresh token.
-    return fetch('https://your-user-pool-domain.auth.eu-west-1.amazoncognito.com/oauth2/token', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params
-    })
-    .then(response => {
-        // Check for errors and if all ok return the new access token.
-    })
+  // Call the Cognito OAuth 2.0 Token endpoint for your user pool by submitting your refresh token.
+  return fetch('https://your-user-pool-domain.auth.eu-west-1.amazoncognito.com/oauth2/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params
+  }).then(response => {
+    // Check for errors and if all ok return the new access token.
+  })
 }
 
 // Pass over the retrieveSessionToken function into the initialise playback call with the refresh token etc required.
@@ -142,6 +141,7 @@ To integrate with CloudPay for their video content, clients should call the foll
 #### Playing a Video
 
 Next, to play a video in the player identify the video to play and start the player:
+
 ```javascript
  // Identify the video to play by the entry identifier.
  //  - also provide the DOM element container identifier:
@@ -150,23 +150,23 @@ Next, to play a video in the player identify the video to play and start the pla
  //     this is required to access protected video resources.
  //  - optionally provide a list of options to be passed to the player
  //     which will overwrite those passed during initialization (if duplicated)
- const playOptions = {
-   container: 'player',
-   entryId: '0_xxxxxxxx',
-   token: 'access_token',
-   options: {
+const playOptions = {
+  container: 'player',
+  entryId: '0_xxxxxxxx',
+  token: 'access_token',
+  options: {
     autoplay: true,
     muted: true,
-   }
- };
+  }
+};
 
- // Play the video (this example uses the 'static' calling approach):
- //     pass over any play options (as specified above).   
- Playback.play(playOptions)
-   .catch((error) => {
-     // Handle any unexpected error as you desire.
-     console.log('error playing the video:', error);
-   });
+// Play the video (this example uses the 'static' calling approach):
+// pass over any play options (as specified above).   
+Playback.play(playOptions)
+  .catch((error) => {
+    // Handle any unexpected error as you desire.
+    console.log('error playing the video:', error);
+  });
 ```
 
 #### Destroying the Player
@@ -176,9 +176,11 @@ To destroy the player and release any resources associated with it, you can call
 // Destroy the player and release any resources associated with it.
 Playback.destroy('player'); // player is the container identifier.
 ```
+
 This may be triggered on an event such as a page unload or when the player is no longer required.
 \
 An example of calling it when a video finishes playback is as follows:
+
 ```javascript
 const playOptions = {
   ...
@@ -188,9 +190,8 @@ const playOptions = {
       Playback.destroy('player');
     },
   },
-  ...
+}
 ```
-
 
 #### Video Autoplay
 
@@ -206,30 +207,32 @@ Thus, the two exposed SDK calls `Playback.mute(<container-id>)` and `Playback.un
 
 ```javascript
 // Initialize the Playback SDK with autoplay and muted options set to true to play the first video muted.
-Playback.initialize('client-api-key', { autoplay: true, muted: true });
+Playback.initialize('client-api-key', {autoplay: true, muted: true});
 
 const playOptions = {
-    container: 'player',
-    entryId: '0_xxxxxxxx',
-    token: 'access_token',
-    events: {
-        // Unmute the player after the initial video has finished playing.
-        PlaybackPlayerFinished: (event) => {
-            Playback.unmute('player');
-        },
+  container: 'player',
+  entryId: '0_xxxxxxxx',
+  token: 'access_token',
+  events: {
+    // Unmute the player after the initial video has finished playing.
+    PlaybackPlayerFinished: (event) => {
+      Playback.unmute('player');
     },
+  },
 };
 
-Playback.play(playOptions).then((playback) => {
+Playback.play(playOptions)
+  .then((playback) => {
     console.log('Successfully playing video');
     // To immediately unmute the player once playing if required. Due to auto-play policies of browsers the video
     // element may automatically pause when and if the video becomes unmuted without user interaction.
     // This is documented at https://developer.bitmovin.com/playback/docs/why-doesnt-autoplay-work-consistently-on-browsers
     Playback.unmute('player');
-.catch((error) => {
+  })
+  .catch((error) => {
     // Handle any unexpected error as you desire.
     console.log('error playing the video:', error);
-});
+  });
 ```
 
 #### Events For Playback
@@ -240,20 +243,20 @@ In order to provide a handler for these events, you can pass over an `events` ob
 
 ```javascript
 const createPlayOptions = {
-    container: 'player',
-    entryId: '0_smdu38ct',
-    token: JWT,
-    events: {
-      // After the video has finished playing unmute the player.
-      PlaybackPlayerFinished: (event) => {
-        Playback.unmute('player');
-      },
-      // Example of subscribing to a paused event and logging a message to the console.
-      PlaybackPaused: (event) => {
-        console.log('Playback paused');
-      },  
+  container: 'player',
+  entryId: '0_smdu38ct',
+  token: JWT,
+  events: {
+    // After the video has finished playing unmute the player.
+    PlaybackPlayerFinished: (event) => {
+      Playback.unmute('player');
     },
-  };
+    // Example of subscribing to a paused event and logging a message to the console.
+    PlaybackPaused: (event) => {
+      console.log('Playback paused');
+    },
+  },
+};
  ``` 
 
 #### Passing custom headers For Playback
@@ -264,36 +267,37 @@ Single
 Playback.initialize('client-apiKey', {});
 
 Playback.play({
-    container: "containerId",
-    entryId: '0_ma2uklj8',
-    options: {
-        autoplay: true,
-        muted: true,
-        headers: {
-            "X-operator-id": "100"
-        }
+  container: "containerId",
+  entryId: '0_ma2uklj8',
+  options: {
+    autoplay: true,
+    muted: true,
+    headers: {
+      "X-operator-id": "100"
     }
+  }
 }).catch(console.error);
 ```
+
 Multiple
 ```javascript
 Playback.initialize('client-apiKey', {});
 
 Playback.play({
-    container: "containerId",
-    entryId: '0_ma2uklj8',
-    options: {
-        autoplay: true,
-        muted: true,
-        headers: {
-            "X-operator-id": "100",
-            "Another-Header": "HeaderValue"            
-        }
+  container: "containerId",
+  entryId: '0_ma2uklj8',
+  options: {
+    autoplay: true,
+    muted: true,
+    headers: {
+      "X-operator-id": "100",
+      "Another-Header": "HeaderValue"
     }
+  }
 }).catch(console.error);
 ```
 
-#### Further Integration 
+#### Further Integration
 
 Refer to the SDK reference documentation starting with the [Playback Class](https://sdk-docs.playback.streamamg.com/v1/docs/classes/playback.Playback.html) which is the main entry for the playback service offered. 
 
