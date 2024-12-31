@@ -31,18 +31,18 @@
     },
     {
       "type": "item",
-      "title": "Javascript",
-      "uri": "docs/SDK/Javascript.md"
-    },
-    {
-      "type": "item",
-      "title": "Error Handling",
-      "uri": "docs/SDK/Error-Handling.md"
+      "title": "General",
+      "uri": "docs/SDK/General.md"
     },
     {
       "type": "item",
       "title": "Playlist",
       "uri": "docs/SDK/Playlist.md"
+    },
+    {
+      "type": "item",
+      "title": "Error Handling",
+      "uri": "docs/SDK/Error-Handling.md"
     },
     {
       "type": "divider",
