@@ -36,6 +36,11 @@
     },
     {
       "type": "item",
+      "title": "Multiview",
+      "uri": "docs/SDK/Multiview.md"
+    },
+    {
+      "type": "item",
       "title": "Playlist",
       "uri": "docs/SDK/Playlist.md"
     },
