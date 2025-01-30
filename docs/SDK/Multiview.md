@@ -74,11 +74,9 @@ addPlayer(entryId: string) {
 
   this.cdr.detectChanges(); // Ensures the DOM is updated before SDK async logic
 
-  this.createPlaybackPlayer(entryId, containerId, this.playerContainers.length - 1);
+  this.createPlaybackPlayer(entryId, containerId);
 }
-```
 
-```typescript
 private createPlaybackPlayer(entryId: string, containerId: string) {
   try {
     // @ts-ignore
