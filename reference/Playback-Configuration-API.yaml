@@ -720,6 +720,9 @@ components:
         tokenName:
           type: string
           example: "tokenName"
+        payload:
+          type: string
+          example: "payloadName"
       required:
         - type
         - key
@@ -736,6 +739,7 @@ components:
           key: "key"
           windowSeconds: 3600
           tokenName: "tokenName"
+          payload: "payloadName"
 
     DeliveryConfiguration:
       type: object
