@@ -35,40 +35,40 @@ identification of the error. All the error definitions, belonging to a particula
 this section provides an overview of potential error codes that may be encountered while using the SDK.
 Each error represents a specific issue that should be handled appropriately by the consuming application.
 
-### `CONFIGURATION_NOT_RETRIEVED`
+`CONFIGURATION_NOT_RETRIEVED`  
 This error occurs when the SDK is unable to retrieve the required configuration. It may indicate that an API call to
 fetch configuration settings failed or that necessary environment variables are missing.
 
-### `SDK_NOT_INITIALIZED`
+`SDK_NOT_INITIALIZED`  
 This error indicates that the SDK has not been properly initialized before attempting an operation. Ensure that the SDK
 initialization method has been called successfully before proceeding with other API calls - `Playback.initialize(apiKey)`
 
-### `PLAYER_NOT_INITIALIZED`
+`PLAYER_NOT_INITIALIZED`  
 This error occurs when an operation is attempted on a player instance that has not been initialized. Ensure that a
 player instance has been created and properly set up before calling player-related methods.
 
-### `REQUIRED_PARAMETERS_NOT_PASSED`
+`REQUIRED_PARAMETERS_NOT_PASSED`  
 This error is thrown when one or more required parameters are missing from an SDK function call, for most cases it's
 missing containerId or entryId. Check the method documentation to verify that all mandatory parameters are included.
 
-### `SESSION_TOKEN_NOT_RETRIEVED`
+`SESSION_TOKEN_NOT_RETRIEVED`  
 This error indicates that the session token required for authentication or authorization could not be retrieved. It
 may be due to a failed API request or incorrect authentication setup. Thrown only once trying to get playback information
 for direct entry.
 
-### `NO_PLAYER_EXISTS`
+`NO_PLAYER_EXISTS`  
 This error is raised when an operation is attempted on a player that does not exist. Ensure that a valid player instance
 has been created before executing player-related functions.
 
-### `NO_VIDEO_DETAILS`
+`NO_VIDEO_DETAILS`  
 This error means that video details are unavailable. This might happen if the provided containerId
 is incorrect or if there was an issue retrieving playback config.
 
-### `NO_PLAYBACK_DETAILS`
+`NO_PLAYBACK_DETAILS`  
 This error occurs when playback configuration fetch failed or missing. Thrown once attempting to load config before
 playing new entry.
 
-### `UNKNOWN_PARAMETER`
+`UNKNOWN_PARAMETER`  
 This error is triggered when unknown event is passed to `player.off(event)`.
 
 ### Playback Errors
@@ -76,7 +76,7 @@ This error is triggered when unknown event is passed to `player.off(event)`.
 [Playback Errors](https://sdk-docs.playback.streamamg.com/v1/docs/enums/PlaybackErrorName.html)
 this section provides an overview of potential Playback-side related error codes.
 
-### `NO_ENTITLEMENT` 
+`NO_ENTITLEMENT`  
 This error occurs when playback configuration request returns error with `errorData.reason === PlaybackErrorName.NoEntitlement`
 
 ## Troubleshooting
