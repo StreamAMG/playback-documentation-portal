@@ -24,7 +24,7 @@ identification of the error. All the error definitions, belonging to a particula
 
 - [Playback Errors](https://sdk-docs.playback.streamamg.com/v1/docs/enums/PlaybackErrorName.html)
 - [SDK Errors](https://sdk-docs.playback.streamamg.com/v1/docs/enums/SDKErrorName.html)
-- [ResumeError](https://sdk-docs.playback.streamamg.com/v1/docs/enums/ResumeErrorName.html)
+- [Resume Error](https://sdk-docs.playback.streamamg.com/v1/docs/enums/ResumeErrorName.html)
 
 > Error details are logged to the console. In a JavaScript HTML page, you can inspect console logged error messages
 > using the browser's developer tools for debugging or troubleshooting purposes.
@@ -78,6 +78,13 @@ this section provides an overview of potential Playback-side related error codes
 
 `NO_ENTITLEMENT`  
 This error occurs when playback configuration request returns error with `errorData.reason === PlaybackErrorName.NoEntitlement`
+
+### Resume Errors
+
+[Resume API](https://sdk-docs.playback.streamamg.com/v1/docs/enums/ResumeErrorName.html) responsible for server-to-client
+communication handling watched timestamps/multiple devices support requires WebSocket connection.
+`RESUME_ERROR` or `WebSocket Connect Error` may happen due to several reasons such as environment, CORS, firewall,
+certificates issues, trying to stable that connection.
 
 ## Troubleshooting
 
