@@ -20,9 +20,9 @@ enables us to validate Bitmovin’s functionality before completely deprecating 
              "enabled": true
          },
          "mux": { // to become bitmovin || bitmovinAnalytics
-             "env_key": "hvksvvjt57jn0ijt55kubng1n",
+             "env_key": "hvksvvjt57jn0ijt55kubn",
               // pass in key from bitmovin Dashboard -> Licences
-             "player_name": "bitmovin-12345678"
+             "player_name": "bitmovin-1234578"
               // not sure whether we need that field at all
          }
       },
