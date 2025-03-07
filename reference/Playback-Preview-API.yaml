@@ -38,7 +38,7 @@ paths:
       operationId: get-playback-preview
       security:
         - ServiceAuth: []
-        - TenantId: []
+          TenantId: []
 
       parameters:
         - name: id
