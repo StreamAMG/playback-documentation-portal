@@ -1,0 +1,353 @@
+x-stoplight:
+  docs:
+    showModels: false
+x-internal: true
+openapi: 3.1.0
+info:
+  title: API Reference
+  version: '1.0'
+  contact:
+    name: Jonathon Robins
+    email: Jonathon.Robins@pamediagroup.com
+  summary: Service that retrieve back video metadata url and signed manifests.
+  description: |-
+    Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for Cloudmatrix preview.
+tags:
+  - name: Playback Preview
+servers:
+  - url: 'https://api.playback.streamamg.com/v1'
+paths:
+  '/previw/{id}':
+    get:
+      summary: Get Video Playback Data for Cloudmatrix preview
+      description: |-
+        In order to fetch the video data, the user must first be authenticated via Cloudmatrix Auth key. This token
+        should be passed during the API call through the `x-service-auth-key` header.
+        Secondly, tenant-id should be passed through the `x-tenant-id` header. 
+
+        The API call should be made with the video id as a path parameter, which should be an article id (UUID).
+
+        **Authentication and Authorization Requirements:**
+
+        **Headers:**
+        - `x-tenant-id`: The tenant id for the customer (required for all videos).
+        - `x-service-auth-key`: The Cloudmatrix Auth key for authenticating the request (required for all videos).
+
+      tags:
+        - Playback
+      operationId: get-playback-data
+      security:
+        - bearerAuth: []
+          ApiKey: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Entry Identifier
+      responses:
+        '200':
+          description: Success - get playback data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackEndpointResponse'
+              examples:
+                Example - Success VoD:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    media:
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+                    coverImg:
+                      '360': 'https://video-store/test/12345/width/360'
+                      '720': 'https://video-store/test/12345/width/720'
+                      '1080': 'https://video-store/test/12345/width/1080'
+                Example - Success Live:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    media:
+                      mpegdash: url-to-mpegdash-manifest
+                      hls: url-to-hls-manifest
+                      applehttp: url-to-applehttp-manifest
+                Example - Success VoD with Resume:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    playFrom: 341
+                    media:
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+                Example - Success VoD with GlobalAdverts:
+                  value:
+                    id: 0_4l1aj0bo
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    duration: 2800000
+                    adverts:
+                      - adType: vast
+                        id: id123
+                        position: pre
+                        url: url-for-pre-add-server
+                      - adType: vast
+                        id: id456
+                        position: mid
+                        url: url-for-mid-add-server
+                      - adType: vast
+                        id: id789
+                        position: post
+                        url: url-for-post-add-server
+                    media:
+                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: Error getting session identifier
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - HEADER_ERROR
+                      - BAD_REQUEST_ERROR
+                      - SITE_NOT_FOUND
+                      - CONFIGURATION_ERROR
+                      - MP_PARTNER_ERROR
+                required:
+                  - status
+                  - message
+              examples:
+                Missing Required Header:
+                  value:
+                    status: 400
+                    message: No user-agent supplied
+                    reason: HEADER_ERROR
+                Invalid Client Configuration:
+                  value:
+                    status: 400
+                    message: Missing config for the given tenantId
+                    reason: CONFIGURATION_ERROR
+                Invalid Site Configuration:
+                  value:
+                    status: 400
+                    message: Missing site information for a given clientId
+                    reason: SITE_NOT_FOUND
+                Invalid Partner Configuration:
+                  value:
+                    status: 400
+                    message: Missing partner admin secret for a given clientId
+                    reason: MP_PARTNER_ERROR
+                No Tenant Id:
+                  value:
+                    status: 400
+                    message: No tenant id supplied
+                    reason: TENANT_ID_NOT_PROVIDED
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                description: Not authenticated to preview
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 401
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - SERVICE_KEY_NOT_PROVIDED
+                required:
+                  - status
+                  - message
+              examples:
+                Invalid service auth key:
+                  value:
+                    status: 401
+                    message: Not authenticated to preview
+                    reason: BAD_REQUEST_ERROR
+  
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                description: Invalid/Missing API Key
+                type: object
+                properties:
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - message
+              examples:
+                Invalid API Key:
+                  value:
+                    message: Forbidden
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: Playback data not found
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 404
+                  message:
+                    type: string
+                    minLength: 1
+                  reason:
+                    type: string
+                    enum:
+                      - BAD_REQUEST_ERROR
+                required:
+                  - status
+                  - message
+              examples:
+                Playback data not found:
+                  value:
+                    status: 404
+                    message: Playback data not found
+                    reason: BAD_REQUEST_ERROR
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                description: Error getting playback data
+                type: object
+                properties:
+                  status:
+                    type: number
+                    enum:
+                      - 500
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - status
+                  - message
+              examples:
+                Internal Server Error:
+                  value:
+                    status: 500
+                    message: 'Error getting playback data [Error stack]'
+      x-internal: true
+components:
+  securitySchemes:
+    serviceAuthKey:
+      type: authKey
+      in: header
+      name: x-service-auth-key
+    tenantId:
+      type: apiKey
+      in: header
+      name: x-tenant-id
+  schemas:
+    PlaybackEndpointResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        thumbnail:
+          type: string
+        duration:
+          type: number
+        media:
+          type: object
+        playFrom:
+          type: number
+        adverts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advert'
+        coverImg:
+          type: object
+          properties:
+            '360':
+              type: string
+            '720':
+              type: string
+            '1080':
+              type: string
+    Advert:
+      type: object
+      properties:
+        adType:
+          type: string
+          enum:
+            - vast
+            - vmap
+          description: Type of the advertisement.
+        id:
+          type: string
+          description: Unique identifier for the advertisement.
+        position:
+          type: string
+          description: 'pre | mid | post | ad position as fractional seconds (e.g. 10.1) | percentage (e.g. 25%) | timecode in format hh:mm:ss.mmm'
+        persistent:
+          type: boolean
+          description: 'If set to true, the ad tag will be processed and rescheduled automatically when a new source is loaded.'
+        discardAfterPlayback:
+          type: boolean
+          description: Specifies whether ad breaks are discarded after playback.
+        url:
+          type: string
+          format: uri
+          description: URL for the advertisement.
+        preloadOffset:
+          type: number
+          description: Number of seconds before the ad break starts playing to preload the ad tag.
+        skippableAfter:
+          type: number
+          description: Specifies after which time ads in the ad break become skippable.
+      required:
+        - adType
+        - url
+        - id
+        - position
+    MediaVoD:
+      type: object
+      properties:
+        hls:
+          type: string
+    MediaLive:
+      type: object
+      properties:
+        mpegdash:
+          type: string
+        hls:
+          type: string
+        applehttp:
+          type: string
