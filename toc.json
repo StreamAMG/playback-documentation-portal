@@ -67,6 +67,11 @@
       "type": "item",
       "title": "Playback Configuration API",
       "uri": "reference/Playback-Configuration-API.yaml"
+    },
+    {
+      "type": "item",
+      "title": "Playback Preview API",
+      "uri": "reference/Playback-Preview-API.yaml"
     }
   ]
 }
