@@ -35,10 +35,11 @@ paths:
 
       tags:
         - Preview
-      operationId: get-playback-data
+      operationId: get-playback-preview
       security:
-        - bearerAuth: []
-          ApiKey: []
+        - ServiceAuth: []
+          TenantId: []
+
       parameters:
         - name: id
           in: path
@@ -262,14 +263,14 @@ paths:
       x-internal: true
 components:
   securitySchemes:
-    serviceAuthKey:
-      type: authKey
+    ServiceAuth:
+      type: ApiKey
       in: header
-      name: x-service-auth-key
-    tenantId:
-      type: apiKey
+      name: Authorization
+    TenantId:
+      type: ApiKey
       in: header
-      name: x-tenant-id
+      name: x-api-key
   schemas:
     PlaybackEndpointResponse:
       type: object
