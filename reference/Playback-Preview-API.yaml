@@ -34,7 +34,7 @@ paths:
         - `x-service-auth-key`: The Cloudmatrix Auth key for authenticating the request (required for all videos).
 
       tags:
-        - Playback
+        - Preview
       operationId: get-playback-data
       security:
         - bearerAuth: []
