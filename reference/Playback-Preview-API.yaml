@@ -47,6 +47,18 @@ paths:
             type: string
           required: true
           description: Entry Identifier
+        - name: x-service-auth-key
+          in: header
+          schema:
+            type: string
+          required: true
+          description: Cloudmatrix Auth key for authenticating the request
+        - name: x-tenant-id
+          in: header
+          schema:
+            type: string
+          required: true
+          description: The tenant id 
       responses:
         '200':
           description: Success - get playback data
@@ -266,11 +278,11 @@ components:
     ServiceAuth:
       type: ApiKey
       in: header
-      name: Authorization
+      name: x-service-auth-key
     TenantId:
       type: ApiKey
       in: header
-      name: x-api-key
+      name: x-tenant-id
   schemas:
     PlaybackEndpointResponse:
       type: object
