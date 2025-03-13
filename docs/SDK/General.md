@@ -85,6 +85,8 @@ All the optional [PlayerOptions](https://sdk-docs.playback.streamamg.com/v1/docs
  - [rewindButtonClassName](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#rewindButtonClassName) - the class name of the rewind button.
  - [retrieveSessionToken](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#retrieveSessionToken) - function to fetch/refresh the session token.
  - [headers](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#headers) - function to pass a set of key value pairs
+ - [subtenantId](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#subtenantId) - function to pass a subtenant Id to the Playback EntryAPI to be used with CDN
+ - [showOverlay](https://sdk-docs.playback.streamamg.com/v1/docs/interfaces/PlayerOptions.html#showOverlay) - function to pass bool: false to disable the title and description overlay
 
 ##### Access Tokens #####
 
@@ -235,6 +237,25 @@ Playback.play(playOptions)
   });
 ```
 
+#### Disable Title and Description Overlay
+The example below shows how you can disable the title bar within the Playback SDK. This can be used when you do not want to show the title and description set on the media inside CloudMatrix on content. Below is an example of the option `showOverlay` being passed to the `Playback.initialize` function
+
+Single
+```javascript
+Playback.initialize('client-apiKey', {});
+
+Playback.play({
+  container: "containerId",
+  entryId: '0_ma2uklj8',
+  options: {
+    autoplay: true,
+    muted: true,
+    showOverlay: false
+  }
+}).catch(console.error);
+```
+
+
 #### Events For Playback
 
 In the above example, the `PlaybackPlayerFinished` event is used to unmute the player after the first video has finished playing but there are other events that
@@ -296,6 +317,26 @@ Playback.play({
   }
 }).catch(console.error);
 ```
+
+#### Passing subtenant IDs For Playback
+The example below shows how you can pass a subtenant Id to the Playback SDK and have them sent in the request headers. Below is an example of a subtenant id being passed to the `Playback.initialize` function
+
+Single
+```javascript
+Playback.initialize('client-apiKey', {});
+
+Playback.play({
+  container: "containerId",
+  entryId: '0_ma2uklj8',
+  options: {
+    autoplay: true,
+    muted: true,
+    subtenantId: "subTenantId-123456789"
+  }
+}).catch(console.error);
+```
+
+This will then send the header ```subtenantid: "subTenantId-123456789"``` via the Playback Entry api
 
 #### Further Integration
 
