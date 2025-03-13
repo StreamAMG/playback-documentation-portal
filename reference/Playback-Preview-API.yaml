@@ -17,7 +17,7 @@ tags:
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
-  '/previw/{id}':
+  '/preview/{id}':
     get:
       summary: Get Video Playback Data for Cloudmatrix preview
       description: |-
