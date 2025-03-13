@@ -21,17 +21,17 @@ paths:
     get:
       summary: Get Video Playback Data for Cloudmatrix preview
       description: |-
-        In order to fetch the video data, the user must first be authenticated via Cloudmatrix Auth key. This token
-        should be passed during the API call through the `x-service-auth-key` header.
-        Secondly, tenant-id should be passed through the `x-tenant-id` header. 
+        To fetch the video data from the API, follow these steps:
 
-        The API call should be made with the video id as a path parameter, which should be an article id (UUID).
+        **1. Authentication:**
+        - The user must be authenticated using AWS Identity and Access Management (IAM).
+        - Use Signature Version 4 (SigV4) to sign the request. This ensures that the request is securely authenticated and authorized.
 
-        **Authentication and Authorization Requirements:**
-
-        **Headers:**
-        - `x-tenant-id`: The tenant id for the customer (required for all videos).
-        - `x-service-auth-key`: The Cloudmatrix Auth key for authenticating the request (required for all videos).
+        **2. Headers:**
+        - Include the x-tenant-id header in the request. This header should contain the tenant ID.
+        
+        **3. Path Parameters:**
+        - Include the id parameter in the request. This parameter should contain the article identifier (UUID).
 
       tags:
         - Preview
@@ -48,11 +48,6 @@ paths:
           required: true
           description: Entry Identifier
       headers:
-        x-service-auth-key:
-          description: Cloudmatrix Auth key for authenticating the request
-          required: true
-          schema:
-            type: string
         x-tenant-id:
           description: The tenant id for the customer
           required: true
@@ -274,11 +269,6 @@ paths:
       x-internal: true
 components:
   securitySchemes:
-    ServiceAuth:
-      type: apiKey
-      in: header
-      name: x-service-auth-key
-      required: true
     TenantId:
       type: apiKey
       in: header
