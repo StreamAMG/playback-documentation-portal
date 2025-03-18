@@ -118,6 +118,34 @@ paths:
       responses:
         200:
           description: OK
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: Error updating the playback configuration
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - statusCode
+                  - message
+                  - error
+              examples:
+                MUX and Analytics Conflict:
+                  value:
+                    statusCode: 400
+                    message: Only one of "mux" or "analytics" can be set at a time
+                    error: Bad Request
         401:
           description: Unauthorized
           content:
@@ -290,6 +318,11 @@ paths:
                   value:
                     status: 400
                     message: platform must be a non-empty object
+                    error: Bad Request
+                MUX and Analytics Conflict:
+                  value:
+                    status: 400
+                    message: Only one of "mux" or "analytics" can be set at a time
                     error: Bad Request
         401:
           description: Unauthorized
