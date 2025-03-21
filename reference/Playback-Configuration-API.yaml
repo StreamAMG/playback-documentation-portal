@@ -100,6 +100,8 @@ paths:
       summary: Partially update playback configuration
       description: |-
         Update the playback configuration for a client.
+
+        Note: You cannot have both MUX and Analytics set at the same time set in the player configuration.
       security:
         - bearerAuth: []
       parameters:
@@ -118,6 +120,34 @@ paths:
       responses:
         200:
           description: OK
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: Error updating the playback configuration
+                type: object
+                properties:
+                  statusCode:
+                    type: number
+                    enum:
+                      - 400
+                  message:
+                    type: string
+                    minLength: 1
+                  error:
+                    type: string
+                    minLength: 1
+                required:
+                  - statusCode
+                  - message
+                  - error
+              examples:
+                MUX and Analytics Conflict:
+                  value:
+                    statusCode: 400
+                    message: Only one of "mux" or "analytics" can be set at a time
+                    error: Bad Request
         401:
           description: Unauthorized
           content:
@@ -241,7 +271,11 @@ paths:
     post:
       tags:
         - Playback Configuration
-      summary: Create new a playback configuration for a client
+      summary: Create new Playback configuration for a client
+      description: |-
+        Create a playback configuration for a client.
+
+        Note: You cannot have both MUX and Analytics set at the same time set in the player configuration.
       security:
         - bearerAuth: []
       requestBody:
@@ -290,6 +324,11 @@ paths:
                   value:
                     status: 400
                     message: platform must be a non-empty object
+                    error: Bad Request
+                MUX and Analytics Conflict:
+                  value:
+                    status: 400
+                    message: Only one of "mux" or "analytics" can be set at a time
                     error: Bad Request
         401:
           description: Unauthorized
@@ -771,6 +810,46 @@ components:
         video: { backwardduration: 20, forwardduration: 10 }
         audio: { backwardduration: 20, forwardduration: 10 }
 
+    BitMovinIntergrationsMUX:
+      type: object
+      properties:
+        player_name:
+          type: string
+          example: 'a player name'
+        env_key:
+          type: string
+          example: '123456muxkey'
+
+    BitMovinIntergrationsResume:
+      type: object
+      properties:
+        enabled:
+          type: string
+          example: true
+        jwtSecretKey:
+          type: string
+          example: 'd2ba8a22-5995-4ab3-9f49-4ddbc33c67ba'
+
+    BitMovinIntergrationsAnalytics:
+      type: object
+      properties:
+        key:
+          type: string
+          example: '5133949a-51ee-411f-bd0b-6d13b378b75b'
+
+    BitMovinIntergrationOptions:
+      type: object
+      properties:
+        mux:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrationsMUX"
+        resume:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrationsResume"
+        analytics:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrationsAnalytics"
+
     GlobalAdvert:
       type: object
       properties:
@@ -1096,10 +1175,7 @@ components:
                 minLength: 1
               integrations:
                 type: object
-                additionalProperties:
-                  type: object
-                  additionalProperties:
-                    type: string
+                $ref: "#/components/schemas/BitMovinIntergrationOptions"
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
