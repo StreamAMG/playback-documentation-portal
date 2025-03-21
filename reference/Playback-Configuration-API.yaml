@@ -804,6 +804,19 @@ components:
         video: { backwardduration: 20, forwardduration: 10 }
         audio: { backwardduration: 20, forwardduration: 10 }
 
+    BitMovinConfig:
+      type: object
+      properties:
+        mux:
+          type: object
+          example: { player_name: 'a player name', env_key: '123456muxkey' }
+        resume:
+          type: object
+          example: { enabled: false, jwtSecretKey: 'd2ba8a22-5995-4ab3-9f49-4ddbc33c67ba' }
+        analytics:
+          type: object
+          example: { key: "5133949a-51ee-411f-bd0b-6d13b378b75b" }
+
     GlobalAdvert:
       type: object
       properties:
@@ -1129,10 +1142,7 @@ components:
                 minLength: 1
               integrations:
                 type: object
-                additionalProperties:
-                  type: object
-                  additionalProperties:
-                    type: string
+                $ref: "#/components/schemas/BitMovinConfig"
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
