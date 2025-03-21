@@ -810,12 +810,15 @@ components:
         video: { backwardduration: 20, forwardduration: 10 }
         audio: { backwardduration: 20, forwardduration: 10 }
 
-
-
     BitMovinIntergrationsMUX:
+      type: object
       properties:
-          type: object
-          example: { player_name: 'a player name', env_key: '123456muxkey' }
+        player_name:
+          type: string
+          example: 'a player name'
+        env_key:
+          type: string
+          example: '123456muxkey'
 
     BitMovinIntergrationsResume:
       properties:
