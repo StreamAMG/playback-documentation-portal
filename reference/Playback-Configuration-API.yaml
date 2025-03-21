@@ -100,6 +100,8 @@ paths:
       summary: Partially update playback configuration
       description: |-
         Update the playback configuration for a client.
+
+        Note: You cannot have both MUX and Analytics set at the same time set in the player configuration.
       security:
         - bearerAuth: []
       parameters:
@@ -269,7 +271,10 @@ paths:
     post:
       tags:
         - Playback Configuration
-      summary: Create new a playback configuration for a client
+      description: |-
+        Create a playback configuration for a client.
+
+        Note: You cannot have both MUX and Analytics set at the same time set in the player configuration.
       security:
         - bearerAuth: []
       requestBody:
@@ -809,19 +814,16 @@ components:
     BitMovinIntergrationsMUX:
       type: object
       properties:
-        mux:
           example: { player_name: 'a player name', env_key: '123456muxkey' }
 
     BitMovinIntergrationsResume:
       type: object
       properties:
-        resume:
           example: { enabled: false, jwtSecretKey: 'd2ba8a22-5995-4ab3-9f49-4ddbc33c67ba' }
 
     BitMovinIntergrationsAnalytics:
       type: object
       properties:
-        analytics:
           example: { key: "5133949a-51ee-411f-bd0b-6d13b378b75b" }
 
 
