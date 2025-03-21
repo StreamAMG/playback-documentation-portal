@@ -271,6 +271,7 @@ paths:
     post:
       tags:
         - Playback Configuration
+      summary: Create new Playback configuration for a client
       description: |-
         Create a playback configuration for a client.
 
@@ -812,18 +813,18 @@ components:
 
 
     BitMovinIntergrationsMUX:
-      type: object
       properties:
+          type: object
           example: { player_name: 'a player name', env_key: '123456muxkey' }
 
     BitMovinIntergrationsResume:
-      type: object
       properties:
+          type: object
           example: { enabled: false, jwtSecretKey: 'd2ba8a22-5995-4ab3-9f49-4ddbc33c67ba' }
 
     BitMovinIntergrationsAnalytics:
-      type: object
       properties:
+          type: object
           example: { key: "5133949a-51ee-411f-bd0b-6d13b378b75b" }
 
 
