@@ -824,7 +824,7 @@ components:
       type: object
       properties:
         enabled:
-          type: boolean
+          type: string
           example: true
         jwtSecretKey:
           type: string
