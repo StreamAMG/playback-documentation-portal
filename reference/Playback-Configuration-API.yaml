@@ -835,7 +835,7 @@ components:
       properties:
         key:
           type: string
-          key: '5133949a-51ee-411f-bd0b-6d13b378b75b'
+          example: '5133949a-51ee-411f-bd0b-6d13b378b75b'
 
     BitMovinIntergrationOptions:
       type: object
