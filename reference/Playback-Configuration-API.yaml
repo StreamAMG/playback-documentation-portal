@@ -806,31 +806,40 @@ components:
 
 
 
-    BitMovinIntergrations:
+    BitMovinIntergrationsMUX:
       type: object
       properties:
         mux:
           type: object
           example: { player_name: 'a player name', env_key: '123456muxkey' }
+
+    BitMovinIntergrationsResume:
+      type: object
+      properties:
         resume:
           type: object
           example: { enabled: false, jwtSecretKey: 'd2ba8a22-5995-4ab3-9f49-4ddbc33c67ba' }
+
+    BitMovinIntergrationsAnalytics:
+      type: object
+      properties:
         analytics:
           type: object
           example: { key: "5133949a-51ee-411f-bd0b-6d13b378b75b" }
+
 
     BitMovinIntergrationOptions:
       type: object
       properties:
         mux:
           type: object
-          $ref: "#/components/schemas/BitMovinIntergrations"
+          $ref: "#/components/schemas/BitMovinIntergrationsMUX"
         resume:
           type: object
-          $ref: "#/components/schemas/BitMovinIntergrations"
+          $ref: "#/components/schemas/BitMovinIntergrationsResume"
         analytics:
           type: object
-          $ref: "#/components/schemas/BitMovinIntergrations"
+          $ref: "#/components/schemas/BitMovinIntergrationsAnalytics"
 
     GlobalAdvert:
       type: object
