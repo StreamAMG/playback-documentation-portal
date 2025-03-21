@@ -804,7 +804,9 @@ components:
         video: { backwardduration: 20, forwardduration: 10 }
         audio: { backwardduration: 20, forwardduration: 10 }
 
-    BitMovinConfig:
+
+
+    BitMovinIntergrations:
       type: object
       properties:
         mux:
@@ -816,6 +818,19 @@ components:
         analytics:
           type: object
           example: { key: "5133949a-51ee-411f-bd0b-6d13b378b75b" }
+
+    BitMovinIntergrationOptions:
+      type: object
+      properties:
+        mux:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrations"
+        resume:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrations"
+        analytics:
+          type: object
+          $ref: "#/components/schemas/BitMovinIntergrations"
 
     GlobalAdvert:
       type: object
@@ -1142,7 +1157,7 @@ components:
                 minLength: 1
               integrations:
                 type: object
-                $ref: "#/components/schemas/BitMovinConfig"
+                $ref: "#/components/schemas/BitMovinIntergrationOptions"
               adaptation:
                 type: object
                 $ref: "#/components/schemas/AdaptationPlatformConfig"
