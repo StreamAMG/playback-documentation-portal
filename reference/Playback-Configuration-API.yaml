@@ -783,7 +783,7 @@ components:
         "tenant.vod.streamamg.com":
           type: "streamamg-jwt-cloudfront"
           key: "key"
-          windowSeconds: 3600
+          windowSeconds: 60
           tokenName: "tokenName"
 
     DeliveryConfiguration:
