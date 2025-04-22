@@ -742,7 +742,7 @@ components:
       required:
         - configId
 
-    AkamaiTokenizer:
+    TokenizerConfig:
       type: object
       properties:
         type:
@@ -750,6 +750,7 @@ components:
           example: "akamai"
           enum:
             - akamai
+            - streamamg-jwt-cloudfront
         key:
           type: string
           example: "key"
@@ -771,14 +772,19 @@ components:
     Tokenizer:
       type: object
       additionalProperties:
-        $ref: "#/components/schemas/AkamaiTokenizer"
+        $ref: "#/components/schemas/TokenizerConfig"
       example:
         "streamamg-vbtv-vod.akamaized.net":
           type: "akamai"
           key: "key"
           windowSeconds: 3600
           tokenName: "tokenName"
-          payload: "payloadName"
+          payload: "payloadName"      
+        "tenant.vod.streamamg.com":
+          type: "streamamg-jwt-cloudfront"
+          key: "key"
+          windowSeconds: 60
+          tokenName: "tokenName"
 
     DeliveryConfiguration:
       type: object
