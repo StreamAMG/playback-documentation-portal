@@ -995,6 +995,82 @@ components:
             tenantId:
               type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
+        - type: object
+          properties:
+            description:
+              type: string
+              example: "Playback configuration example 2"
+            tags:
+              type: array
+              items:
+                type: string
+                example: "Tag"
+            auth:
+              $ref: "#/components/schemas/Auth"
+            domains:
+              type: array
+              items:
+                type: string
+              example: ["some-host12.com", "some-host22.com"]
+            entitlementsUrl:
+              type: string
+              minLength: 1
+            entitlements:
+              type: object
+              properties:
+                defaultEntryEntitlement:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: string
+                  example: ["*"]
+            platform:
+              type: object
+              minProperties: 2
+              additionalProperties:
+                type: object
+              example:
+                kaltura:
+                  partnerId: "1234567"
+                  partnerAdminSecret: "admin secret value"
+              required:
+                - partnerId
+                - partnerAdminSecret
+            deliveryConfiguration:
+              $ref: "#/components/schemas/DeliveryConfiguration"
+            player:
+              $ref: "#/components/schemas/Player"
+              minProperties: 1
+            globalAdverts:
+              $ref: "#/components/schemas/GlobalAdverts"
+            featureFlags:
+              type: object
+              properties:
+                customErrorScreen:
+                  type: boolean
+                  example: false
+            defaults:
+              type: object
+              minProperties: 3
+              properties:
+                player:
+                  type: string
+                  example: bitmovin
+                auth:
+                  type: string
+                  example: cloudpay
+                platform:
+                  type: string
+                  example: kaltura
+                entitlements:
+                  type: string
+                  example: fusion
+              required:
+                - player
+                - platform
+            tenantId:
+              type: string
+              example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
           required:
             - domains
             - platform
@@ -1002,6 +1078,7 @@ components:
             - description
             - defaults
             - tenantId
+      
     PartialPlaybackConfigData:
       allOf:
         - type: object
