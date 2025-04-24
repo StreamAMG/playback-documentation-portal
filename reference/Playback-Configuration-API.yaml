@@ -284,6 +284,134 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PlaybackConfigData"
+            examples:
+              test1:
+                summary: Example with auth
+                value:
+                  description: "Test config with auth"
+                  tags: ["tag1", "tag2"]
+                  auth:
+                    cloudpay:
+                      site: "some-site"
+                  domains: ["example.com"]
+                  entitlementsUrl: "https://entitlements.example.com"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "admin secret value"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "12345678-1111-1111-1111-123456789012"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: false
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                    entitlements: fusion
+                  tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
+              test2:
+                summary: Example without auth
+                value:
+                  description: "Test config without auth"
+                  tags: ["tag3"]
+                  domains: ["example2.com"]
+                  entitlementsUrl: "https://entitlements2.example.com"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "7654321"
+                      partnerAdminSecret: "another secret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "87654321-2222-2222-2222-210987654321"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: true
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                    entitlements: fusion
+                  tenantId: "48b3a285-baab-4173-be9f-8f4aa4d31a5d"
+              test3:
+                summary: Example with global adverts config
+                value:
+                  description: "Test config with adverts"
+                  tags: ["adverts"]
+                  auth:
+                    cloudpay:
+                      site: "ad-site"
+                  domains: ["adverts.com"]
+                  entitlementsUrl: "https://entitlements.adverts.com"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "adpartner"
+                      partnerAdminSecret: "adsecret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "adverts-1111-1111-1111-123456789012"
+                  globalAdverts:
+                    - adType: vast
+                      id: ad123
+                      position: pre
+                      url: https://ads.example.com/vast.xml
+                      persistent: true
+                      discardAfterPlayback: false
+                      skippableAfter: 5
+                  featureFlags:
+                    customErrorScreen: false
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                    entitlements: fusion
+                  tenantId: "adverts-tenant-uuid-0000-0000-0000-000000000000"
+              test4:
+                summary: Example with deliveryConfiguration
+                value:
+                  description: "Test config with deliveryConfiguration"
+                  tags: ["delivery"]
+                  auth:
+                    cloudpay:
+                      site: "delivery-site"
+                  domains: ["delivery.com"]
+                  entitlementsUrl: "https://entitlements.delivery.com"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "deliverypartner"
+                      partnerAdminSecret: "deliverysecret"
+                  deliveryConfiguration:
+                    tokenizer:
+                      "streamamg-vbtv-vod.akamaized.net":
+                        type: "akamai"
+                        key: "key"
+                        windowSeconds: 3600
+                        tokenName: "tokenName"
+                        payload: "payloadName"
+                  player:
+                    bitmovin:
+                      license: "delivery-1111-1111-1111-123456789012"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: true
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                    entitlements: fusion
+                  tenantId: "delivery-tenant-uuid-0000-0000-0000-000000000000"
       responses:
         201:
           description: Created New Client Configuration
