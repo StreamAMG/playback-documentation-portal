@@ -911,8 +911,6 @@ components:
             type: string
           example:
             site: "some-site"
-      required:
-        - cloudpay
 
     PlaybackConfig:
       allOf:
