@@ -988,19 +988,19 @@ components:
                 platform:
                   type: string
                   example: kaltura
+                entitlements:
+                  type: string
+                  example: fusion
               required:
                 - player
-                - auth
                 - platform
             tenantId:
               type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
           required:
             - domains
-            - entitlementsUrl
             - platform
             - player
-            - auth
             - description
             - defaults
             - tenantId
@@ -1073,9 +1073,11 @@ components:
                 platform:
                   type: string
                   example: kaltura
+                entitlements:
+                  type: string
+                  example: fusion
               required:
                 - player
-                - auth
                 - platform
             tenantId:
               type: string
