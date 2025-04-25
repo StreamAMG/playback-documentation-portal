@@ -1024,6 +1024,16 @@ components:
         oneOf:
           - $ref: "#/components/schemas/GlobalAdvert"
 
+    Platform:
+      type: object
+      minProperties: 2
+      additionalProperties:
+        type: object
+      example:
+        kaltura:
+          partnerId: "1234567"
+          partnerAdminSecret: "admin secret value"
+
     Auth:
       type: object
       properties:
@@ -1072,17 +1082,7 @@ components:
                     type: string
                   example: ["*"]
             platform:
-              type: object
-              minProperties: 2
-              additionalProperties:
-                type: object
-              example:
-                kaltura:
-                  partnerId: "1234567"
-                  partnerAdminSecret: "admin secret value"
-              required:
-                - partnerId
-                - partnerAdminSecret
+              $ref: "#/components/schemas/Platform"
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
             player:
@@ -1199,7 +1199,6 @@ components:
                   example: fusion
               required:
                 - player
-                - platform
             tenantId:
               type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
