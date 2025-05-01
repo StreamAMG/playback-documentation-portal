@@ -284,6 +284,129 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/PlaybackConfigData"
+            examples:
+              cloudpay-example:
+                summary: Example with cloudpay auth
+                value:
+                  description: "Test config with auth"
+                  tags: ["tag1", "tag2"]
+                  auth:
+                    cloudpay:
+                      site: "some-site"
+                  domains: ["domain1.com", "domain2.com"]
+                  entitlementsUrl: "https://name-cm.streamamg.com/api/v1/entryentitlements/{entryid}"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "partnerAdminSecret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "12345678-1111-1111-1111-123456789012"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: false
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                  tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
+              fusion-example:
+                summary: Example without auth using Fusion
+                value:
+                  description: "Test config without cloudpay auth"
+                  tags: ["tag3"]
+                  domains: ["domain1.com", "domain2.com"]
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "partnerAdminSecret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "87654321-2222-2222-2222-210987654321"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: true
+                  defaults:
+                    player: bitmovin
+                    platform: kaltura
+                    entitlements: fusion
+                  tenantId: "48b3a285-baab-4173-be9f-8f4aa4d31a5d"
+              advert-setup-example:
+                summary: Example with global adverts config
+                value:
+                  description: "Test config with adverts"
+                  tags: ["adverts"]
+                  auth:
+                    cloudpay:
+                      site: "some-site"
+                  domains: ["domain1.com", "domain2.com"]
+                  entitlementsUrl: "https://name-cm.streamamg.com/api/v1/entryentitlements/{entryid}"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "partnerAdminSecret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "12345678-1111-1111-1111-123456789012"
+                  globalAdverts:
+                    - adType: vast
+                      id: ad123
+                      position: pre
+                      url: https://ads.example.com/vast.xml
+                      persistent: true
+                      discardAfterPlayback: false
+                      skippableAfter: 5
+                  featureFlags:
+                    customErrorScreen: false
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                  tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
+              tokinizer-example:
+                summary: Example with deliveryConfiguration
+                value:
+                  description: "Test config with deliveryConfiguration"
+                  tags: ["delivery"]
+                  auth:
+                    cloudpay:
+                      site: "site-name"
+                  domains: ["domain1.com", "domain2.com"]
+                  entitlementsUrl: "https://name-cm.streamamg.com/api/v1/entryentitlements/{entryid}"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "partnerAdminSecret"
+                  deliveryConfiguration:
+                    tokenizer:
+                      "streamamg-vbtv-vod.akamaized.net":
+                        type: "akamai"
+                        key: "key"
+                        windowSeconds: 3600
+                        tokenName: "tokenName"
+                        payload: "payloadName"
+                  player:
+                    bitmovin:
+                      license: "78a3a285-baab-4173-be9f-8f4aa4d31a1c"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: true
+                  defaults:
+                    player: bitmovin
+                    auth: cloudpay
+                    platform: kaltura
+                  tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
       responses:
         201:
           description: Created New Client Configuration
@@ -901,6 +1024,16 @@ components:
         oneOf:
           - $ref: "#/components/schemas/GlobalAdvert"
 
+    Platform:
+      type: object
+      minProperties: 2
+      additionalProperties:
+        type: object
+      example:
+        kaltura:
+          partnerId: "1234567"
+          partnerAdminSecret: "admin secret value"
+
     Auth:
       type: object
       properties:
@@ -911,8 +1044,6 @@ components:
             type: string
           example:
             site: "some-site"
-      required:
-        - cloudpay
 
     PlaybackConfig:
       allOf:
@@ -951,17 +1082,7 @@ components:
                     type: string
                   example: ["*"]
             platform:
-              type: object
-              minProperties: 2
-              additionalProperties:
-                type: object
-              example:
-                kaltura:
-                  partnerId: "1234567"
-                  partnerAdminSecret: "admin secret value"
-              required:
-                - partnerId
-                - partnerAdminSecret
+              $ref: "#/components/schemas/Platform"
             deliveryConfiguration:
               $ref: "#/components/schemas/DeliveryConfiguration"
             player:
@@ -988,19 +1109,17 @@ components:
                 platform:
                   type: string
                   example: kaltura
+                entitlements:
+                  type: string
+                  example: fusion
               required:
                 - player
-                - auth
-                - platform
             tenantId:
               type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
           required:
             - domains
-            - entitlementsUrl
-            - platform
             - player
-            - auth
             - description
             - defaults
             - tenantId
@@ -1073,10 +1192,11 @@ components:
                 platform:
                   type: string
                   example: kaltura
+                entitlements:
+                  type: string
+                  example: fusion
               required:
                 - player
-                - auth
-                - platform
             tenantId:
               type: string
               example: 38a3a285-baab-4173-be9f-8f4aa4d31a5d
