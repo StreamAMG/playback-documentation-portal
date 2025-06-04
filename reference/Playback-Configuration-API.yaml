@@ -404,9 +404,46 @@ paths:
                     customErrorScreen: true
                   defaults:
                     player: bitmovin
+                    auth: jwks
+                    platform: kaltura
+                  tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
+              jwks-auth-example:
+                summary: Example with jwks auth
+                value:
+                  description: "Test config with jwks auth"
+                  tags: ["tag1", "tag2"]
+                  auth:
+                    jwks: {
+                      url: "https://auth-server/.well-known/jwks.json",
+                      iss: "client.live.com",
+                      aud: "playback.streamamg.com",
+                      claims: {
+                        customer: "sub",
+                        session: "jti",
+                        entry: "entry_id"
+                      }
+                    }
+                  domains: ["domain1.com", "domain2.com"]
+                  entitlementsUrl: "https://name-cm.streamamg.com/api/v1/entryentitlements/{entryid}"
+                  entitlements:
+                    defaultEntryEntitlement: ["*"]
+                  platform:
+                    kaltura:
+                      partnerId: "1234567"
+                      partnerAdminSecret: "partnerAdminSecret"
+                  deliveryConfiguration: {}
+                  player:
+                    bitmovin:
+                      license: "12345678-1111-1111-1111-123456789012"
+                  globalAdverts: []
+                  featureFlags:
+                    customErrorScreen: false
+                  defaults:
+                    player: bitmovin
                     auth: cloudpay
                     platform: kaltura
                   tenantId: "38a3a285-baab-4173-be9f-8f4aa4d31a5d"
+
       responses:
         201:
           description: Created New Client Configuration
