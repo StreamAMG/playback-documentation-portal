@@ -181,7 +181,7 @@ Note: to apply this to fusion, you can use the exact same `deliveryConfiguration
 ## Playback - Bitmovin Analytics
 ```json
 {
-    "description": "Cloudpay Mandatory",
+    "description": "Cloudpay Bitmovin-Analytics",
     "tenantId": "{Unique-CloudMatrix}",
     "tags": [
         "A Tag"
