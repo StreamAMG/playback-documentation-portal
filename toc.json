@@ -31,6 +31,11 @@
       "uri": "docs/Client-Onboarding.md"
     },
     {
+      "type": "item",
+      "title": "Client Playback Examples (internal)",
+      "uri": "docs/Config-Examples.md"
+    },
+    {
       "type": "divider",
       "title": "SDK"
     },
