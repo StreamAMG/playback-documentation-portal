@@ -230,6 +230,8 @@ Note: to apply this to fusion, you can use the exact same `deliveryConfiguration
     },
 }
 ```
+Note: you CANNOT have both bitmovin analytics and mux analytics in the same config due to how either is initialised
+
 
 ## Playback - Adaptive
 ```json
