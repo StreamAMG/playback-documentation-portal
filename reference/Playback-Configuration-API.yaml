@@ -1085,6 +1085,7 @@ components:
           example: "playback.streamamg.com"
         claims:
           type: object
+          $ref: "#/components/schemas/JWKSClaimsConfig"
       required:
         - url
         - iss
@@ -1119,8 +1120,7 @@ components:
               session: "jti",
               entry: "entry_id"
             }
-          $ref: "#/components/schemas/JWKSClaimsConfig"
-
+            
     Auth:
       type: object
       properties:
