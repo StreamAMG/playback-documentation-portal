@@ -1083,12 +1083,12 @@ components:
         aud:
           type: string
           example: "playback.streamamg.com"
-        claim:
+        claims:
           type: object
       required:
         - url
+        - iss
         - aud
-        - windowSeconds
         - claim
 
     JWKS:
