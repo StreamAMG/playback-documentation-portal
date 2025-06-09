@@ -1071,6 +1071,56 @@ components:
           partnerId: "1234567"
           partnerAdminSecret: "admin secret value"
 
+    JWKSConfig:
+      type: object
+      properties:
+        url:
+          type: string
+          example: "https://auth-server/.well-known/jwks.json"
+        iss:
+          type: string
+          example: "client.live.com"
+        aud:
+          type: string
+          example: "playback.streamamg.com"
+        claims:
+          type: object
+          $ref: "#/components/schemas/JWKSClaimsConfig"
+      required:
+        - url
+        - iss
+        - aud
+        - claim
+
+    JWKSClaimsConfig:
+      type: object
+      properties:
+        customer:
+          type: string
+          example: 'subId'
+        session:
+          type: string
+          example: 'jti'
+        entry:
+          type: string
+          example: 'entry_id'
+
+    JWKS:
+      type: object
+      $ref: "#/components/schemas/JWKSConfig"
+      example:
+        jwks:
+          url: "https://auth-server/.well-known/jwks.json"
+          iss: "client.live.com"
+          aud: "playback.streamamg.com"
+          claims:
+            type: object
+            example: {            
+              customer": "sub",
+              session: "jti",
+              entry: "entry_id"
+            }
+            
     Auth:
       type: object
       properties:
@@ -1081,6 +1131,12 @@ components:
             type: string
           example:
             site: "some-site"
+        jwks:
+          type: object
+          minProperties: 1
+          additionalProperties:
+            type: object
+          $ref: "#/components/schemas/JWKS"
 
     PlaybackConfig:
       allOf:

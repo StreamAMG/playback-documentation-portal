@@ -13,7 +13,10 @@ Here are some working examples of current LIVE Playback Configurations. Note tha
 
 Examples:
 - Cloudpay Playback - Mandatory
-- Cloudpay Fusion - Mandatory
+- Fusion - Mandatory
+- JWKS Playback Auth - Mandatory
+
+Additions:
 - Cloudpay Playback - Tokenized
 - Cloudpay Playback - Bitmovin Analytics
 - Cloudpay Playback - Adaptive
