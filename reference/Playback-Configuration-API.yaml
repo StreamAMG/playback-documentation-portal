@@ -1071,6 +1071,19 @@ components:
           partnerId: "1234567"
           partnerAdminSecret: "admin secret value"
 
+    JWKS:
+      type: object
+      example:
+        jwks:
+          url: "https://auth-server/.well-known/jwks.json"
+          iss: "client.live.com"
+          aud: "playback.streamamg.com"
+          claims: {
+            custome": "sub",
+            session: "jti",
+            entry: "entry_id"
+          }
+
     Auth:
       type: object
       properties:
@@ -1081,6 +1094,12 @@ components:
             type: string
           example:
             site: "some-site"
+        jwks:
+          type: object
+          minProperties: 1
+          additionalProperties:
+            type: object
+          $ref: "#/components/schemas/JWKS"
 
     PlaybackConfig:
       allOf:
