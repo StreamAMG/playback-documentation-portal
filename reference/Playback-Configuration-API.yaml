@@ -1091,6 +1091,19 @@ components:
         - aud
         - claim
 
+    JWKSClaimsConfig:
+      type: object
+      properties:
+        customer:
+          type: string
+          example: 'subId'
+        session:
+          type: string
+          example: 'jti'
+        entry:
+          type: string
+          example: 'entry_id'
+
     JWKS:
       type: object
       $ref: "#/components/schemas/JWKSConfig"
@@ -1099,11 +1112,14 @@ components:
           url: "https://auth-server/.well-known/jwks.json"
           iss: "client.live.com"
           aud: "playback.streamamg.com"
-          claims: {
-            custome": "sub",
-            session: "jti",
-            entry: "entry_id"
-          }
+          claims:
+            type: object
+            example: {            
+              customer": "sub",
+              session: "jti",
+              entry: "entry_id"
+            }
+          $ref: "#/components/schemas/JWKSClaimsConfig"
 
     Auth:
       type: object
