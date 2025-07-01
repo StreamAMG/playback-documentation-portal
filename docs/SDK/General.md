@@ -154,7 +154,7 @@ Next, to play a video in the player identify the video to play and start the pla
  //     which will overwrite those passed during initialization (if duplicated)
 const playOptions = {
   container: 'player',
-  entryId: '0_xxxxxxxx',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   token: 'access_token',
   options: {
     autoplay: true,
@@ -213,7 +213,7 @@ Playback.initialize('client-api-key', {autoplay: true, muted: true});
 
 const playOptions = {
   container: 'player',
-  entryId: '0_xxxxxxxx',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx) 
   token: 'access_token',
   events: {
     // Unmute the player after the initial video has finished playing.
@@ -246,7 +246,7 @@ Playback.initialize('client-apiKey', {});
 
 Playback.play({
   container: "containerId",
-  entryId: '0_ma2uklj8',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   options: {
     autoplay: true,
     muted: true,
@@ -265,7 +265,7 @@ In order to provide a handler for these events, you can pass over an `events` ob
 ```javascript
 const createPlayOptions = {
   container: 'player',
-  entryId: '0_smdu38ct',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   token: JWT,
   events: {
     // After the video has finished playing unmute the player.
@@ -289,7 +289,7 @@ Playback.initialize('client-apiKey', {});
 
 Playback.play({
   container: "containerId",
-  entryId: '0_ma2uklj8',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   options: {
     autoplay: true,
     muted: true,
@@ -306,7 +306,7 @@ Playback.initialize('client-apiKey', {});
 
 Playback.play({
   container: "containerId",
-  entryId: '0_ma2uklj8',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   options: {
     autoplay: true,
     muted: true,
@@ -327,7 +327,7 @@ Playback.initialize('client-apiKey', {});
 
 Playback.play({
   container: "containerId",
-  entryId: '0_ma2uklj8',
+  entryId: 'xxxXXxxx-xxXX-xXXx-Xxxx-xXXxxxXxxxXX', // CloudMatrix UUID or legacy entryId (0_xxxxxx)
   options: {
     autoplay: true,
     muted: true,

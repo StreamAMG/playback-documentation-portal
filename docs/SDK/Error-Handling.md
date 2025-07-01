@@ -49,7 +49,7 @@ player instance has been created and properly set up before calling player-relat
 
 `REQUIRED_PARAMETERS_NOT_PASSED`  
 This error is thrown when one or more required parameters are missing from an SDK function call, for most cases it's
-missing containerId or entryId. Check the method documentation to verify that all mandatory parameters are included.
+missing containerId or videoId. Check the method documentation to verify that all mandatory parameters are included.
 
 `SESSION_TOKEN_NOT_RETRIEVED`  
 This error indicates that the session token required for authentication or authorization could not be retrieved. It
