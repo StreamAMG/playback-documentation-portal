@@ -400,6 +400,7 @@ paths:
                         windowSeconds: 3600
                         tokenName: "tokenName"
                         payload: "payloadName"
+                        deviceConcurrency: false
                   player:
                     bitmovin:
                       license: "78a3a285-baab-4173-be9f-8f4aa4d31a1c"
@@ -928,6 +929,9 @@ components:
         payload:
           type: string
           example: "payloadName"
+        deviceConcurrency:
+          type: boolean
+          example: false
       required:
         - type
         - key
@@ -944,7 +948,8 @@ components:
           key: "key"
           windowSeconds: 3600
           tokenName: "tokenName"
-          payload: "payloadName"      
+          payload: "payloadName"  
+          deviceConcurrency: false    
         "tenant.vod.streamamg.com":
           type: "streamamg-jwt-cloudfront"
           key: "key"
