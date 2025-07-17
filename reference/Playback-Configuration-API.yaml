@@ -930,8 +930,16 @@ components:
           type: string
           example: "payloadName"
         deviceConcurrency:
-          type: boolean
-          example: false
+          type: object
+          example: { "enabled": true,
+                "configuration": {
+                    "concurrency": 3,
+                    "evictionThreshold": 30,
+                    "accountLockMs": 600000,
+                    "cooldownMs": 1200000,
+                    "windowMs": 300000
+                } }
+          $ref: "#/components/schemas/DeviceConcurrency"
       required:
         - type
         - key
@@ -949,7 +957,14 @@ components:
           windowSeconds: 3600
           tokenName: "tokenName"
           payload: "payloadName"  
-          deviceConcurrency: false    
+          deviceConcurrency: {"enabled": true,
+                "configuration": {
+                    "concurrency": 3,
+                    "evictionThreshold": 30,
+                    "accountLockMs": 600000,
+                    "cooldownMs": 1200000,
+                    "windowMs": 300000
+                } }    
         "tenant.vod.streamamg.com":
           type: "streamamg-jwt-cloudfront"
           key: "key"
@@ -961,6 +976,37 @@ components:
       properties:
         tokenizer:
           $ref: "#/components/schemas/Tokenizer"
+  
+    DeviceConcurrency:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          example: true
+        configuration:
+          type: object
+          $ref: "#/components/schemas/DeviceConcurrencyOptions"
+          example: {"concurrency": 3, "evictionThreshold": 30, "accountLockMs": 600000, "cooldownMs": 1200000, "windowMs": 300000}
+
+    DeviceConcurrencyOptions:
+      type: object
+      properties:
+        concurrency:
+          type: number
+          example: 3
+        evictionThreshold:
+          type: number
+          example: 30
+        accountLockMs:
+          type: number
+          example: 600000
+        cooldownMs:
+          type: number
+          example: 1200000
+        windowMs:
+          type: number
+          example: 300000
+
 
     BufferConfigurations:
       type: object
