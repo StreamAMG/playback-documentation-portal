@@ -931,7 +931,14 @@ components:
           example: "payloadName"
         deviceConcurrency:
           type: object
-          example: { A: 20, B: 10 }
+          example: { "enabled": true,
+                "configuration": {
+                    "concurrency": 3,
+                    "evictionThreshold": 30,
+                    "accountLockMs": 600000,
+                    "cooldownMs": 1200000,
+                    "windowMs": 300000
+                } }
           $ref: "#/components/schemas/DeviceConcurrency"
       required:
         - type
@@ -950,7 +957,14 @@ components:
           windowSeconds: 3600
           tokenName: "tokenName"
           payload: "payloadName"  
-          deviceConcurrency: {A: 20, B: 10 }    
+          deviceConcurrency: {"enabled": true,
+                "configuration": {
+                    "concurrency": 3,
+                    "evictionThreshold": 30,
+                    "accountLockMs": 600000,
+                    "cooldownMs": 1200000,
+                    "windowMs": 300000
+                } }    
         "tenant.vod.streamamg.com":
           type: "streamamg-jwt-cloudfront"
           key: "key"
