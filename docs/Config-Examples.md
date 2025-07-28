@@ -177,7 +177,7 @@ Additions:
 }
 ```
 
-## JWT Extention Playback Auth - Mandatory
+## JWT Extention Playback Auth
 
 ```json
 {
