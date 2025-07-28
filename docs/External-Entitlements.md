@@ -188,4 +188,4 @@ No, these are distinct integration paths—choose the one that best fits your ar
 ### How do I choose claims for entitlement checks?
 
 * For Full: Use required claims as specified.
-* For Partial: Configure `jwtClaims` to list any fields in your JWT that map to user entitlements or roles.
+* For Partial: Configure `jwtClaims` to list any fields in your JWT that map to user entitlements.
