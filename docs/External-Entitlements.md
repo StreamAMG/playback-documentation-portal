@@ -101,7 +101,7 @@ Your JWT **MUST** include the following claims:
 
 #### 3. Playback Service Configuration
 
-Configure the Playback Service to use your JWKS:
+We will configure your Playback Service internally to use your JWKS using the following values, this allows you to be flexible to name your customer, session and entry fields.
 
 ```json
 {
@@ -141,7 +141,7 @@ In **Partial** mode, you **embed entitlements directly into your SSO JWT**. The 
 
 #### 1. Update Playback Service Configuration
 
-Extend your playback configuration to specify which JWT claims should be checked for entitlements:
+Internally we will extend your playback configuration to specify which JWT claims should be checked for entitlements, this allows you to more flexible with your field names.
 
 ```json
 "entitlements": {
@@ -154,7 +154,7 @@ Extend your playback configuration to specify which JWT claims should be checked
 
 #### 2. JWT Token Structure
 
-Ensure your JWT contains the configured entitlement claims:
+Ensure your JWT contains the configured entitlement claims, in this instance you can see "premium" and "subscriber" are the enriched entitlements for your customers.
 
 ```json
 {
