@@ -126,16 +126,6 @@ Configure the Playback Service to use your JWKS:
 * **Cache expiration** should balance security (for key rotation) and low latency.
 * The Playback Service will **refresh** the JWKS cache if a JWT references an unknown `kid`.
 
-#### 5. Dynamic Authentication Configuration
-
-* You may select the authentication method (`cloudpay` or `jwks`) **per request** or **per instance**.
-* **Example:**
-
-  ```
-  GET https://api.playback.streamamg.com/v1/entry/{id}?auth=jwks
-  ```
-
----
 
 ## 2. Partial External Entitlement Management (JWT Claim Enrichment)
 
