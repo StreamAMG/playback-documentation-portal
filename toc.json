@@ -27,6 +27,11 @@
     },
     {
       "type": "item",
+      "title": "External Entitlements",
+      "uri": "docs/External-Entitlements.md"
+    },
+    {
+      "type": "item",
       "title": "Client Onboarding (internal)",
       "uri": "docs/Client-Onboarding.md"
     },
