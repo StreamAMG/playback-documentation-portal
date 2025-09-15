@@ -309,6 +309,7 @@ paths:
                   globalAdverts: []
                   featureFlags:
                     customErrorScreen: false
+                    geoRestriction: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -334,6 +335,7 @@ paths:
                   globalAdverts: []
                   featureFlags:
                     customErrorScreen: true
+                    geoRestriction: false
                   defaults:
                     player: bitmovin
                     platform: kaltura
@@ -370,6 +372,7 @@ paths:
                       skippableAfter: 5
                   featureFlags:
                     customErrorScreen: false
+                    geoRestriction: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -407,6 +410,7 @@ paths:
                   globalAdverts: []
                   featureFlags:
                     customErrorScreen: true
+                    geoRestriction: false
                   defaults:
                     player: bitmovin
                     auth: jwks
@@ -444,6 +448,7 @@ paths:
                   globalAdverts: []
                   featureFlags:
                     customErrorScreen: false
+                    geoRestriction: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -851,6 +856,9 @@ paths:
                       customErrorScreen:
                         type: boolean
                         example: false
+                      geoRestriction:
+                        type: boolean
+                        example: false
                   defaults:
                     type: object
                     properties:
@@ -1251,6 +1259,9 @@ components:
                 customErrorScreen:
                   type: boolean
                   example: false
+                geoRestriction:
+                  type: boolean
+                  example: false
             defaults:
               type: object
               minProperties: 3
@@ -1338,6 +1349,9 @@ components:
               type: object
               properties:
                 customErrorScreen:
+                  type: boolean
+                  example: false
+                geoRestriction:
                   type: boolean
                   example: false
             defaults:
