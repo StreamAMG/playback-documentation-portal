@@ -1,4 +1,6 @@
-# Migration Plan: MUX Analytics to Bitmovin Analytics (Core-5228)
+---
+internal: true
+---
 
 ## Overview
 
