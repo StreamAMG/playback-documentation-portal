@@ -37,8 +37,13 @@
     },
     {
       "type": "item",
-      "title": "Geo Restrictions",
-      "uri": "docs/Geo-Restrictions.md"
+      "title": "Geo Restrictions-Internal",
+      "uri": "docs/Geo-Restrictions-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions-External",
+      "uri": "docs/Geo-Restrictions-External.md"
     },
     {
       "type": "item",
