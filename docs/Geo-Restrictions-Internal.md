@@ -1,12 +1,11 @@
-<!-- ---
+---
 internal: true
---- -->
+---
 
 # Geo Restrictions — Integration with Playback SNS Datastore and CloudMatrix
 
 The information provided below is intended to help guide the setup and use of the new **GEO Restrictions** solution.  
 
-:::internal
 This guide assumes that the client has met the following prerequisites:
 
 - **Enable SNS Integration** is: **enabled**  
@@ -46,7 +45,7 @@ This is a feature flag that is set on each playback configuration (per client). 
 
 - CloudMatrix true & Playback Config false → No new Geo Restrictions
 
--  CloudMatrix true & Playback Config true → New Geo Restrictions
+- CloudMatrix true & Playback Config true → New Geo Restrictions
 
 
 ## CloudMatrix Setup and Playback Logic
@@ -55,7 +54,6 @@ CloudMatrix functions exactly as it has before, but with some additional logic u
 
 **Note:** The following assumes you have read the Spotlight documentation for CloudMatrix or other complementary guides, and is intended as a quick overview of what a user should do to set up a Geo Restriction.
 
-:::
 ### CloudMatrix Geo Restriction Setup
 
 #### 1. Create a Region
