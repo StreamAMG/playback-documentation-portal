@@ -22,6 +22,10 @@ Additions:
 - Cloudpay Playback - Adaptive
 - Cloudpay Playback - Ads
 
+Feature Flags:
+
+- GeoRestriction
+
 
 ## Cloudpay Playback - Mandatory
 
@@ -532,3 +536,65 @@ Note: to apply this to fusion, you can use the exact same `adaptation` object in
 }
 ```
 Note: to apply this to fusion, you can use the exact same `globalAdverts` object in the `Mandatory Fusion Config`
+
+
+## Cloudpay Playback - FeatureFlags : GeoRestriction
+
+```json
+{
+    "description": "Cloudpay Mandatory",
+    "tenantId": "{Unique-CloudMatrix}",
+    "tags": [
+        "A Tag"
+    ],
+    "auth": {
+        "cloudpay": {
+            "site": "{siteName}-payments.streamamg.com"
+        }
+    },
+    "domains": [
+        "https://playback-sdk-demo.dev.streamamg.com",
+        "https://playback-sdk-demo.qa.streamamg.com",
+        "https://playback-sdk-demo.staging.streamamg.com",
+        "https://playback-sdk-demo.streamamg.com"
+    ],
+    "entitlementsUrl": "https://{CloudMatrixURL}/api/v1/entryentitlements/{entryid}",
+    "featureFlags": {
+        "geoRestriction": false
+
+    },
+    "platform": {
+        "kaltura": {
+            "partnerId": "123456",
+            "partnerAdminSecret": "123456789123456789123"
+        }
+    },
+    "player": {
+        "bitmovin": {
+            "license": "11111111-2222-3333-4444-555555555555",
+            "integrations": {
+                "mux": {
+                    "player_name": "bitmovin-{name}",
+                    "env_key": "1235aavjadwdw11111d1n"
+                },
+                "resume": {
+                    "enabled": true,
+                    "jwtSecretKey": "{random UUID}"
+                }
+            }
+        }
+    },
+    "defaults": {
+        "auth": "cloudpay",
+        "player": "bitmovin",
+        "platform": "kaltura"
+    },
+    "entitlements": {
+        "defaultEntryEntitlement": [
+            "{CloudMatrix-Configuration}"
+        ]
+    },
+}
+```
+
+Note: to apply this to fusion, you can use the exact same `featureFlags` object in the `Mandatory Fusion Config`

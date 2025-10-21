@@ -27,8 +27,23 @@
     },
     {
       "type": "item",
-      "title": "External Entitlements",
-      "uri": "docs/External-Entitlements.md"
+      "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
+      "uri": "docs/External-Entitlements-JWKS.md"
+    },
+    {
+      "type": "item",
+      "title": "External Entitlements JWT (Enrichment with Cloudpay OR Fusion)",
+      "uri": "docs/External-Entitlements-JWT-Enrichment.md"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions (internal)",
+      "uri": "docs/Geo-Restrictions-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions",
+      "uri": "docs/Geo-Restrictions-External.md"
     },
     {
       "type": "item",
