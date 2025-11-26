@@ -7,8 +7,8 @@ info:
   title: API Reference
   version: '1.0'
   contact:
-    name: Jonathon Robins
-    email: Jonathon.Robins@pamediagroup.com
+    name: Jay Maxted
+    email: Jay.Maxted@pamediagroup.com
   summary: Service that retrieve back video metadata url and signed manifests.
   description: |-
     Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for Cloudmatrix preview.

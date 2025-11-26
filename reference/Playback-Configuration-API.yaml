@@ -9,8 +9,8 @@ info:
   title: Playback Configuration API
   version: "1.0"
   contact:
-    name: Jonathon Robins
-    email: Jonathon.Robins@pamediagroup.com
+    name: Jay Maxted
+    email: Jay.Maxted@pamediagroup.com
   summary: Service used to manage playback service client configurations.
   description: |-
     The Playback Client Configuration API exposes the functionality to retrieve, update and delete playback client 
