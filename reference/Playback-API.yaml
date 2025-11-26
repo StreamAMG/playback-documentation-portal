@@ -6,8 +6,8 @@ info:
   title: API Reference
   version: '1.0'
   contact:
-    name: Jonathon Robins
-    email: Jonathon.Robins@pamediagroup.com
+    name: Jay Maxted
+    email: Jay.Maxted@pamediagroup.com
   summary: Service that retrieve back video metadata url and signed manifests.
   description: |-
     Playback API exposes the functionality to retrieve back video metadata and signed manifests ready for player consumption.
@@ -19,13 +19,14 @@ info:
     Bearer header (`Authorization: Bearer <token>`) for access to protected (aka non-public) resources (public resources 
     are not protected and do not require this token).
 tags:
-  - name: Playback
+  - name: Playback (GEO Datastore)
+    description: Endpoints related to retrieving playback data for videos stored outside of a GEO datastore.
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
   '/entry/{id}':
     get:
-      summary: Get Video Playback Data
+      summary: Get Video Playback Data (Non GEO Datastore)
       description: |-
         In order to fetch the video data, the user must first be authenticated via an API-Key. This token
         should be passed during the API call through the `x-api-key` header.
@@ -53,6 +54,14 @@ paths:
         **Optional Response Items Only Returned when Authenticated:**
         - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
+
+        **Geographical Restriction Tetsing:**
+        This header is auto populated by the Playback CDN edge nodes to indicate the detected country of the end-user. However, for testing
+        you will need to manually set this header to simulate requests from different countries.
+
+        - `cloudfront-viewer-country`: This will need to be a valid country code (e.g. US, GB, FR, DE, etc) You will need to know what you
+        have set inside CloudMatrix to properly test geo-restrictions (Local Development only).
+
 
       tags:
         - Playback
@@ -312,6 +321,21 @@ paths:
                   value:
                     status: 404
                     message: No entitlements for entryId
+                    reason: NO_ENTITY_EXIST
+                No Access Due to Geo Restriction:
+                  value:
+                    status: 404
+                    message: Content is not available in your region
+                    reason: NO_ENTITY_EXIST
+                No Access Due to Contnet Not Yet Available (Geo Restrictions):
+                  value:
+                    status: 404
+                    message: Content not yet available in your region
+                    reason: NO_ENTITY_EXIST
+                No Access Due to Contnet No Longer Available (Geo Restrictions):
+                  value:
+                    status: 404
+                    message: Content no longer available in your region
                     reason: NO_ENTITY_EXIST
         '440':
           description: Login Time-out
