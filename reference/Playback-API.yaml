@@ -59,8 +59,9 @@ paths:
         This header is auto populated by the Playback CDN edge nodes to indicate the detected country of the end-user. However, for testing
         you will need to manually set this header to simulate requests from different countries.
 
-        - `cloudfront-viewer-country`: This will need to be a valid country code (e.g. US, GB, FR, DE, etc) You will need to know what you 
-        have set inside CloudMatrix to properly test geo-restrictions (Local Development only).
+        - `cloudfront-viewer-country`: This will need to be a valid country code (e.g. US, GB, FR, DE, etc) 
+        
+        You will need to know what you have set inside CloudMatrix to properly test geo-restrictions (Local Development only).
 
 
       tags:
