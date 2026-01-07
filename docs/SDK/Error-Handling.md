@@ -1,5 +1,9 @@
 # Error Handling
 
+>From Summer of 2025, we are no longer advising clients to integrate using the Playback SDK. Please use the Playback APIs directly instead.
+> 
+>See: https://streamamg.stoplight.io/docs/playback-documentation-portal/eb04a4348ff7e-api-reference
+
 ## Error Overlay
 
 Errors are displayed on the top of the video player as an overlay in the player as events raising errors are triggered.

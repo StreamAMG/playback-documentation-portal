@@ -1,5 +1,9 @@
 # StreamAMG Playback SDK Playlist Documentation
 
+>From Summer of 2025, we are no longer advising clients to integrate using the Playback SDK. Please use the Playback APIs directly instead.
+> 
+>See: https://streamamg.stoplight.io/docs/playback-documentation-portal/eb04a4348ff7e-api-reference
+
 The **Playback SDK** allows users to work with playlists seamlessly, enabling them to handle multiple video entries in a structured manner. With playlist support, you can:
 
 - Automatically play videos in sequence.

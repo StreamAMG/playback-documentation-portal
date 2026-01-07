@@ -1,5 +1,9 @@
 # StreamAMG Playback SDK Multiview Feature Documentation
 
+>From Summer of 2025, we are no longer advising clients to integrate using the Playback SDK. Please use the Playback APIs directly instead.
+> 
+>See: https://streamamg.stoplight.io/docs/playback-documentation-portal/eb04a4348ff7e-api-reference
+
 The **StreamAMG Playback SDK** supports creating dynamic, interactive multiview players, enabling clients to add,
 remove, and rearrange multiple video players within a single layout.
 This guide explains the implementation of such functionality and provides space for customization based on specific requirements.

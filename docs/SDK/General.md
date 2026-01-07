@@ -1,5 +1,9 @@
 # StreamAMG Playback SDK for JavaScript Documentation
 
+>From Summer of 2025, we are no longer advising clients to integrate using the Playback SDK. Please use the Playback APIs directly instead.
+> 
+>See: https://streamamg.stoplight.io/docs/playback-documentation-portal/eb04a4348ff7e-api-reference
+
 The StreamAMG Playback SDK for JavaScript enables developers to build user-interface based applications integrating with
 a video player of choice and configuration.
 
