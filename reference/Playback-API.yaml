@@ -31,7 +31,7 @@ paths:
         In order to fetch the video data, the user must first be authenticated via an API-Key. This token
         should be passed during the API call through the `x-api-key` header.
 
-        The API call should be made with the video id as a path parameter, which should be a MediaPlatform ID.
+        The API call should be made with the video id as a path parameter, which should be a MediaPlatform ID Or a CloudMatrix UUID.
 
         **Authentication and Authorization Requirements:**
 
