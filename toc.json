@@ -89,6 +89,21 @@
       "uri": "docs/embed-player/Embed-Player.md"
     },
     {
+      "type": "item",
+      "title": "Contentful",
+      "uri": "docs/embed-player/Contentful.md"
+    },
+    {
+      "type": "item",
+      "title": "Drupal",
+      "uri": "docs/embed-player/Drupal.md"
+    },
+    {
+      "type": "item",
+      "title": "WordPress",
+      "uri": "docs/embed-player/WordPress.md"
+    },
+    {
       "type": "divider",
       "title": "API"
     },
