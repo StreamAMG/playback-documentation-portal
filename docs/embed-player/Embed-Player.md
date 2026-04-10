@@ -1,8 +1,6 @@
-# StreamAMG Playback Embed — Authentication Guide
+# StreamAMG Playback Embed — Authentication & Content Types Guide
 
-This guide explains how to enable **authenticated playback** using the StreamAMG Playback Embed SDK.
-
-When embedding protected or freemium content, your platform must store the **user authentication token** so the embedded player can retrieve it and authorize playback.
+This guide explains how to enable **authenticated playback** and how **content access levels** work when using the StreamAMG Playback Embed SDK.
 
 ---
 
@@ -32,6 +30,95 @@ Your platform is responsible for:
 4. The StreamAMG embed reads the token automatically  
 5. The token is sent to Playback API  
 6. Playback is authorized (or rejected)
+
+---
+
+# Content Types & Authentication
+
+StreamAMG supports three types of video content. Each type has different authentication requirements.
+
+## Free-to-Watch Content
+
+Free-to-watch content is available to all users.
+
+**Requirements:**
+
+- `x-api-key` is required  
+- No user login required  
+- No authentication token required  
+
+**Summary:**
+
+Anyone can watch the content.
+
+---
+
+## Freemium Content
+
+Freemium content requires the user to be **logged in**, but does **not** require a subscription.
+
+**Requirements:**
+
+- `x-api-key` is required  
+- User must be logged in  
+- `Authorization: Bearer {token}` is required  
+
+**Summary:**
+
+Users must log in before they can watch the content.
+
+---
+
+## Premium Content
+
+Premium content requires the user to be **logged in and subscribed**.
+
+**Requirements:**
+
+- `x-api-key` is required  
+- User must be logged in  
+- User must have an active subscription  
+- `Authorization: Bearer {token}` is required  
+
+**Summary:**
+
+Users must log in and have the correct entitlement to watch the content.
+
+---
+
+# Authentication Headers
+
+## Required for All Content
+
+```
+x-api-key: YOUR_API_KEY
+```
+
+This identifies your platform when calling the Playback API.
+
+---
+
+## Required for Freemium and Premium Content Only
+
+```
+Authorization: Bearer {token}
+```
+
+This token:
+
+- Identifies the logged-in user  
+- Determines user entitlements  
+- Allows Playback to authorize content access  
+
+---
+
+# Example Behaviour
+
+| Content Type | Logged Out | Logged In | Logged In + Subscribed |
+|--------------|------------|-----------|-------------------------|
+| Free-to-Watch | ✅ Plays | ✅ Plays | ✅ Plays |
+| Freemium | ❌ Blocked | ✅ Plays | ✅ Plays |
+| Premium | ❌ Blocked | ❌ Blocked | ✅ Plays |
 
 ---
 
@@ -108,8 +195,6 @@ Example embed:
   data-playback-api-key="PLAYBACK_KEY"
   data-bitmovin-license-key="BITMOVIN_KEY"
   data-auth-storage-key="my_custom_auth_key"
-  data-autoplay="false"
-  data-muted="false"
 ></div>
 ```
 
@@ -153,35 +238,10 @@ function onUserLogout() {
   data-bitmovin-license-key="YOUR_LICENSE"
   data-playback-base-url="https://api.playback.streamamg.com/v1"
   data-auth-storage-key="streamamg_auth_token"
-  data-autoplay="false"
-  data-muted="true"
 ></div>
 
 <script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
-
----
-
-# Authentication Response Handling
-
-Playback responses:
-
-| Status | Meaning | Player Behaviour |
-|--------|---------|------------------|
-| 200 | Authorized | Video plays |
-| 401 | Not authenticated | Show login message |
-| 401 (NO_ENTITLEMENT) | No subscription | Show entitlement message |
-| 403 | Forbidden | Show access error |
-| 404 | Media not found | Show unavailable message |
-
----
-
-# Security Notes
-
-- Tokens are stored in browser localStorage  
-- Tokens should be short-lived where possible  
-- Tokens should be removed on logout  
-- Avoid embedding tokens directly in HTML  
 
 ---
 
@@ -198,13 +258,12 @@ Both players will use the same authentication token.
 
 ---
 
-# Supported Browsers
+# Security Notes
 
-- Chrome  
-- Safari  
-- Firefox  
-- Edge  
-- Mobile browsers  
+- Tokens are stored in browser localStorage  
+- Tokens should be short-lived where possible  
+- Tokens should be removed on logout  
+- Avoid embedding tokens directly in HTML  
 
 ---
 
