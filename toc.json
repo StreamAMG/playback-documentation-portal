@@ -81,6 +81,15 @@
     },
     {
       "type": "divider",
+      "title": "Embed Player"
+    },
+    {
+      "type": "item",
+      "title": "Embed Player Setup and Usage",
+      "uri": "docs/embed-player/Embed-Player.md"
+    },
+    {
+      "type": "divider",
       "title": "API"
     },
     {
