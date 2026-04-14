@@ -86,31 +86,7 @@ Users must log in and have the correct entitlement to watch the content.
 
 ---
 
-# Authentication Headers
 
-## Required for All Content
-
-```
-x-api-key: YOUR_API_KEY
-```
-
-This identifies your platform when calling the Playback API.
-
----
-
-## Required for Freemium and Premium Content Only
-
-```
-Authorization: Bearer {token}
-```
-
-This token:
-
-- Identifies the logged-in user  
-- Determines user entitlements  
-- Allows Playback to authorize content access  
-
----
 
 # Example Behaviour
 
