@@ -9,8 +9,7 @@ This document provides a high-level overview of how the StreamAMG Playback Embed
 
 ## Flow Diagram
 
-![StreamAMG Playback Flow](../assets/images/embed/streamamg-playback-embed-flow-diagram.png)
-
+![StreamAMG Playback Flow](../../assets//images/embed/embed-flow-diagram.png)
 
 ---
 
