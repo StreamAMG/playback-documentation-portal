@@ -90,6 +90,11 @@
     },
     {
       "type": "item",
+      "title": "Embed Player Setup and Usage",
+      "uri": "docs/embed-player/Embed-Player-Flow-Diagram.md"
+    },
+    {
+      "type": "item",
       "title": "Contentful",
       "uri": "docs/embed-player/Contentful.md"
     },
