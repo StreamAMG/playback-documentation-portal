@@ -77,10 +77,10 @@ data-muted="false"
 
 Check:
 
-- Custom HTML block used
-- Script tag not removed
-- Keys correct
-- Entry ID correct
+- The custom HTML block has been used.
+- The script tag hasn't been removed.
+- The api key in the embed is correct.
+- The entry ID is correct/valid.
 
 ---
 
