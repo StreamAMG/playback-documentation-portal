@@ -2,7 +2,7 @@
 
 This guide explains how to embed a StreamAMG video player into a Drupal page.
 
-This is designed as a simple, step‑by‑step guide.
+This is designed as a simple, step-by-step guide.
 
 ---
 
@@ -17,6 +17,7 @@ You will be provided with embed code similar to the following:
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
   data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
@@ -26,7 +27,7 @@ You will be provided with embed code similar to the following:
 
 ---
 
-# Step‑by‑Step Guide
+# Step-by-Step Guide
 
 ## Step 1 — Log Into Drupal
 
@@ -53,22 +54,6 @@ Find the **Text Format** dropdown and select:
 ## Step 3 — Paste The Embed Code
 
 Paste the full StreamAMG embed code where you want the video to appear.
-
-Example:
-
-```html
-<div
-  class="streamamg-embed"
-  data-entry-id="0_7gxpb2ir"
-  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
-  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
-  data-autoplay="false"
-  data-muted="true"
-></div>
-
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
-```
 
 ---
 
@@ -103,6 +88,17 @@ Your Bitmovin Player license key.
 ### data-playback-base-url
 
 Playback API endpoint (provided by StreamAMG).
+
+---
+
+### data-auth-storage-key
+
+Defines which localStorage key the player uses to retrieve the user token.
+
+Default:
+```
+streamamg_auth_token
+```
 
 ---
 
@@ -194,13 +190,10 @@ Open developer tools and check Console for errors.
 
 If your video requires login:
 
-Your platform must already store the authentication token in:
-
-```
-localStorage
-```
-
-The Drupal embed does not require additional configuration.
+- Your platform must store the authentication token in localStorage
+- The key must match `data-auth-storage-key`
+- The player will automatically use the token if present
+- If the token is expired, the player will retry without it for free content
 
 ---
 
@@ -213,6 +206,7 @@ The Drupal embed does not require additional configuration.
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
   data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
