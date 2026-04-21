@@ -21,8 +21,9 @@ The player:
 
 - Dynamically loads the Bitmovin Player SDK
 - Calls the StreamAMG Playback API
-- Handles authentication (if required)
+- Handles authentication (including expired token fallback)
 - Supports configurable token storage keys
+- Supports optional Bitmovin Analytics integration
 - Displays the video or a user-friendly error message
 
 ---
@@ -33,15 +34,16 @@ The player:
 <div
   class="streamamg-embed"
   data-entry-id="0c8ae54f-ac65-4cbd-83de-ee83926e0946"
-  data-playback-api-key="7RxJqoKN6KatCqOLARU7dinHpynpmkn3FxbfezOg"
-  data-bitmovin-license-key="a78cb1fc-0673-41f7-966d-c08c755db895"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
+  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
+  data-bitmovin-analytics-key="OPTIONAL_ANALYTICS_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
   data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="false"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
@@ -63,6 +65,7 @@ Required fields:
 - `entryId`
 - `playbackApiKey`
 - `bitmovinLicenseKey`
+- `bitmovinAnalyticsKey`
 - `playbackBaseUrl`
 - `authStorageKey`
 
@@ -87,8 +90,6 @@ The SDK resolves a token in the following order:
 2. `localStorage` using `data-auth-storage-key`
 3. Default storage key: `streamamg_auth_token`
 
-This means clients can now explicitly control which localStorage key the embed should read from.
-
 ---
 
 ### 5. Playback API Request
@@ -107,10 +108,6 @@ If a token is present and the first request returns:
 - `reason = NOT_AUTHENTICATED`
 
 the SDK retries the same request **without** the `Authorization` header.
-
-This allows:
-- free-to-watch content to still play anonymously when a stale token exists
-- freemium and premium content to remain protected
 
 ---
 
@@ -133,11 +130,6 @@ Errors are mapped to user-friendly messages:
 | 403 | Access denied |
 | 404 | Uses API message directly |
 
-Example 404 messages:
-- "Content is not available in your region"
-- "Content no longer available in your region"
-- "Content not yet available in your region"
-
 ---
 
 ### 7. Player Initialisation
@@ -145,41 +137,56 @@ Example 404 messages:
 - Bitmovin player is dynamically loaded
 - Subtitle safe-area styles are injected automatically
 - Player is initialised with:
-  - Title
-  - Description
-  - Poster
+  - Bitmovin license key (**required**)
+  - Optional analytics configuration
+  - Title / description / poster
   - HLS stream
   - Advertising support
   - Inline playback support
 
 ---
 
-### 8. Mute & Autoplay Logic
+### 8. Analytics (Optional)
 
-- If `autoplay = true`, video may be forced to start muted for browser autoplay compatibility
-- The SDK applies mute / unmute preferences after load to avoid conflicts with saved Bitmovin player preferences
-- Volume state is re-applied around relevant playback events to improve consistency
+If `data-bitmovin-analytics-key` is provided:
+
+- Analytics is enabled automatically
+- A viewer ID is resolved from:
+  - Playback metadata OR
+  - localStorage (guest fallback)
+- No configuration required by the client beyond providing the key
+
+If not provided:
+- Player runs normally without analytics
 
 ---
 
-### 9. Playback Behaviour
+### 9. Mute & Autoplay Logic
+
+- If `autoplay = true`, video may be forced to start muted
+- The SDK explicitly re-applies mute/unmute state after load
+- Prevents Bitmovin stored preferences overriding requested state
+
+---
+
+### 10. Playback Behaviour
 
 | Scenario | Outcome |
 |----------|--------|
-| Autoplay enabled | Attempts `player.play()` and retries across several short delays |
+| Autoplay enabled | Attempts `player.play()` with retries |
 | Autoplay blocked | Logs debug / warning only |
 | Autoplay disabled | Waits for user interaction |
 
 ---
 
-### 10. Advert Scheduling
+### 11. Advert Scheduling
 
-If advert configuration is present in the playback response, the SDK:
+If advert configuration is present:
 
-- merges advert arrays
-- normalises advert tag types
-- filters invalid or non-HTTPS advert URLs
-- schedules supported ad breaks with Bitmovin
+- Merge global + entry adverts
+- Normalize advert types (VAST / VMAP)
+- Filter invalid URLs
+- Schedule ads via Bitmovin
 
 ---
 
@@ -190,9 +197,9 @@ The SDK is designed to be:
 - Plug-and-play (no client CSS required)
 - CMS agnostic
 - Consistent UI
-- Resilient to expired stored tokens
-- User-friendly
-- Backwards compatible with both element-based and global config usage
+- Resilient to expired tokens
+- Backwards compatible
+- Optional analytics support
 
 ---
 
@@ -203,7 +210,6 @@ The StreamAMG Playback Embed Player:
 1. Loads on any webpage
 2. Resolves configuration and authentication
 3. Calls the Playback API
-4. Retries anonymously when appropriate
-5. Either plays video or displays an error
-
-All within a consistent player frame.
+4. Retries anonymously when needed
+5. Initialises Bitmovin (+ analytics if enabled)
+6. Plays video or shows an error

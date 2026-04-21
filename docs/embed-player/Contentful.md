@@ -14,13 +14,14 @@ You will receive embed code like:
   data-entry-id="ENTRY_ID"
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
   data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
@@ -113,12 +114,13 @@ Check:
   data-entry-id="0_7gxpb2ir"
   data-playback-api-key="YOUR_KEY"
   data-bitmovin-license-key="YOUR_LICENSE"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
   data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---

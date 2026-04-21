@@ -14,6 +14,12 @@ By default, the player expects the token to be stored under:
 streamamg_auth_token
 ```
 
+You can override this by passing a custom storage key in the embed:
+
+```html
+data-auth-storage-key="streamamg_auth_token_custom"
+```
+
 Your platform is responsible for:
 
 - Storing the token after login
@@ -86,8 +92,6 @@ Users must log in and have the correct entitlement to watch the content.
 
 ---
 
-
-
 # Example Behaviour
 
 | Content Type | Logged Out | Logged In | Logged In + Subscribed |
@@ -117,6 +121,12 @@ localStorage.setItem(
 );
 ```
 
+If you are using a custom storage key in the embed, store the token under that same key instead:
+
+```javascript
+localStorage.setItem("streamamg_auth_token_custom", userAuthToken);
+```
+
 ---
 
 # Remove Token On Logout
@@ -125,6 +135,12 @@ When a user logs out, remove the token:
 
 ```javascript
 localStorage.removeItem("streamamg_auth_token");
+```
+
+If you are using a custom storage key in the embed, remove that key instead:
+
+```javascript
+localStorage.removeItem("streamamg_auth_token_custom");
 ```
 
 This ensures:
@@ -143,7 +159,8 @@ No additional work is required.
 When the token expires:
 
 - Playback API will return `401`  
-- Player will show login message  
+- For free-to-watch content, the player will retry the request without the token  
+- For protected content, the player will show a login message  
 
 Example message:
 
@@ -182,6 +199,34 @@ localStorage.setItem("my_custom_auth_key", token);
 
 ---
 
+# Bitmovin License Key
+
+The embed requires a Bitmovin Player license key.
+
+Example:
+
+```html
+data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
+```
+
+Without a valid Bitmovin license key, the player will not initialise.
+
+---
+
+# Bitmovin Analytics Key (Optional)
+
+The embed also supports an optional Bitmovin Analytics key.
+
+Example:
+
+```html
+data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
+```
+
+If omitted, the player still works normally but Bitmovin analytics will be disabled.
+
+---
+
 # Example Full Login Flow
 
 ### After Login
@@ -189,6 +234,14 @@ localStorage.setItem("my_custom_auth_key", token);
 ```javascript
 function onUserLogin(token) {
   localStorage.setItem("streamamg_auth_token", token);
+}
+```
+
+If using a custom storage key:
+
+```javascript
+function onUserLogin(token) {
+  localStorage.setItem("streamamg_auth_token_custom", token);
 }
 ```
 
@@ -202,6 +255,14 @@ function onUserLogout() {
 }
 ```
 
+If using a custom storage key:
+
+```javascript
+function onUserLogout() {
+  localStorage.removeItem("streamamg_auth_token_custom");
+}
+```
+
 ---
 
 # Example Embed
@@ -209,11 +270,14 @@ function onUserLogout() {
 ```html
 <div
   class="streamamg-embed"
-  data-entry-id="0_123abc"
+  data-entry-id="259313d0-9e4d-444d-b2e2-b5049945941e"
   data-playback-api-key="YOUR_API_KEY"
-  data-bitmovin-license-key="YOUR_LICENSE"
+  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
   data-playback-base-url="https://api.playback.streamamg.com/v1"
-  data-auth-storage-key="streamamg_auth_token"
+  data-auth-storage-key="streamamg_auth_token_custom"
+  data-autoplay="true"
+  data-muted="true"
 ></div>
 
 <script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>

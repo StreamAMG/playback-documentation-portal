@@ -16,13 +16,14 @@ You will be provided with embed code similar to the following:
   data-entry-id="0_7gxpb2ir"
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
   data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
@@ -144,7 +145,7 @@ Check the following:
 Make sure this is still present after saving:
 
 ```html
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 If Drupal removes it, your text format is too restrictive.
@@ -205,13 +206,14 @@ If your video requires login:
   data-entry-id="0_7gxpb2ir"
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
   data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
