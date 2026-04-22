@@ -20,6 +20,8 @@ You can override this by passing a custom storage key in the embed:
 data-auth-storage-key="streamamg_auth_token_custom"
 ```
 
+(Note: that the custom key needs to be set inside CloudMatrix)
+
 Your platform is responsible for:
 
 - Storing the token after login
