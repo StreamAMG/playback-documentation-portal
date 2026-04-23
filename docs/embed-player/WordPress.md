@@ -14,17 +14,19 @@ You will be provided with embed code similar to:
   data-entry-id="ENTRY_ID"
   data-playback-api-key="YOUR_PLAYBACK_API_KEY"
   data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-bitmovin-analytics-key="YOUR_BITMOVIN_ANALYTICS_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
+  data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
 
-# Step‑by‑Step Guide
+# Step-by-Step Guide
 
 ## Step 1 — Open WordPress
 
@@ -62,6 +64,23 @@ Your video should now appear.
 
 ---
 
+# Authentication (Important)
+
+If your content requires login:
+
+- Your platform must store the user token in localStorage
+- Default key: `streamamg_auth_token`
+- You can override using:
+  ```html
+  data-auth-storage-key="your_custom_key"
+  ```
+
+The player will:
+- Use the token if present
+- Retry without the token if it is expired (for free content)
+
+---
+
 # Recommended Settings
 
 ```html
@@ -77,10 +96,18 @@ data-muted="false"
 
 Check:
 
-- The custom HTML block has been used.
-- The script tag hasn't been removed.
-- The api key in the embed is correct.
-- The entry ID is correct/valid.
+- The Custom HTML block has been used
+- The `<script>` tag has not been removed
+- The API key is correct
+- The Entry ID is valid
+
+---
+
+## Content Requires Login
+
+- Ensure the token exists in localStorage
+- Ensure it is stored under the correct key
+- Ensure the token is valid (not expired)
 
 ---
 
@@ -92,12 +119,12 @@ Check:
   data-entry-id="0_7gxpb2ir"
   data-playback-api-key="YOUR_KEY"
   data-bitmovin-license-key="YOUR_LICENSE"
-  data-playback-base-url="https://api.playback.qa.streamamg.com/v1"
+  data-auth-storage-key="streamamg_auth_token"
   data-autoplay="false"
   data-muted="true"
 ></div>
 
-<script src="https://sdk.playback.qa.streamamg.com/v1/playbackembedplayer.js"></script>
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
 ---
@@ -108,3 +135,4 @@ Check:
 2. Add Custom HTML block
 3. Paste embed
 4. Publish
+5. Ensure auth token exists (if required)
