@@ -310,6 +310,7 @@ paths:
                   featureFlags:
                     customErrorScreen: false
                     geoRestriction: false
+                    geoLocationOverride: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -336,6 +337,7 @@ paths:
                   featureFlags:
                     customErrorScreen: true
                     geoRestriction: false
+                    geoLocationOverride: false
                   defaults:
                     player: bitmovin
                     platform: kaltura
@@ -373,6 +375,7 @@ paths:
                   featureFlags:
                     customErrorScreen: false
                     geoRestriction: false
+                    geoLocationOverride: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -411,6 +414,7 @@ paths:
                   featureFlags:
                     customErrorScreen: true
                     geoRestriction: false
+                    geoLocationOverride: false
                   defaults:
                     player: bitmovin
                     auth: jwks
@@ -449,6 +453,7 @@ paths:
                   featureFlags:
                     customErrorScreen: false
                     geoRestriction: false
+                    geoLocationOverride: false
                   defaults:
                     player: bitmovin
                     auth: cloudpay
@@ -859,6 +864,9 @@ paths:
                       geoRestriction:
                         type: boolean
                         example: false
+                      geoLocationOverride:
+                        type: boolean
+                        example: false
                   defaults:
                     type: object
                     properties:
@@ -1262,6 +1270,9 @@ components:
                 geoRestriction:
                   type: boolean
                   example: false
+                geoLocationOverride:
+                  type: boolean
+                  example: false
             defaults:
               type: object
               minProperties: 3
@@ -1352,6 +1363,9 @@ components:
                   type: boolean
                   example: false
                 geoRestriction:
+                  type: boolean
+                  example: false
+                geoLocationOverride:
                   type: boolean
                   example: false
             defaults:
