@@ -30,7 +30,8 @@ If the following configuration is **false** or **undefined**, then no GEO Restri
 ```json
 {
   "featureFlags": {
-    "geoRestriction": false
+    "geoRestriction": false,
+    "geoLocationOverride": false
   }
 }
 ```
