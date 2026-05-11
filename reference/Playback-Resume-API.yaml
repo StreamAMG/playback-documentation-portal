@@ -1,0 +1,202 @@
+x-stoplight:
+  docs:
+    showModels: false
+openapi: 3.1.0
+info:
+  title: API Reference — Playback Resume
+  version: '1.0'
+  contact:
+    name: Jay Maxted
+    email: Jay.Maxted@pamediagroup.com
+  summary: Update saved resume position for viewer playback (HTTP resume path).
+  description: |-
+    This reference covers the **resume write** endpoint used with the Playback API when **HTTP resume** is enabled (typically **Fusion** or **JWKS** authentication, as configured by StreamAMG).
+
+    **Reading** a saved position (`playFrom`) is done via the existing [**Playback API**](./Playback-API.yaml) `GET /v1/entry/{id}` response when the viewer is authenticated and resume is enabled — it is not a separate GET on this path.
+
+    **Writing** the position is `PUT /v1/entry/{entryId}/resume` with a JSON body. Use the **same** `{entryId}` and **`Authorization: Bearer`** viewer token (and **`x-api-key`**) as for the `GET` that established playback for that asset.
+
+    **CloudPay-only** deployments continue to use the **legacy** resume mechanism; this **PUT** is rejected for those configs (**403**).
+
+tags:
+  - name: Playback Resume
+    description: Save viewer resume position for supported authentication models
+servers:
+  - url: 'https://api.playback.streamamg.com/v1'
+paths:
+  '/entry/{entryId}/resume':
+    put:
+      summary: Update resume position for an entry
+      description: |-
+        Persists the viewer’s last playback position for the given entry so a later **`GET /entry/{id}`** can return **`playFrom`** (seconds).
+
+        **Authentication (same as GET playback):**
+        - **`x-api-key`**: required (API key for the Playback client).
+        - **`Authorization: Bearer {token}`**: required — same viewer/session token used for **`GET /entry/{id}`** for this asset.
+
+        **Path:**
+        - **`entryId`**: must match the entry resolved for the authenticated session for this playback (same id you use on GET for that session).
+
+        **Typical callers:** player integrations (e.g. Bitmovin) on **pause**, **end of playback**, **player destroy**, or **page hide** — not high-frequency polling while playing.
+
+      tags:
+        - Playback Resume
+      operationId: put-playback-resume
+      security:
+        - bearerAuth: []
+          ApiKey: []
+      parameters:
+        - name: entryId
+          in: path
+          required: true
+          description: Entry identifier — must match the GET playback entry for the same viewer session.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResumeRequest'
+            examples:
+              paused:
+                summary: Viewer paused
+                value:
+                  playTime: 123.5
+                  duration: 1800
+                  isPlaying: false
+              finished:
+                summary: Playback finished
+                value:
+                  playTime: 1799.2
+                  duration: 1800
+                  isPlaying: false
+      responses:
+        '200':
+          description: |-
+            Success — resume data accepted. The implementation may return an **empty** body; clients should treat **2xx** without requiring an entity.
+        '400':
+          description: Bad Request — invalid body, missing resume configuration, or entry mismatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackErrorResponse'
+              examples:
+                validation:
+                  value:
+                    status: 400
+                    message: 'playTime must be a number conforming to the specified constraints'
+                    reason: BAD_REQUEST_ERROR
+                config:
+                  value:
+                    status: 400
+                    message: Resume integration is not configured
+                    reason: CONFIGURATION_ERROR
+                entry_mismatch:
+                  value:
+                    status: 400
+                    message: Requested entry does not match playback context
+                    reason: TOKEN_ERROR
+        '401':
+          description: Unauthorized — missing or invalid viewer token, or entitlement/session failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackErrorResponse'
+              examples:
+                not_authenticated_resume:
+                  summary: Missing Bearer on PUT resume
+                  value:
+                    status: 401
+                    message: Not authenticated to update resume entry 0_abc123
+                    reason: NOT_AUTHENTICATED
+                invalid_bearer:
+                  value:
+                    status: 401
+                    message: Auth token format is invalid - Bearer <token>
+                    reason: TOKEN_ERROR
+        '403':
+          description: Forbidden — resume HTTP writes not enabled for this auth model (e.g. CloudPay-only)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackErrorResponse'
+              examples:
+                cloudpay_only:
+                  value:
+                    status: 403
+                    message: Resume writes are only supported for Fusion and JWKS configurations
+                    reason: BAD_REQUEST_ERROR
+        '404':
+          description: Not Found — playback store entry or entitlements unavailable for this request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackErrorResponse'
+              examples:
+                not_found:
+                  value:
+                    status: 404
+                    message: Playback data not found
+                    reason: NO_ENTITY_EXIST
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaybackErrorResponse'
+              examples:
+                internal:
+                  value:
+                    status: 500
+                    message: 'Error getting playback data [Error stack]'
+                    reason: BAD_REQUEST_ERROR
+      x-internal: false
+components:
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Bearer token for the viewer (same token as GET /entry/{id} for this asset). Example: `Authorization: Bearer <token>`'
+    ApiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Playback API key for the client configuration
+  schemas:
+    UpdateResumeRequest:
+      type: object
+      required:
+        - playTime
+        - duration
+        - isPlaying
+      properties:
+        playTime:
+          type: number
+          minimum: 0
+          description: Current playback position in **seconds**.
+        duration:
+          type: number
+          minimum: 0
+          description: Total duration in **seconds** (from the player or playback payload).
+        isPlaying:
+          type: boolean
+          description: |-
+            `true` while playback is actively progressing; usually `false` when pausing, finishing, or leaving the page.
+    PlaybackErrorResponse:
+      type: object
+      description: Error envelope returned by the Playback service filter
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: number
+          description: HTTP status code
+        message:
+          type: string
+          description: Human-readable error message
+        reason:
+          type: string
+          description: Machine-oriented reason code (see main Playback API reference for common values)
