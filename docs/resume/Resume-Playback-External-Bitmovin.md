@@ -1,6 +1,6 @@
 # Resume playback — Bitmovin integration
 
-This guide explains how to integrate **resume playback** with the StreamAMG **Playback API** and **Bitmovin Player**: viewers can leave a video and resume later from the last saved position.
+This guide explains how to integrate **resume playback** with the StreamAMG **Playback API** and **Bitmovin Player**: viewers can leave a video and resume later from the last saved position. It covers **on-demand (VoD)** and **live** (including DVR) — same endpoints, with the player semantics called out so integrators can self-serve without guessing **`playFrom`** / **`playTime`** behaviour.
 
 ---
 
@@ -17,9 +17,50 @@ This guide explains how to integrate **resume playback** with the StreamAMG **Pl
 ## What resume does
 
 - Playback stores **one** resume position per viewer and per video **entry**.
-- On each **GET**, if a saved position exists, the JSON body can include **`playFrom`** (seconds from the start).
-- Your player should **seek** to `playFrom` when it is present and greater than zero.
+- On each **GET**, if a saved position exists, the JSON body can include **`playFrom`** (see [On-demand (VoD) versus live](#on-demand-vod-versus-live) — the meaning of this number depends on content type).
+- Your player must **restore** that position using the correct Bitmovin API (**seek**, **startOffset**, or **timeShift** — not the same for every asset).
 - When the viewer **pauses**, **finishes**, **leaves the page**, or the **player is destroyed**, you should send a **PUT** so the position is saved for the next visit.
+
+---
+
+## On-demand (VoD) versus live
+
+The **HTTP contract is identical** for VoD and live: same **`GET /v1/entry/{entryId}`**, same **`PUT /v1/entry/{entryId}/resume`**, same JSON fields, same headers (`x-api-key`, `Authorization`). What changes is how Bitmovin exposes **time** and how you **apply** a stored position after GET.
+
+### How to tell VoD from live in your app
+
+Use your own content model (CMS type, `isLive` from Playback, manifest URL, etc.) **and** Bitmovin’s **`player.isLive()`** after the source is loaded. Do not rely on `playFrom` alone to infer VoD vs live.
+
+### `playFrom` in the GET response
+
+| Content | Typical `playFrom` scale | Meaning |
+|--------|---------------------------|--------|
+| **VoD** | Usually **&lt; 1,000,000,000** (e.g. `0` … a few hours in seconds) | **Offset in seconds** from the start of the asset. |
+| **Live** (incl. DVR / sliding window) | Often **≥ 1,000,000,000** | **Absolute UNIX time** on the media timeline (seconds since epoch), as used by Bitmovin **`timeShift`** for that stream. |
+
+Some VoD assets may still use large timestamps depending on encoder or packager; the StreamAMG **Playback SDK** uses the **1e9 boundary** as a practical heuristic: values **below** `1000000000` are applied as **start offset** at load time; values **from** `1000000000` are restored after load with **VoD → `seek`**, **live → `timeShift`**, once the source is ready (see Bitmovin **SourceLoaded** / equivalent in your player version).
+
+**Integrator rule:** whatever **`playFrom`** value the Playback **GET** returned for this entry, treat **`PUT` `playTime`** as the same kind of value Bitmovin reports at save time — normally **`player.getCurrentTime()`** right before the PUT. That keeps VoD offsets and live UNIX positions consistent across sessions.
+
+### Restoring `playFrom` in Bitmovin (after GET)
+
+| Situation | Recommended approach |
+|-----------|----------------------|
+| **VoD**, small `playFrom` (typical offset) | Prefer **`startOffset`** on the source config **or** **`player.seek(playFrom)`** after **`SourceLoaded`** (per Bitmovin docs for your SDK version). |
+| **Live**, UNIX-scale `playFrom` | Use **`player.timeShift(playFrom)`** (not `seek` to a small number). Subscribe to **`SourceLoaded`** (or your player’s equivalent) before calling **`load`**, because **`isLive()`** may be unreliable until the engine has prepared the live source; a short **timeout fallback** (e.g. a few seconds) avoids never restoring if the event ordering differs. |
+| **Sliding-window live** (no full DVR) | The viewer may only be able to resume within the still-available window; if **`timeShift`** fails, fall back to **live edge** per your product rules. |
+
+If you use the **StreamAMG Playback SDK** or **embed player**, this VoD/live **`playFrom`** handling is implemented for you when resume is enabled — custom Bitmovin integrations must implement the equivalent behaviour.
+
+### PUT body: `playTime`, `duration`, and `isPlaying`
+
+| Field | VoD | Live |
+|-------|-----|------|
+| **`playTime`** | **`player.getCurrentTime()`** — offset in seconds from asset start (≥ 0). | Usually **`player.getCurrentTime()`** — often **UNIX seconds** on the timeline for DVR/live; must be a **finite** number. |
+| **`duration`** | Total length in seconds from **`player.getDuration()`** or from the **GET** playback JSON (`duration` may be a string — coerce with `Number`). | Bitmovin often reports **`Infinity`** for live duration. **`Infinity` serializes to JSON `null`**, which the API **rejects** (400). **Always send a finite number:** use **`0`** if the player has no finite duration, or fall back to a finite **`duration`** from **GET** if your packager provides one. Never omit required fields. |
+| **`isPlaying`** | `false` on pause / end / leave; `true` only while actively playing if you send mid-play updates. | Same as VoD. |
+
+The API validates **`playTime`**, **`duration`**, and **`isPlaying`** as required, numeric (where applicable), and **non-negative** — plan your client defaults accordingly.
 
 ---
 
@@ -57,8 +98,8 @@ If resume is enabled and a position was stored earlier, the response may include
 }
 ```
 
-- **`playFrom`**: number, **seconds**. If omitted, start from `0`.
-- Use your **Bitmovin** API to seek after the source is loaded (e.g. `player.seek(playFrom)` or `startOffset` in your setup), following Bitmovin’s docs for your player version.
+- **`playFrom`**: number. If omitted, start from `0`. For **VoD** this is usually **seconds from the start** of the asset; for **live / DVR** it may be a **UNIX timestamp** on the stream timeline — see [On-demand (VoD) versus live](#on-demand-vod-versus-live).
+- Use your **Bitmovin** API to restore the position after the source is ready (**`seek`** / **`startOffset`** for typical VoD; **`timeShift`** for UNIX-scale live positions), following Bitmovin’s docs for your player version.
 
 ---
 
@@ -80,6 +121,8 @@ Content-Type: application/json
 
 ### JSON body
 
+**VoD (typical offset + finite duration):**
+
 ```json
 {
   "playTime": 123.5,
@@ -88,10 +131,20 @@ Content-Type: application/json
 }
 ```
 
+**Live / DVR (UNIX-scale `playTime`; duration often unknown from the player — use `0` rather than `null`):**
+
+```json
+{
+  "playTime": 1735689600.12,
+  "duration": 0,
+  "isPlaying": false
+}
+```
+
 | Field | Meaning |
 |-------|--------|
-| `playTime` | Current playback position in **seconds** (number). |
-| `duration` | Total duration in **seconds** (e.g. from the player or from GET). |
+| `playTime` | Current playback position: for **VoD**, usually **seconds from start**; for **live / DVR**, often **UNIX seconds** on the media timeline — use the same scale Bitmovin **`getCurrentTime()`** uses for that entry (must be a **finite** number ≥ 0). |
+| `duration` | Total duration in **seconds** when known (**VoD**). For **live**, use a finite value from GET or **`0`** if the player only reports **`Infinity`** — see [On-demand (VoD) versus live](#on-demand-vod-versus-live). |
 | `isPlaying` | `true` if playback is actively progressing; usually `false` on pause / leave / destroy. |
 
 Example:
@@ -135,7 +188,7 @@ Below, **`player`** is your Bitmovin **`Player`** instance (for example from `ne
 | Field | Primary source | Fallback |
 |--------|----------------|----------|
 | **`playTime`** | `player.getCurrentTime()` | Use `0` if the call throws or the player is already torn down. |
-| **`duration`** | `player.getDuration()` | If that is `0`, `NaN`, or not ready yet, use the **`duration`** from your **GET playback** JSON (Playback often returns it as a **string** — coerce with `Number(...)`). |
+| **`duration`** | `player.getDuration()` | If that is `0`, **`NaN`**, **`Infinity`**, or not ready yet, use the **`duration`** from your **GET playback** JSON (Playback often returns it as a **string** — coerce with `Number(...)`). **`Infinity` must never reach `JSON.stringify`** for this field — the API expects a finite number (use **`0`** as last resort, especially on **live**). |
 
 Example helpers:
 
@@ -156,6 +209,7 @@ function getDurationSeconds(player, playbackPayload) {
   try {
     if (player && typeof player.getDuration === "function") {
       const d = Number(player.getDuration());
+      // Bitmovin live streams often report Infinity — Number.isFinite rejects it (JSON would otherwise emit null).
       if (Number.isFinite(d) && d > 0) return d;
     }
   } catch (e) {}
@@ -384,17 +438,20 @@ If you use the **StreamAMG Playback embed player** (`playbackembedplayer.js`), r
 
 - **Do not block playback** if a resume **PUT** fails (network, 4xx/5xx). Resume is a convenience; retries are optional.
 - **403** on PUT often means this HTTP resume path is **not** enabled for your auth model (e.g. CloudPay-only); use the resume channel StreamAMG provided for your integration.
-- **400** may indicate the **entry id in the URL** does not match the entry Playback associated with the authenticated session for that asset — align `{entryId}` with the GET you used for the same playback.
+- **400** may mean:
+  - **`entryId`** in the URL does not match the entry Playback associated with the authenticated session (**TOKEN_ERROR** / entry mismatch) — use the **same** id as on GET for that session (for Media Platform entries, the canonical id is often the **Kaltura entry id**, not only the internal UUID).
+  - **Invalid body** — missing fields, non-numbers, or **`null`** where a number is required. Common client bug: **`duration: null`** because **`JSON.stringify({ duration: Infinity })`** — always coerce to a **finite** number (see [On-demand (VoD) versus live](#on-demand-vod-versus-live)).
 
 ---
 
 ## Checklist for integrators
 
 - [ ] GET playback with **`x-api-key`** + **viewer `Authorization`**.
-- [ ] Read **`playFrom`** and seek Bitmovin when present.
-- [ ] Wire Bitmovin **pause / finished / destroy / page hide** (see **Code examples** above).
+- [ ] Confirm **resume is enabled** for your Playback setup (otherwise **`playFrom`** will not appear and you must not call PUT).
+- [ ] **VoD:** restore **`playFrom`** with **`seek` / `startOffset`** as appropriate; **live (UNIX `playFrom`):** restore with **`timeShift`** after the source is ready, not a blind **`seek`**.
+- [ ] **PUT:** send **`playTime`** from **`getCurrentTime()`** (same semantics as **`playFrom`** for that asset); send **finite** **`duration`** (use **`0`** on live when the player reports **`Infinity`**).
+- [ ] Wire Bitmovin **pause / finished / destroy / page hide** (see **Code examples** above); use **`keepalive`** where the page may unload.
 - [ ] Same **`entryId`** and **same Bearer token** for GET and PUT.
-- [ ] Confirm with StreamAMG that **resume is enabled** for your Playback setup.
 
 ---
 

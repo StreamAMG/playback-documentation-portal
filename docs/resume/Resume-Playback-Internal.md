@@ -11,7 +11,7 @@ This document describes how **resume playback** works inside the Playback stack 
 ## Purpose
 
 - Persist **last watched position** per **tenant + authenticated customer + entry**.
-- **GET** `/v1/entry/{videoId}` returns **`playFrom`** (seconds) when resume is enabled and a stored position exists.
+- **GET** `/v1/entry/{videoId}` returns **`playFrom`** when resume is enabled and a stored position exists. The stored value is whatever the client last wrote as **`playTime`** (typically **VoD**: seconds from start; **live / DVR**: UNIX timeline seconds — see the external Bitmovin guide).
 - **PUT** `/v1/entry/{entryId}/resume` updates that position for **Fusion** and **JWKS** clients only, using the **same authentication and entitlement pipeline as GET** (no separate resume JWT layer).
 
 ---

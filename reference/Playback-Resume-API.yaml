@@ -16,6 +16,8 @@ info:
 
     **Writing** the position is `PUT /v1/entry/{entryId}/resume` with a JSON body. Use the **same** `{entryId}` and **`Authorization: Bearer`** viewer token (and **`x-api-key`**) as for the `GET` that established playback for that asset.
 
+    **VoD vs live:** the endpoint and schema are the same. For **VoD**, `playTime` is normally **seconds from the start** of the asset and `duration` is the **total length** in seconds when known. For **live / DVR**, `playTime` is often **UNIX seconds** on the media timeline (matching Bitmovin `getCurrentTime()` / `timeShift`); `duration` may be unknown — send **`0`** (or another finite fallback). **Never send `null` for numeric fields** (e.g. do not let `JSON.stringify` turn `Infinity` from the player into `null`).
+
     **CloudPay-only** deployments continue to use the **legacy** resume mechanism; this **PUT** is rejected for those configs (**403**).
 
 tags:
@@ -28,7 +30,9 @@ paths:
     put:
       summary: Update resume position for an entry
       description: |-
-        Persists the viewer’s last playback position for the given entry so a later **`GET /entry/{id}`** can return **`playFrom`** (seconds).
+        Persists the viewer’s last playback position for the given entry so a later **`GET /entry/{id}`** can return **`playFrom`**.
+
+        **VoD vs live:** Same path and JSON schema. For **VoD**, `playTime` is typically **seconds from start** and `duration` is asset length. For **live / DVR**, `playTime` is often **UNIX timeline seconds**; use a **finite** `duration` (often **`0`** when the player has no finite duration). Never send **`null`** for required numeric fields.
 
         **Authentication (same as GET playback):**
         - **`x-api-key`**: required (API key for the Playback client).
@@ -60,16 +64,22 @@ paths:
               $ref: '#/components/schemas/UpdateResumeRequest'
             examples:
               paused:
-                summary: Viewer paused
+                summary: Viewer paused (VoD)
                 value:
                   playTime: 123.5
                   duration: 1800
                   isPlaying: false
               finished:
-                summary: Playback finished
+                summary: Playback finished (VoD)
                 value:
                   playTime: 1799.2
                   duration: 1800
+                  isPlaying: false
+              live_dvr_paused:
+                summary: Live / DVR paused (UNIX-scale playTime)
+                value:
+                  playTime: 1735689600.12
+                  duration: 0
                   isPlaying: false
       responses:
         '200':
@@ -97,6 +107,12 @@ paths:
                     status: 400
                     message: Requested entry does not match playback context
                     reason: TOKEN_ERROR
+                invalid_json_numbers:
+                  summary: Non-finite duration serialized as null (common live bug)
+                  value:
+                    status: 400
+                    message: 'duration must be a number conforming to the specified constraints'
+                    reason: BAD_REQUEST_ERROR
         '401':
           description: Unauthorized — missing or invalid viewer token, or entitlement/session failure
           content:
@@ -175,11 +191,13 @@ components:
         playTime:
           type: number
           minimum: 0
-          description: Current playback position in **seconds**.
+          description: |-
+            Current playback position. For **VoD**, usually **offset seconds** from the start of the asset. For **live / DVR**, often **UNIX seconds** on the media timeline (same scale Bitmovin uses for `timeShift` / `getCurrentTime()` for that stream). Must be a **finite** number.
         duration:
           type: number
           minimum: 0
-          description: Total duration in **seconds** (from the player or playback payload).
+          description: |-
+            Total duration in **seconds** when known (**VoD**). For **live**, Bitmovin may report non-finite duration — clients must still send a **finite** number (e.g. **`0`** or a value from GET playback). Do not send **`null`** (e.g. avoid serializing `Infinity` from the player as JSON `null`).
         isPlaying:
           type: boolean
           description: |-

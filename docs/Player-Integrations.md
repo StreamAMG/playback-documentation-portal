@@ -4,7 +4,7 @@ The supported player(s) may be integrated with the following features:
 
 - <b>Global Adverts</b> (Injection of adverts at points in the playing video across all content and players) - By default, ads are enabled globally to all content, this can be manually configured in CloudMatrix to only show ads to content at the article/entry ID level. For example. ads can be served to LIVE content but not VOD, and visa versa.)
 
-- <b>Resume Capability</b> (allow playback from saved/last watched positions in videos across devices)
+- <b>Resume Capability</b> (allow playback from saved/last watched positions in videos across devices) — for **Bitmovin** and the HTTP **PUT** resume path (VoD and live), see [Resume playback — Bitmovin integration](./resume/Resume-Playback-External-Bitmovin.md) and the **Playback Resume API** reference in the portal.
 - <b>MUX Analytics</b> (collection of video performance metrics)
 
 All additional features, as above, are managed by the [onboarding process](./Client-Onboarding.md) so please contact the
