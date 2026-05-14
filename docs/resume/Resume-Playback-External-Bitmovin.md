@@ -454,7 +454,3 @@ If you use the **StreamAMG Playback embed player** (`playbackembedplayer.js`), r
 - [ ] Same **`entryId`** and **same Bearer token** for GET and PUT.
 
 ---
-
-## Internal reference (StreamAMG staff)
-
-- [Resume playback — internal workflow](./Resume-Playback-Internal.md)
