@@ -27,26 +27,6 @@
     },
     {
       "type": "item",
-      "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
-      "uri": "docs/External-Entitlements-JWKS.md"
-    },
-    {
-      "type": "item",
-      "title": "External Entitlements JWT (Enrichment with Cloudpay OR Fusion)",
-      "uri": "docs/External-Entitlements-JWT-Enrichment.md"
-    },
-    {
-      "type": "item",
-      "title": "Geo Restrictions (internal)",
-      "uri": "docs/Geo-Restrictions-Internal.md"
-    },
-    {
-      "type": "item",
-      "title": "Geo Restrictions",
-      "uri": "docs/Geo-Restrictions-External.md"
-    },
-    {
-      "type": "item",
       "title": "Client Onboarding (internal)",
       "uri": "docs/Client-Onboarding.md"
     },
@@ -107,6 +87,34 @@
       "type": "item",
       "title": "WordPress",
       "uri": "docs/embed-player/WordPress.md"
+    },
+    {
+      "type": "divider",
+      "title": "Geo Restrictions"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions (internal)",
+      "uri": "docs/geo/Geo-Restrictions-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions",
+      "uri": "docs/geo/Geo-Restrictions-External.md"
+    },
+    {
+      "type": "divider",
+      "title": "JWKS"
+    },
+    {
+      "type": "item",
+      "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
+      "uri": "docs/jwks/External-Entitlements-JWKS.md"
+    },
+    {
+      "type": "item",
+      "title": "External Entitlements JWT (Enrichment with Cloudpay OR Fusion)",
+      "uri": "docs/jwks/External-Entitlements-JWT-Enrichment.md"
     },
     {
       "type": "divider",
