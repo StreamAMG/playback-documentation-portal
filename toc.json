@@ -47,16 +47,6 @@
     },
     {
       "type": "item",
-      "title": "Resume playback — internal workflow",
-      "uri": "docs/resume/Resume-Playback-Internal.md"
-    },
-    {
-      "type": "item",
-      "title": "Resume playback — Bitmovin integration",
-      "uri": "docs/resume/Resume-Playback-External-Bitmovin.md"
-    },
-    {
-      "type": "item",
       "title": "Client Onboarding (internal)",
       "uri": "docs/Client-Onboarding.md"
     },
@@ -117,6 +107,30 @@
       "type": "item",
       "title": "WordPress",
       "uri": "docs/embed-player/WordPress.md"
+    },
+    {
+      "type": "divider",
+      "title": "Resume"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — internal workflow",
+      "uri": "docs/resume/Resume-Playback-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — Bitmovin integration",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — On-demand (VoD) Bitmovin",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin-VoD.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — Live Bitmovin",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin-Live.md"
     },
     {
       "type": "divider",

@@ -4,7 +4,7 @@ internal: true
 
 # Resume playback — internal workflow
 
-This document describes how **resume playback** works inside the Playback stack for engineers operating or extending the system. For integrator-facing steps and Bitmovin wiring, see **Resume playback — Bitmovin integration** (external guide).
+This document describes how **resume playback** works inside the Playback stack for engineers operating or extending the system. For integrator-facing steps and Bitmovin wiring, see the external guides: [hub](./Resume-Playback-External-Bitmovin.md), [VoD](./Resume-Playback-External-Bitmovin-VoD.md), [Live](./Resume-Playback-External-Bitmovin-Live.md).
 
 ---
 
@@ -106,4 +106,6 @@ This intentionally reuses the **same authn/authz/session** behaviour as GET so A
 
 ## Related external doc
 
-- [Resume playback — Bitmovin integration](./Resume-Playback-External-Bitmovin.md)
+- [Resume playback — Bitmovin integration](./Resume-Playback-External-Bitmovin.md) (hub)
+- [Resume playback — On-demand (VoD) Bitmovin](./Resume-Playback-External-Bitmovin-VoD.md)
+- [Resume playback — Live Bitmovin](./Resume-Playback-External-Bitmovin-Live.md)
