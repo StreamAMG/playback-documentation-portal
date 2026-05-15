@@ -104,12 +104,16 @@
     },
     {
       "type": "divider",
-      "title": "JWKS"
+      "title": "JWKS External Entitlements"
     },
     {
       "type": "item",
       "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
       "uri": "docs/jwks/External-Entitlements-JWKS.md"
+    },
+    {
+      "type": "divider",
+      "title": "JWT Enriched Entitlements"
     },
     {
       "type": "item",

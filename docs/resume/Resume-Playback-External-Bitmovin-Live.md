@@ -1,5 +1,7 @@
 # Resume playback — Live Bitmovin integration
 
+> **Fusion and JWKS clients only** — This tutorial implements **`PUT /v1/entry/{entryId}/resume`**, which is **not** available on **CloudPay-only** Playback sites. CloudPay integrators should use the resume channel StreamAMG provided for their stack (not this HTTP PUT).
+
 Step-by-step guide for **live** and **DVR** streams only. For shared prerequisites, authentication, and the Playback **GET** / **PUT** contract, start at [Resume playback — Bitmovin integration](./Resume-Playback-External-Bitmovin.md). For **on-demand (VoD)**, use [Resume playback — On-demand (VoD) Bitmovin integration](./Resume-Playback-External-Bitmovin-VoD.md).
 
 ---
@@ -313,6 +315,7 @@ If the packager only keeps a short buffer, **`timeShift(playFrom)`** may fail wh
 
 ## Live checklist
 
+- [ ] Confirmed with StreamAMG that your site uses **Fusion** or **JWKS** (not CloudPay-only for HTTP PUT resume).
 - [ ] **GET** with `x-api-key` + viewer **Bearer**; note **`playFrom`** (often UNIX ≥ `1000000000`).
 - [ ] Restore with **`timeShift`** after **SourceLoaded** (with timeout fallback), not **`seek`** to a small offset.
 - [ ] **PUT** with **`playTime`** from **`getCurrentTime()`** and **finite** **`duration`** (use **`0`** when duration is **`Infinity`**).
@@ -330,6 +333,7 @@ If the packager only keeps a short buffer, **`timeShift(playFrom)`** may fail wh
 | **400** with **`duration: null`** | `getDuration()` returned **`Infinity`** — coerce to **`0`** before **`JSON.stringify`**. |
 | Restore fails silently | **`playFrom`** outside DVR window — handle fallback to live edge. |
 | **400** / **TOKEN_ERROR** | **`entryId`** on PUT ≠ GET (e.g. Kaltura id vs UUID) — use same id as GET. |
+| **403** on PUT | **Not Fusion/JWKS** (typically CloudPay-only) — do not use this guide; use your legacy resume integration. |
 
 ---
 

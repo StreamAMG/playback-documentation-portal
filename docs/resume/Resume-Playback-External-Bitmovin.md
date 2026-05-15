@@ -1,5 +1,9 @@
 # Resume playback — Bitmovin integration
 
+> **Fusion and JWKS clients only**  
+> The **`PUT /v1/entry/{entryId}/resume`** flow in this guide is **only** for Playback configurations that use **Fusion** or **JWKS** authentication (as set up by StreamAMG).  
+> **CloudPay** clients must **not** implement this HTTP PUT path — resume for CloudPay uses the **legacy** mechanism (e.g. WebSocket / existing SDK resume). Calls to PUT from a CloudPay-only configuration return **403 Forbidden**.
+
 Hub guide for **resume playback** with the StreamAMG **Playback API** and **Bitmovin Player**. Use this page for **prerequisites**, the **shared HTTP contract**, **errors**, and **when to call PUT**. For copy-paste implementations, follow the content-specific tutorials:
 
 | Content | Guide |
@@ -13,10 +17,10 @@ API reference: [Playback Resume API](../../reference/Playback-Resume-API.yaml) �
 
 ## Prerequisites
 
-1. **StreamAMG Playback** is integrated (**Playback API base URL** + **`x-api-key`**).
-2. Viewers are **authenticated** for protected content (**`Authorization: Bearer`** accepted by Playback — e.g. Fusion or JWKS, as agreed with StreamAMG).
-3. **Resume is enabled** on your Playback deployment (StreamAMG / onboarding). If resume is off, **`playFrom`** is omitted and you must **not** call **`PUT …/resume`**.
-4. **HTTP resume PUT** applies to **Fusion** and **JWKS** only. **CloudPay** customers use the **legacy** resume channel (not this PUT).
+1. Your Playback site is configured for **Fusion** or **JWKS** authentication — **not CloudPay-only**. Confirm with StreamAMG before building to this guide.
+2. **StreamAMG Playback** is integrated (**Playback API base URL** + **`x-api-key`**).
+3. Viewers are **authenticated** with a **Fusion** or **JWKS** viewer token (**`Authorization: Bearer`**) that Playback accepts on GET and PUT.
+4. **Resume is enabled** on your Playback deployment (StreamAMG / onboarding). If resume is off, **`playFrom`** is omitted and you must **not** call **`PUT …/resume`**.
 
 ---
 
@@ -127,7 +131,7 @@ If you use **`playbackembedplayer.js`**, resume GET/PUT for Bitmovin is built in
 |--------|----------------|
 | **400** | Invalid body (`null`/`NaN`), resume not configured, or **entry id mismatch** on PUT vs authenticated context |
 | **401** | Missing or invalid Bearer token |
-| **403** | CloudPay-only — HTTP PUT resume not enabled |
+| **403** | **Not Fusion/JWKS** (e.g. CloudPay-only) — message: *Resume writes are only supported for Fusion and JWKS configurations* |
 | **404** | Entry not found for this request |
 
 **Do not block playback** if PUT fails. Common bug: **`duration: null`** from `JSON.stringify({ duration: Infinity })` on live — send **`0`**.
@@ -136,8 +140,9 @@ If you use **`playbackembedplayer.js`**, resume GET/PUT for Bitmovin is built in
 
 ## Checklist (all integrators)
 
+- [ ] Playback auth is **Fusion** or **JWKS** (not CloudPay-only for this PUT)
 - [ ] GET with **`x-api-key`** + viewer **Bearer**
-- [ ] Resume **enabled** (Fusion / JWKS)
+- [ ] Resume **enabled** on your deployment
 - [ ] Implemented **VoD** or **Live** tutorial (not both mixed in one code path)
 - [ ] Same **`entryId`** + token on GET and PUT
 - [ ] Finite **`duration`** on every PUT

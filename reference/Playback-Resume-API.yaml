@@ -8,9 +8,13 @@ info:
   contact:
     name: Jay Maxted
     email: Jay.Maxted@pamediagroup.com
-  summary: Update saved resume position for viewer playback (HTTP resume path).
+  summary: Update saved resume position (Fusion / JWKS HTTP resume path only).
   description: |-
-    This reference covers the **resume write** endpoint used with the Playback API when **HTTP resume** is enabled (typically **Fusion** or **JWKS** authentication, as configured by StreamAMG).
+    ## Fusion and JWKS only
+
+    **`PUT /v1/entry/{entryId}/resume` is only supported for Playback client configurations that use Fusion or JWKS authentication.** CloudPay-only configurations receive **403 Forbidden** (*Resume writes are only supported for Fusion and JWKS configurations*). CloudPay resume continues via the legacy mechanism (not this endpoint).
+
+    This reference covers the **resume write** endpoint for those Fusion/JWKS deployments when **HTTP resume** is enabled by StreamAMG.
 
     **Reading** a saved position (`playFrom`) is done via the existing [**Playback API**](./Playback-API.yaml) `GET /v1/entry/{id}` response when the viewer is authenticated and resume is enabled — it is not a separate GET on this path.
 
@@ -18,18 +22,18 @@ info:
 
     **VoD vs live:** the endpoint and schema are the same. For **VoD**, `playTime` is normally **seconds from the start** of the asset and `duration` is the **total length** in seconds when known. For **live / DVR**, `playTime` is often **UNIX seconds** on the media timeline (matching Bitmovin `getCurrentTime()` / `timeShift`); `duration` may be unknown — send **`0`** (or another finite fallback). **Never send `null` for numeric fields** (e.g. do not let `JSON.stringify` turn `Infinity` from the player into `null`).
 
-    **CloudPay-only** deployments continue to use the **legacy** resume mechanism; this **PUT** is rejected for those configs (**403**).
-
 tags:
   - name: Playback Resume
-    description: Save viewer resume position for supported authentication models
+    description: Save viewer resume position — Fusion and JWKS configurations only
 servers:
   - url: 'https://api.playback.streamamg.com/v1'
 paths:
   '/entry/{entryId}/resume':
     put:
-      summary: Update resume position for an entry
+      summary: Update resume position for an entry (Fusion / JWKS only)
       description: |-
+        **Fusion and JWKS only.** Returns **403** if the Playback client configuration is not Fusion or JWKS (e.g. CloudPay-only).
+
         Persists the viewer’s last playback position for the given entry so a later **`GET /entry/{id}`** can return **`playFrom`**.
 
         **VoD vs live:** Same path and JSON schema. For **VoD**, `playTime` is typically **seconds from start** and `duration` is asset length. For **live / DVR**, `playTime` is often **UNIX timeline seconds**; use a **finite** `duration` (often **`0`** when the player has no finite duration). Never send **`null`** for required numeric fields.

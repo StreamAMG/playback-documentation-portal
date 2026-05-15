@@ -1,5 +1,7 @@
 # Resume playback — On-demand (VoD) Bitmovin integration
 
+> **Fusion and JWKS clients only** — This tutorial implements **`PUT /v1/entry/{entryId}/resume`**, which is **not** available on **CloudPay-only** Playback sites. CloudPay integrators should use the resume channel StreamAMG provided for their stack (not this HTTP PUT).
+
 Step-by-step guide for **on-demand** video only. For shared prerequisites, authentication, and the Playback **GET** / **PUT** contract, start at [Resume playback — Bitmovin integration](./Resume-Playback-External-Bitmovin.md). For **live / DVR**, use [Resume playback — Live Bitmovin integration](./Resume-Playback-External-Bitmovin-Live.md).
 
 ---
@@ -279,6 +281,7 @@ Copy this into a test page and replace the **`CONFIG`** placeholders. It assumes
 
 ## VoD checklist
 
+- [ ] Confirmed with StreamAMG that your site uses **Fusion** or **JWKS** (not CloudPay-only for HTTP PUT resume).
 - [ ] **GET** with `x-api-key` + viewer **Bearer** token; note **`playFrom`** and **`entryId`**.
 - [ ] Restore with **`startOffset`** or **`seek`** (seconds from start, usually &lt; `1000000000`).
 - [ ] **PUT** on pause / finished / destroy / page hide with finite **`duration`**.
@@ -294,7 +297,7 @@ Copy this into a test page and replace the **`CONFIG`** placeholders. It assumes
 | No **`playFrom`** on GET | Resume disabled, viewer not authenticated, or no saved position yet. |
 | Player always starts at 0 | `playFrom` not applied — verify **`startOffset`** or **`seek`** after **SourceLoaded**. |
 | **400** on PUT | Body has **`null`** numbers, wrong **`entryId`**, or entry mismatch — use same id as GET. |
-| **403** on PUT | CloudPay-only site — HTTP PUT resume not enabled; see hub doc. |
+| **403** on PUT | **Not Fusion/JWKS** (typically CloudPay-only) — do not use this guide; use your legacy resume integration. |
 
 ---
 
