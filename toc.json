@@ -1,5 +1,9 @@
 {
   "items": [
+   {
+      "type": "divider",
+      "title": "Start Here"
+    },
     {
       "type": "item",
       "title": "Introduction",
@@ -22,7 +26,7 @@
     },
     {
       "type": "item",
-      "title": "Analytics Migration",
+      "title": "Analytics Migration (internal)",
       "uri": "docs/Analytics-Migration.md"
     },
     {

@@ -15,7 +15,6 @@ Confirm with StreamAMG (client delivery / onboarding):
 | **Auth model** | **Fusion**, **CloudPay**, **JWKS**, or external JWT — drives entitlements and **which resume mechanism** you use |
 | **Entry identifiers** | What your CMS sends as `{id}` (Kaltura entry id, CloudMatrix UUID, etc.) — must be **consistent** across GET and resume PUT |
 | **Bitmovin license key** | Required for Bitmovin Player (embed supplies via `data-bitmovin-license-key`) |
-| **Feature flags** | Resume, global adverts, analytics, geo — enabled in your Playback configuration |
 
 ---
 
@@ -44,7 +43,7 @@ Resume and Playback calls are handled inside the embed when enabled on your tena
 
 CMS guides: [WordPress](./embed-player/WordPress.md) · [Drupal](./embed-player/Drupal.md) · [Contentful](./embed-player/Contentful.md)
 
-### Path C — Playback JavaScript SDK
+### Path C — Playback JavaScript SDK (**DEPRECATED Summer 2025**)
 
 The SDK (`playback.js`) wraps API + Bitmovin for older integrations.
 

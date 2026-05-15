@@ -12,8 +12,6 @@ This portal documents how **you** integrate Playback into web and mobile experie
 |------------|---------|
 | **Playback API** | `GET /v1/entry/{id}` — manifests, metadata, entitlements outcome, resume read (`playFrom`), ads, and related fields for a single entry. |
 | **Resume API** | `PUT /v1/entry/{id}/resume` — save viewer position (**Fusion and JWKS** sites only; see [Resume](./resume/Resume-Playback-External-Bitmovin.md)). |
-| **Configuration API** | Tenant/player configuration (StreamAMG / operations; see [Playback Configuration API](../reference/Playback-Configuration-API.yaml)). |
-| **Preview API** | Preview playback without full production entitlements where configured ([Playback Preview API](../reference/Playback-Preview-API.yaml)). |
 | **Embed player** | Drop-in Bitmovin-based player for sites and CMS ([Embed Player](./embed-player/Embed-Player.md)). |
 | **Playback SDK (JavaScript)** | Legacy all-in-one JS integration — **new builds should prefer the Playback API** ([SDK note](./SDK/General.md)). |
 
@@ -41,7 +39,7 @@ Entitlements are enforced using the auth model configured for your site (**Fusio
 |------|----------|----------------|
 | **[Playback API + your Bitmovin](./Getting-Started.md#path-a--playback-api--your-own-bitmovin-player)** | Custom web/apps, full UI control | GET playback, Bitmovin `load` / events, resume PUT (Fusion/JWKS) |
 | **[Embed player](./embed-player/Embed-Player.md)** | Marketing sites, CMS (WordPress, Drupal, Contentful) | Script tag, `data-*` attributes, auth token in `localStorage` |
-| **[Playback SDK](./SDK/General.md)** | Existing SDK integrations only | `playback.js` initialise + play — not recommended for new projects |
+| **[Playback SDK](./SDK/General.md)** | Existing SDK integrations only | `playback.js` initialise + play — not recommended for new projects **DEPRECATED** |
 
 ---
 
