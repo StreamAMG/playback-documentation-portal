@@ -1,5 +1,9 @@
 {
   "items": [
+   {
+      "type": "divider",
+      "title": "Start Here"
+    },
     {
       "type": "item",
       "title": "Introduction",
@@ -22,28 +26,8 @@
     },
     {
       "type": "item",
-      "title": "Analytics Migration",
+      "title": "Analytics Migration (internal)",
       "uri": "docs/Analytics-Migration.md"
-    },
-    {
-      "type": "item",
-      "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
-      "uri": "docs/External-Entitlements-JWKS.md"
-    },
-    {
-      "type": "item",
-      "title": "External Entitlements JWT (Enrichment with Cloudpay OR Fusion)",
-      "uri": "docs/External-Entitlements-JWT-Enrichment.md"
-    },
-    {
-      "type": "item",
-      "title": "Geo Restrictions (internal)",
-      "uri": "docs/Geo-Restrictions-Internal.md"
-    },
-    {
-      "type": "item",
-      "title": "Geo Restrictions",
-      "uri": "docs/Geo-Restrictions-External.md"
     },
     {
       "type": "item",
@@ -110,12 +94,73 @@
     },
     {
       "type": "divider",
+      "title": "Geo Restrictions"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions (internal)",
+      "uri": "docs/Geo-Restrictions-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Geo Restrictions",
+      "uri": "docs/Geo-Restrictions-External.md"
+    },
+    {
+      "type": "divider",
+      "title": "JWKS External Entitlements"
+    },
+    {
+      "type": "item",
+      "title": "External Entitlements JWKS (No Auth or Entitlement Checks)",
+      "uri": "docs/External-Entitlements-JWKS.md"
+    },
+    {
+      "type": "divider",
+      "title": "JWT Enriched Entitlements"
+    },
+    {
+      "type": "item",
+      "title": "External Entitlements JWT (Enrichment with Cloudpay OR Fusion)",
+      "uri": "docs/External-Entitlements-JWT-Enrichment.md"
+    },
+    {
+      "type": "divider",
+      "title": "Resume"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — internal workflow",
+      "uri": "docs/resume/Resume-Playback-Internal.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — Bitmovin integration",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — On-demand (VoD) Bitmovin",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin-VoD.md"
+    },
+    {
+      "type": "item",
+      "title": "Resume playback — Live Bitmovin",
+      "uri": "docs/resume/Resume-Playback-External-Bitmovin-Live.md"
+    },
+    {
+      "type": "divider",
       "title": "API"
     },
     {
       "type": "item",
       "title": "Playback API",
       "uri": "reference/Playback-API.yaml"
+    },
+    {
+      "type": "item",
+      "title": "Playback Resume API",
+      "uri": "reference/Playback-Resume-API.yaml"
     },
     {
       "type": "item",
