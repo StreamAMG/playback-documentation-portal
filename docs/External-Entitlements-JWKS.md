@@ -1,6 +1,3 @@
----
-internal: true
----
 
 # External Entitlements via JWKS (Full Integration)
 
