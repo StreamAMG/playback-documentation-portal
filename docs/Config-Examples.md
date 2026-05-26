@@ -560,8 +560,8 @@ Note: to apply this to fusion, you can use the exact same `globalAdverts` object
     ],
     "entitlementsUrl": "https://{CloudMatrixURL}/api/v1/entryentitlements/{entryid}",
     "featureFlags": {
-        "geoRestriction": false
-
+        "geoRestriction": false,
+        "geoLocationOverride": false
     },
     "platform": {
         "kaltura": {
