@@ -1,7 +1,3 @@
----
-internal: true
----
-
 # External Entitlements via JWT Enrichment (Partial Integration)
 
 The Playback Service can connect with **your existing login or SSO system** using JSON Web Tokens (JWT).  
