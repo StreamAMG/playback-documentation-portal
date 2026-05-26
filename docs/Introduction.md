@@ -50,8 +50,8 @@ Features are **enabled per tenant** during StreamAMG onboarding (not self-servic
 - **Resume** — continue watching across sessions ([Resume hub](./resume/Resume-Playback-External-Bitmovin.md))
 - **Global adverts** — pre/mid/post rolls via configuration ([Player Integrations](./Player-Integrations.md#global-adverts))
 - **Analytics** — typically Bitmovin Analytics (MUX may exist on legacy configs)
-- **Geo restrictions** — country/region rules via CloudMatrix + Playback ([Geo Restrictions](./geo/Geo-Restrictions-External.md))
-- **External entitlements** — JWKS or JWT enrichment ([JWKS](./jwks/External-Entitlements-JWKS.md), [JWT enrichment](./jwks/External-Entitlements-JWT-Enrichment.md))
+- **Geo restrictions** — country/region rules via CloudMatrix + Playback ([Geo Restrictions](./Geo-Restrictions-External.md))
+- **External entitlements** — JWKS or JWT enrichment ([JWKS](./External-Entitlements-JWKS.md), [JWT enrichment](./External-Entitlements-JWT-Enrichment.md))
 - **Multiview / playlists** — SDK-oriented layouts ([Multiview](./SDK/Multiview.md), [Playlist](./SDK/Playlist.md))
 
 ---

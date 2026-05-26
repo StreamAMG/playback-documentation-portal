@@ -97,7 +97,7 @@ curl -sS \
 | Custom Bitmovin + resume (live) | [Resume — Live](./resume/Resume-Playback-External-Bitmovin-Live.md) |
 | Embed + authentication | [Embed Player](./embed-player/Embed-Player.md) |
 | Bitmovin UI styling | [Video Player Configuration](./Video-Players.md) |
-| Geo setup (CloudMatrix) | [Geo Restrictions](./geo/Geo-Restrictions-External.md) |
+| Geo setup (CloudMatrix) | [Geo Restrictions](./Geo-Restrictions-External.md) |
 | SDK errors | [Error Handling](./SDK/Error-Handling.md) |
 | API contracts | Sidebar → **API** (OpenAPI) |
 

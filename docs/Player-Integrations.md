@@ -44,7 +44,7 @@ Your site’s **auth model** (configured by StreamAMG) determines how tokens are
 | **Fusion** | StreamAMG / platform SSO | Supports HTTP **resume PUT** |
 | **CloudPay** | Subscription / CloudPay stack | Legacy resume (not HTTP PUT in this portal) |
 | **JWKS** | Customer-hosted signing keys | Supports HTTP **resume PUT** |
-| **JWT enrichment** | Claims in your SSO token | See [JWT enrichment](./jwks/External-Entitlements-JWT-Enrichment.md) |
+| **JWT enrichment** | Claims in your SSO token | See [JWT enrichment](./External-Entitlements-JWT-Enrichment.md) |
 
 Embed authentication pattern: store token in `localStorage` — [Embed Player — authentication](./embed-player/Embed-Player.md).
 
@@ -101,7 +101,7 @@ Internal migration notes: [Analytics Migration](./Analytics-Migration.md) (Strea
 
 Restrict playback by country/region using CloudMatrix **Regions** and **Targets**, applied to articles/entries. Playback enforces rules on `GET` (e.g. **403** when blocked).
 
-Setup and behaviour: [Geo Restrictions](./geo/Geo-Restrictions-External.md).
+Setup and behaviour: [Geo Restrictions](./Geo-Restrictions-External.md).
 
 ---
 
