@@ -1,3 +1,6 @@
+---
+internal: true
+---
 # StreamAMG Playback Embed — Authentication & Content Types Guide
 
 This guide explains how to enable **authenticated playback** and how **content access levels** work when using the StreamAMG Playback Embed SDK.

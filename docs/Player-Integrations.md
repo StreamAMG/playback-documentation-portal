@@ -10,7 +10,7 @@ Unless noted, features are **turned on in your Playback configuration** by Strea
 
 ```mermaid
 flowchart LR
-  App[Your app or embed]
+  App[Your app]
   API[Playback API]
   BM[Bitmovin Player]
   App -->|GET entry + PUT resume| API
@@ -21,7 +21,6 @@ flowchart LR
 | Integration | Playback role | Bitmovin role |
 |-------------|---------------|---------------|
 | **API + custom player** | Auth, entitlements, manifests, resume store | Play, seek, timeShift, UI, analytics module |
-| **Embed player** | Same API calls internally | Pre-wired Bitmovin instance |
 | **SDK** | Wrapper around API + Bitmovin | Same as custom (legacy path) |
 
 Start with [Getting Started](./Getting-Started.md) if you have not chosen a path yet.
@@ -45,8 +44,6 @@ Your site’s **auth model** (configured by StreamAMG) determines how tokens are
 | **CloudPay** | Subscription / CloudPay stack | Legacy resume (not HTTP PUT in this portal) |
 | **JWKS** | Customer-hosted signing keys | Supports HTTP **resume PUT** |
 | **JWT enrichment** | Claims in your SSO token | See [JWT enrichment](./External-Entitlements-JWT-Enrichment.md) |
-
-Embed authentication pattern: store token in `localStorage` — [Embed Player — authentication](./embed-player/Embed-Player.md).
 
 API details: [Playback API](../reference/Playback-API.yaml).
 
@@ -92,7 +89,6 @@ Example payloads: internal [Client Playback Examples](./Config-Examples.md).
 | **Bitmovin Analytics** | Current default for new configs | License key on embed (`data-bitmovin-analytics-key`) or player module in custom/SDK setups |
 | **MUX** | Legacy on some tenants | Being phased out where Bitmovin Analytics is adopted |
 
-Embed: [Bitmovin Analytics key](./embed-player/Embed-Player.md#bitmovin-analytics-key-optional).  
 Internal migration notes: [Analytics Migration](./Analytics-Migration.md) (StreamAMG staff).
 
 ---
@@ -146,6 +142,5 @@ Use with StreamAMG during kickoff:
 
 - [Introduction](./Introduction.md) — platform overview  
 - [Getting Started](./Getting-Started.md) — first API call and path selection  
-- [Embed Player](./embed-player/Embed-Player.md)  
 - [Resume hub](./resume/Resume-Playback-External-Bitmovin.md)  
 - API references in the sidebar (**Playback API**, **Playback Resume API**, **Playback Configuration API**)

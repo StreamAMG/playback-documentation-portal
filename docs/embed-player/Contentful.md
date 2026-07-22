@@ -1,3 +1,6 @@
+---
+internal: true
+---
 # StreamAMG Playback — Contentful Embed Guide
 
 This guide explains how to embed a StreamAMG video player in Contentful.

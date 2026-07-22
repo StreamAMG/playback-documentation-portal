@@ -1,3 +1,6 @@
+---
+internal: true
+---
 # StreamAMG Playback — WordPress Embed Guide
 
 This guide explains how to embed a StreamAMG video player into WordPress.

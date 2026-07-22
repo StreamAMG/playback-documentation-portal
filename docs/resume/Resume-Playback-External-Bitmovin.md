@@ -119,12 +119,6 @@ Full event wiring is in the **VoD** and **Live** example pages.
 
 ---
 
-## StreamAMG embed player
-
-If you use **`playbackembedplayer.js`**, resume GET/PUT for Bitmovin is built in when resume is enabled and a viewer token is present. Custom Bitmovin integrations should follow the VoD or Live tutorial.
-
----
-
 ## Error handling
 
 | Status | Likely cause |
