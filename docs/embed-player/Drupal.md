@@ -1,3 +1,6 @@
+---
+internal: true
+---
 # StreamAMG Playback — Drupal Embed Guide
 
 This guide explains how to embed a StreamAMG video player into a Drupal page.

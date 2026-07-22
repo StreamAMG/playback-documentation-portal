@@ -31,19 +31,7 @@ Confirm with StreamAMG (client delivery / onboarding):
 
 References: [Playback API](../reference/Playback-API.yaml) · [Playback Resume API](../reference/Playback-Resume-API.yaml)
 
-### Path B — Embed player
-
-**Fastest** for pages and CMS-driven sites.
-
-1. Include the embed script and a `streamamg-embed` container ([Embed Player Setup](./embed-player/Embed-Player.md)).
-2. Set `data-entry-id`, `data-playback-api-key`, `data-bitmovin-license-key`.
-3. Store the viewer token in `localStorage` (default key `streamamg_auth_token`) after login.
-
-Resume and Playback calls are handled inside the embed when enabled on your tenant.
-
-CMS guides: [WordPress](./embed-player/WordPress.md) · [Drupal](./embed-player/Drupal.md) · [Contentful](./embed-player/Contentful.md)
-
-### Path C — Playback JavaScript SDK (**DEPRECATED Summer 2025**)
+### Path B — Playback JavaScript SDK (**DEPRECATED Summer 2025**)
 
 The SDK (`playback.js`) wraps API + Bitmovin for older integrations.
 
@@ -95,7 +83,6 @@ curl -sS \
 | Adverts, resume, analytics, geo | [Player Integrations](./Player-Integrations.md) |
 | Custom Bitmovin + resume (VoD) | [Resume — VoD](./resume/Resume-Playback-External-Bitmovin-VoD.md) |
 | Custom Bitmovin + resume (live) | [Resume — Live](./resume/Resume-Playback-External-Bitmovin-Live.md) |
-| Embed + authentication | [Embed Player](./embed-player/Embed-Player.md) |
 | Bitmovin UI styling | [Video Player Configuration](./Video-Players.md) |
 | Geo setup (CloudMatrix) | [Geo Restrictions](./Geo-Restrictions-External.md) |
 | SDK errors | [Error Handling](./SDK/Error-Handling.md) |

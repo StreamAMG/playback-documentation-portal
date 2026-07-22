@@ -2,7 +2,7 @@
 
 **StreamAMG Playback** is a video delivery service that sits between your application and your media origin (for example Kaltura / Media Platform and CloudMatrix). It authenticates viewers, applies business rules (entitlements, geo, sessions), and returns **playback-ready data** — signed manifests, metadata, optional **`playFrom`** resume position, adverts, and configuration your player needs.
 
-This portal documents how **you** integrate Playback into web and mobile experiences. StreamAMG configures your tenant (players, features, auth model) via onboarding; your team implements the client using the **Playback API** and/or the **embed player**.
+This portal documents how **you** integrate Playback into web and mobile experiences. StreamAMG configures your tenant (players, features, auth model) via onboarding; your team implements the client using the **Playback API**.
 
 ---
 
@@ -12,7 +12,6 @@ This portal documents how **you** integrate Playback into web and mobile experie
 |------------|---------|
 | **Playback API** | `GET /v1/entry/{id}` — manifests, metadata, entitlements outcome, resume read (`playFrom`), ads, and related fields for a single entry. |
 | **Resume API** | `PUT /v1/entry/{id}/resume` — save viewer position (**Fusion and JWKS** sites only; see [Resume](./resume/Resume-Playback-External-Bitmovin.md)). |
-| **Embed player** | Drop-in Bitmovin-based player for sites and CMS ([Embed Player](./embed-player/Embed-Player.md)). |
 | **Playback SDK (JavaScript)** | Legacy all-in-one JS integration — **new builds should prefer the Playback API** ([SDK note](./SDK/General.md)). |
 
 Supported player for new integrations: **[Bitmovin Player](https://bitmovin.com/video-player)**. Playback returns media URLs and rules; Bitmovin plays the stream.
@@ -38,7 +37,6 @@ Entitlements are enforced using the auth model configured for your site (**Fusio
 | Path | Best for | You implement |
 |------|----------|----------------|
 | **[Playback API + your Bitmovin](./Getting-Started.md#path-a--playback-api--your-own-bitmovin-player)** | Custom web/apps, full UI control | GET playback, Bitmovin `load` / events, resume PUT (Fusion/JWKS) |
-| **[Embed player](./embed-player/Embed-Player.md)** | Marketing sites, CMS (WordPress, Drupal, Contentful) | Script tag, `data-*` attributes, auth token in `localStorage` |
 | **[Playback SDK](./SDK/General.md)** | Existing SDK integrations only | `playback.js` initialise + play — not recommended for new projects **DEPRECATED** |
 
 ---
