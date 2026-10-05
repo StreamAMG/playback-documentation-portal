@@ -69,6 +69,16 @@ Lets signed-in viewers continue from their last position on the same entry (VoD 
 
 ---
 
+## Sprite previews
+
+CloudMatrix on-demand entries can return **`spriteUrl`** on `GET /v1/entry/{id}`. Pass it to Bitmovin as `thumbnailTrack` so the seek bar shows a preview image.
+
+The field is omitted for CloudMatrix live and for Media Platform on-demand and live. The Playback SDK and embed player apply it for you.
+
+Custom Bitmovin players: [Sprite previews](./Sprite-Previews.md).
+
+---
+
 ## Global adverts
 
 Server-side **pre / mid / post** advert schedules can be returned on the playback response and played through Bitmovin.
