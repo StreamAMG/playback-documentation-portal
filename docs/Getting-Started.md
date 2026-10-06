@@ -25,7 +25,7 @@ Confirm with StreamAMG (client delivery / onboarding):
 **Recommended** for product teams building a custom player experience.
 
 1. Call **`GET /v1/entry/{entryId}`** with `x-api-key` and, when required, `Authorization: Bearer {viewerToken}`.
-2. Pass `media` (e.g. HLS URL) into [Bitmovin `Player.load`](https://developer.bitmovin.com/playback/docs/getting-started-with-the-web-player).
+2. Pass `media` (e.g. HLS URL) into [Bitmovin `Player.load`](https://developer.bitmovin.com/playback/docs/getting-started-with-the-web-player). If the response includes **`spriteUrl`**, pass it as `thumbnailTrack` ([Sprite previews](./Sprite-Previews.md)).
 3. If the response includes **`playFrom`**, restore position per content type ([VoD](./resume/Resume-Playback-External-Bitmovin-VoD.md) vs [Live](./resume/Resume-Playback-External-Bitmovin-Live.md)).
 4. On pause / leave, **`PUT /v1/entry/{entryId}/resume`** — **Fusion and JWKS only** ([Resume hub](./resume/Resume-Playback-External-Bitmovin.md)).
 

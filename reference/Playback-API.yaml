@@ -55,6 +55,9 @@ paths:
         - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
+        **Optional Response Items:**
+        - `spriteUrl`: WebVTT URL for seek-bar sprite previews. Returned only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live, Media Platform on-demand, and Media Platform live.
+
       tags:
         - Playback
       operationId: get-playback-data
@@ -104,6 +107,21 @@ paths:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
                       applehttp: url-to-applehttp-manifest
+                Example - Success CloudMatrix VoD with sprite:
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+                    name: World Cup of Tests
+                    description: Test Video
+                    thumbnail: 'https://video-store/test/12345'
+                    spriteUrl: 'https://cdn.example/sprites/sprite.vtt'
+                    duration: 2800000
+                    media:
+                      hls: 'https://cdn.example/vod/index.m3u8'
+                      dash: 'https://cdn.example/vod/index.mpd'
+                    coverImg:
+                      '360': 'https://video-store/test/12345/width/360'
+                      '720': 'https://video-store/test/12345/width/720'
+                      '1080': 'https://video-store/test/12345/width/1080'
                 Example - Success VoD with Resume:
                   value:
                     id: 0_4l1aj0bo
@@ -403,6 +421,9 @@ components:
           type: string
         thumbnail:
           type: string
+        spriteUrl:
+          type: string
+          description: WebVTT URL for seek-bar sprite previews. Present only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live and all Media Platform entries.
         duration:
           type: number
         media:

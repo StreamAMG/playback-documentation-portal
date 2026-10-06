@@ -10,7 +10,7 @@ This portal documents how **you** integrate Playback into web and mobile experie
 
 | Capability | Summary |
 |------------|---------|
-| **Playback API** | `GET /v1/entry/{id}` — manifests, metadata, entitlements outcome, resume read (`playFrom`), ads, and related fields for a single entry. |
+| **Playback API** | `GET /v1/entry/{id}` — manifests, metadata, entitlements outcome, resume read (`playFrom`), CloudMatrix on-demand sprite previews (`spriteUrl`), ads, and related fields for a single entry. |
 | **Resume API** | `PUT /v1/entry/{id}/resume` — save viewer position (**Fusion and JWKS** sites only; see [Resume](./resume/Resume-Playback-External-Bitmovin.md)). |
 | **Playback SDK (JavaScript)** | Legacy all-in-one JS integration — **new builds should prefer the Playback API** ([SDK note](./SDK/General.md)). |
 

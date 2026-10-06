@@ -21,6 +21,11 @@
     },
     {
       "type": "item",
+      "title": "Sprite previews",
+      "uri": "docs/Sprite-Previews.md"
+    },
+    {
+      "type": "item",
       "title": "Video Player Configuration",
       "uri": "docs/Video-Players.md"
     },
