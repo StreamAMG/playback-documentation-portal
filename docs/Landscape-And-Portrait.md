@@ -69,23 +69,25 @@ Portrait entry:
 
 ## 2. Add the two frames to your page
 
+Put the player element and both frames in the page. Landscape is 16:9. Portrait is 9:16.
+
 ```html
+<style>
+  #player.player-landscape {
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+  }
+
+  #player.player-portrait {
+    width: min(100%, calc(90vh * 9 / 16));
+    aspect-ratio: 9 / 16;
+    max-height: 90vh;
+    margin-inline: auto;
+  }
+</style>
+
 <div id="player"></div>
-```
-
-```css
-#player.player-landscape {
-  width: 100%;
-  max-width: 960px;
-  aspect-ratio: 16 / 9;
-}
-
-#player.player-portrait {
-  width: min(100%, calc(90vh * 9 / 16));
-  aspect-ratio: 9 / 16;
-  max-height: 90vh;
-  margin-inline: auto;
-}
 ```
 
 The portrait width stays inside the parent and keeps the player from growing taller than the viewport. Change `960px` or `90vh` to match your layout.
