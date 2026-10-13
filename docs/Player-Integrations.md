@@ -81,13 +81,17 @@ Custom Bitmovin players: [Sprite previews](./Sprite-Previews.md).
 
 ## Landscape and Portrait
 
-`GET /v1/entry/{id}` returns **`portrait`**. `false` is a 16:9 landscape still, and `coverImg` uses `/width/`. `true` is a 9:16 portrait still, and `coverImg` uses `/height/`.
+You size the player. `GET /v1/entry/{id}` returns **`portrait`** and the poster URLs in **`coverImg`**.
 
-The Playback SDK leaves a landscape player at the size the page set. A portrait entry replaces the player element with a 9:16 frame. Use `!important` on the player element to keep a custom portrait size.
+1. `portrait: false`, or the field is missing: keep your 16:9 size. Poster URLs use `/width/`.
+2. `portrait: true`: set a 9:16 size. Poster URLs use `/height/`.
+3. Pass `coverImg['720']` to the player as the poster. Use the URL from the response as-is.
 
-Use the `coverImg` URL from the response for the poster. Do not append `/width/` yourself.
+The Playback SDK does not resize the player. After play, read `Playback.getVideoDetails(containerId).portrait` and set the same CSS class.
 
-Details: [Landscape and Portrait](./Landscape-And-Portrait.md).
+The embed player uses 16:9 or 9:16 when the element has no height and no `aspect-ratio`. A height or ratio you set is kept.
+
+Steps, CSS, and load examples: [Landscape and Portrait](./Landscape-And-Portrait.md).
 
 ---
 

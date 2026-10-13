@@ -34,7 +34,7 @@ paths:
         - Include the id parameter in the request. This parameter should contain the article identifier (UUID).
 
         **Response:**
-        - `portrait` is returned. `true` is portrait 9:16. `false` is landscape 16:9.
+        - `portrait` is returned. `true` is portrait 9:16. `false` is landscape 16:9. Size the player from this value. Preview does not resize the player.
         - Preview `coverImg` URLs stay `/width/360`, `/width/720`, and `/width/1080` for both orientations. The entry API chooses `/height/` for portrait. Preview does not.
 
       tags:

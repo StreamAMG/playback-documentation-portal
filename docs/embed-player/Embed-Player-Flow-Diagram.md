@@ -76,10 +76,10 @@ Optional fields include:
 ---
 
 ### 3. Player Frame Setup
-- A portrait entry uses a 9:16 frame. A landscape entry keeps a ratio the page already set, and otherwise uses 16:9
-- Ensures consistent sizing across playback and error states
-- No client CSS is required for the default frame
-- A page can keep its own portrait size with `!important` on the player element. See [Landscape and Portrait](../Landscape-And-Portrait.md)
+- When the page has set a height or `aspect-ratio`, that size is kept for landscape and portrait
+- When the page has not set one, landscape is 16:9 and portrait is 9:16
+- The same default is used for playback and error states
+- Client CSS is optional. Set it when the page needs its own portrait or landscape size. See [Landscape and Portrait](../Landscape-And-Portrait.md)
 
 ---
 

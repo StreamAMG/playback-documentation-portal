@@ -56,7 +56,7 @@ paths:
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
         **Response:**
-        - `portrait`: Always returned. `true` when the entry is portrait 9:16. `false` when it is landscape 16:9, including when the store has no orientation flag.
+        - `portrait`: Always returned. `true` when the entry is portrait 9:16. `false` when it is landscape 16:9, including when the store has no orientation flag. Size the player from this value. See [Landscape and Portrait](../docs/Landscape-And-Portrait.md).
 
         **Optional Response Items:**
         - `spriteUrl`: WebVTT URL for seek-bar sprite previews. Returned only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live, Media Platform on-demand, and Media Platform live.
@@ -449,7 +449,7 @@ components:
           type: string
         portrait:
           type: boolean
-          description: True when the entry is portrait 9:16. False when it is landscape 16:9, including when the store has no orientation flag.
+          description: True when the entry is portrait 9:16. False when it is landscape 16:9, including when the store has no orientation flag. The client sizes the player from this value. The API does not.
         thumbnail:
           type: string
           description: Unsized thumbnail URL. Returned for CloudMatrix Live, CloudMatrix On Demand, Media Platform Live, and Media Platform On Demand when a thumbnail is stored. Omitted when there is no thumbnail.

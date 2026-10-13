@@ -1,35 +1,112 @@
 # Landscape and Portrait
 
-`GET /v1/entry/{id}` tells you whether a still is landscape or portrait, and returns the poster URL for that shape. Use the URL in the response. Do not build a `/width/` URL yourself.
-
-The Playback SDK and the StreamAMG embed player already read these fields and size the frame. This page covers that behavior, including how to keep a custom portrait size, and how to size a player you create yourself.
+You size the player. `GET /v1/entry/{id}` tells you the shape and returns the poster URL for that shape. The API does not resize the player.
 
 API reference: [Playback API](../reference/Playback-API.yaml) (`GET /v1/entry/{id}`).
 
 ---
 
-## How to tell them apart
+## 1. Read `portrait` and `coverImg`
 
-| `portrait` | Shape | `coverImg` URLs |
-|------------|--------|-----------------|
-| `false` | 16:9 landscape | `/width/360`, `/width/720`, `/width/1080` |
-| `true` | 9:16 portrait | `/height/360`, `/height/720`, `/height/1080` |
+`portrait` is always on the entry response.
 
-`portrait` is always returned. `false` includes entries that have no orientation flag.
+| `portrait` | Shape | What you do | `coverImg` URLs |
+|------------|--------|-------------|-----------------|
+| `false`, or the field is missing | 16:9 landscape | Keep the landscape size you already use. | `/width/360`, `/width/720`, `/width/1080` |
+| `true` | 9:16 portrait | Set a 9:16 frame so the video fills the player. | `/height/360`, `/height/720`, `/height/1080` |
 
-`thumbnail` is the unsized image. `coverImg` is the same image at three sizes. The keys stay `360`, `720`, and `1080`. An entry returns one set. A landscape response does not include `/height/` URLs, and a portrait response does not include `/width/` URLs.
+A portrait video in a 16:9 box is letterboxed. Set 9:16 when you want it to fill the frame.
+
+Use a `coverImg` URL from the response as the poster. Pass that string through unchanged. The keys stay `360`, `720`, and `1080` for both shapes. An entry returns one set.
+
+`thumbnail` is the same image with no size. `thumbnail` and `coverImg` are omitted when the entry has no stored thumbnail. `portrait` is still returned.
 
 The thumbnail host keeps the aspect ratio of the stored still. A portrait URL stays 9:16. A landscape URL stays 16:9. The host may round the requested size to a nearby pixel size.
 
-`thumbnail` and `coverImg` are omitted when the entry has no stored thumbnail. `portrait` is still returned.
+Landscape entry:
+
+```json
+{
+  "id": "00000000-0000-4000-8000-000000000001",
+  "name": "Match highlights",
+  "portrait": false,
+  "thumbnail": "https://video-store/test/12345",
+  "coverImg": {
+    "360": "https://video-store/test/12345/width/360",
+    "720": "https://video-store/test/12345/width/720",
+    "1080": "https://video-store/test/12345/width/1080"
+  },
+  "media": {
+    "hls": "https://cdn.example/vod/index.m3u8",
+    "dash": "https://cdn.example/vod/index.mpd"
+  }
+}
+```
+
+Portrait entry:
+
+```json
+{
+  "id": "00000000-0000-4000-8000-000000000002",
+  "name": "Portrait clip",
+  "portrait": true,
+  "thumbnail": "https://video-store/test/12345",
+  "coverImg": {
+    "360": "https://video-store/test/12345/height/360",
+    "720": "https://video-store/test/12345/height/720",
+    "1080": "https://video-store/test/12345/height/1080"
+  },
+  "media": {
+    "hls": "https://cdn.example/vod/index.m3u8",
+    "dash": "https://cdn.example/vod/index.mpd"
+  }
+}
+```
 
 `spriteUrl` is separate. It is returned for CloudMatrix on-demand only. See [Sprite previews](./Sprite-Previews.md).
 
 ---
 
-## 1. Choose the poster from the response
+## 2. Add the two frames to your page
+
+```html
+<div id="player"></div>
+```
+
+```css
+#player.player-landscape {
+  width: 100%;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+}
+
+#player.player-portrait {
+  width: min(100%, calc(90vh * 9 / 16));
+  aspect-ratio: 9 / 16;
+  max-height: 90vh;
+  margin-inline: auto;
+}
+```
+
+The portrait width stays inside the parent and keeps the player from growing taller than the viewport. Change `960px` or `90vh` to match your layout.
+
+---
+
+## 3. Apply the frame, then load the player
+
+Do this after `GET /v1/entry/{id}` returns, and again when the viewer picks a different entry.
 
 ```javascript
+const entry = await fetch(`https://api.playback.streamamg.com/v1/entry/${entryId}`, {
+  headers: { 'x-api-key': apiKey }
+}).then((response) => response.json());
+
+const playerElement = document.getElementById('player');
+const isPortrait = entry.portrait === true;
+
+playerElement.classList.toggle('player-portrait', isPortrait);
+playerElement.classList.toggle('player-landscape', !isPortrait);
+
 const poster = entry.coverImg?.['720'] ?? entry.thumbnail;
 
 player.load({
@@ -40,66 +117,84 @@ player.load({
 });
 ```
 
-Use `coverImg['360']`, `coverImg['720']`, or `coverImg['1080']`. The URL is already the right shape for that entry.
+`entry.portrait === true` is portrait. Every other value, including a missing field, is landscape.
+
+Pick `coverImg['360']`, `coverImg['720']`, or `coverImg['1080']` for the poster size you want. `720` is a good default.
+
+If the response includes `spriteUrl`, pass it as `thumbnailTrack`. See [Sprite previews](./Sprite-Previews.md).
 
 ---
 
-## 2. Size your own player from `portrait`
+## Playback SDK
 
-Use this when you create the Bitmovin player yourself. The Playback SDK and the embed player already size the frame. See the next section.
-
-A `false` value is a 16:9 frame. A `true` value is a 9:16 frame.
+The Playback SDK does not change the player size. Use the same CSS from step 2. After `Playback.play` resolves, read the flag and set the class.
 
 ```javascript
-const frame = entry.portrait
-  ? { aspectRatio: '9 / 16' }
-  : { aspectRatio: '16 / 9' };
+await Playback.play({
+  container: 'player',
+  entryId,
+  token
+});
+
+const details = Playback.getVideoDetails('player');
+const playerElement = document.getElementById('player');
+const isPortrait = details.portrait === true;
+
+playerElement.classList.toggle('player-portrait', isPortrait);
+playerElement.classList.toggle('player-landscape', !isPortrait);
 ```
+
+Run that again after playlist `next`, `prev`, and `goTo`. `details.portrait` is `true` only for a portrait entry.
+
+New projects should call `GET /v1/entry/{id}` directly. See [SDK General](./SDK/General.md).
 
 ---
 
-## 3. Playback SDK and embed player
+## Embed player
 
-### Landscape
+Leave the height and `aspect-ratio` off the embed element when you want the embed to choose the frame. Landscape is 16:9. Portrait is 9:16, and that frame stays within the parent and is no taller than 90% of the viewport.
 
-The Playback SDK leaves the player element as your page styled it. A custom width or height for a landscape entry stays in place. `portrait: false` and a missing flag are both landscape.
+```html
+<div
+  class="streamamg-embed"
+  data-entry-id="ENTRY_ID"
+  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
+  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
+></div>
 
-The embed player uses 16:9 when the page has not set a ratio. A ratio already set on the element is kept.
-
-### Portrait
-
-A portrait entry replaces the size of the player element with a 9:16 frame. The SDK writes inline `aspect-ratio`, `width`, `height`, `max-width`, `max-height`, and horizontal margins. The box stays within its parent and is no taller than 90% of the viewport. Those inline styles replace a width or height set in a stylesheet or on the element before play.
-
-A size set on a wrapper around the player is left alone. To keep a portrait player smaller than the default, put it in a narrower parent. It stays inside that parent and keeps the 9:16 ratio.
-
-### Keep your own portrait size
-
-An `!important` rule on the player element wins over the inline frame. Override each property the player writes:
-
-```css
-#player {
-  width: 360px !important;
-  height: 640px !important;
-  max-width: none !important;
-  max-height: none !important;
-  aspect-ratio: auto !important;
-  margin-left: 0 !important;
-  margin-right: 0 !important;
-}
+<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
 ```
 
-A normal stylesheet rule is replaced when the portrait entry loads. Set the override before play. It still applies after the SDK writes the frame.
+Set a height or `aspect-ratio` on the element when you want your own size. The embed keeps that size for landscape and portrait.
 
-If a landscape entry plays in that same container later, the SDK puts back the inline size from before the portrait entry.
+```html
+<div
+  class="streamamg-embed"
+  style="width: 360px; aspect-ratio: 9 / 16;"
+  data-entry-id="ENTRY_ID"
+  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
+  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
+  data-playback-base-url="https://api.playback.streamamg.com/v1"
+></div>
+```
+
+A width on its own is not enough. Set a height or an `aspect-ratio`.
+
+---
+
+## Preview
+
+`GET /v1/preview/{id}` returns `portrait` as well. Preview `coverImg` URLs stay `/width/360`, `/width/720`, and `/width/1080` for both orientations. Use `GET /v1/entry/{id}` when you need the portrait `/height/` posters.
 
 ---
 
 ## Checklist
 
-- Read `portrait` before you choose a player or poster size.
-- Use a `coverImg` URL from the response.
-- Confirm a landscape entry uses `/width/` and a portrait entry uses `/height/`.
-- Confirm a portrait poster stays 9:16.
-- Leave a landscape SDK player at the size the page set.
-- Use `!important` when the page must keep its own portrait size.
+- Read `portrait` on `GET /v1/entry/{id}` before you choose the player size.
+- Keep your landscape size when `portrait` is `false` or missing.
+- Add the `player-portrait` class when `portrait` is `true`.
+- Pass `coverImg['720']` (or `360` or `1080`) to the player as `poster`.
+- Confirm a landscape poster URL contains `/width/` and a portrait poster URL contains `/height/`.
+- On the embed, set a height or `aspect-ratio` only when you want to replace the default frame.
 - Leave `spriteUrl` off live and Media Platform playback. It is CloudMatrix on-demand only.
