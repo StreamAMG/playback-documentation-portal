@@ -76,9 +76,10 @@ Optional fields include:
 ---
 
 ### 3. Player Frame Setup
-- The SDK enforces a fixed 16:9 aspect ratio
+- A portrait entry uses a 9:16 frame. A landscape entry keeps a ratio the page already set, and otherwise uses 16:9
 - Ensures consistent sizing across playback and error states
-- No client CSS required
+- No client CSS is required for the default frame
+- A page can keep its own portrait size with `!important` on the player element. See [Landscape and Portrait](../Landscape-And-Portrait.md)
 
 ---
 
