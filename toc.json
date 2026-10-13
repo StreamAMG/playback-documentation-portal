@@ -26,6 +26,11 @@
     },
     {
       "type": "item",
+      "title": "Landscape and Portrait",
+      "uri": "docs/Landscape-And-Portrait.md"
+    },
+    {
+      "type": "item",
       "title": "Video Player Configuration",
       "uri": "docs/Video-Players.md"
     },

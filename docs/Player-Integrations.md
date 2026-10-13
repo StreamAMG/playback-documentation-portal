@@ -79,6 +79,16 @@ Custom Bitmovin players: [Sprite previews](./Sprite-Previews.md).
 
 ---
 
+## Landscape and Portrait
+
+`GET /v1/entry/{id}` returns **`portrait`**. `false` is a 16:9 landscape still, and `coverImg` uses `/width/`. `true` is a 9:16 portrait still, and `coverImg` uses `/height/`.
+
+Use the `coverImg` URL from the response for the poster, and use `portrait` to size the player. Do not append `/width/` yourself.
+
+Custom Bitmovin players: [Landscape and Portrait](./Landscape-And-Portrait.md).
+
+---
+
 ## Global adverts
 
 Server-side **pre / mid / post** advert schedules can be returned on the playback response and played through Bitmovin.

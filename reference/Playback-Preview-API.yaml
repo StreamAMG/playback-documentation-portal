@@ -33,6 +33,10 @@ paths:
         **3. Path Parameters:**
         - Include the id parameter in the request. This parameter should contain the article identifier (UUID).
 
+        **Response:**
+        - `portrait` is returned. `true` is portrait 9:16. `false` is landscape 16:9.
+        - Preview `coverImg` URLs stay `/width/360`, `/width/720`, and `/width/1080` for both orientations. The entry API chooses `/height/` for portrait. Preview does not.
+
       tags:
         - Preview
       operationId: get-playback-preview
@@ -66,6 +70,7 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    portrait: false
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     media:
@@ -284,6 +289,9 @@ components:
           type: string
         description:
           type: string
+        portrait:
+          type: boolean
+          description: True when the entry is portrait 9:16. False when it is landscape 16:9. Preview cover images stay width-sized for both values.
         thumbnail:
           type: string
         duration:
@@ -298,6 +306,7 @@ components:
             $ref: '#/components/schemas/Advert'
         coverImg:
           type: object
+          description: Sized poster URLs. Preview always uses /width/360, /width/720, and /width/1080, including when portrait is true.
           properties:
             '360':
               type: string
