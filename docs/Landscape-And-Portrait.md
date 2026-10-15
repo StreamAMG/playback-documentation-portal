@@ -152,39 +152,6 @@ New projects should call `GET /v1/entry/{id}` directly. See [SDK General](./SDK/
 
 ---
 
-## Embed player
-
-Leave the height and `aspect-ratio` off the embed element when you want the embed to choose the frame. Landscape is 16:9. Portrait is 9:16, and that frame stays within the parent and is no taller than 90% of the viewport.
-
-```html
-<div
-  class="streamamg-embed"
-  data-entry-id="ENTRY_ID"
-  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
-  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.streamamg.com/v1"
-></div>
-
-<script src="https://sdk.playback.streamamg.com/v1/playbackembedplayer.js"></script>
-```
-
-Set a height or `aspect-ratio` on the element when you want your own size. The embed keeps that size for landscape and portrait.
-
-```html
-<div
-  class="streamamg-embed"
-  style="width: 360px; aspect-ratio: 9 / 16;"
-  data-entry-id="ENTRY_ID"
-  data-playback-api-key="YOUR_PLAYBACK_API_KEY"
-  data-bitmovin-license-key="YOUR_BITMOVIN_LICENSE_KEY"
-  data-playback-base-url="https://api.playback.streamamg.com/v1"
-></div>
-```
-
-A width on its own is not enough. Set a height or an `aspect-ratio`.
-
----
-
 ## Preview
 
 `GET /v1/preview/{id}` returns `portrait` as well. Preview `coverImg` URLs stay `/width/360`, `/width/720`, and `/width/1080` for both orientations. Use `GET /v1/entry/{id}` when you need the portrait `/height/` posters.
