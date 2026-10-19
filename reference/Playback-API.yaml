@@ -55,8 +55,13 @@ paths:
         - `playFrom`: This will only be returned in the response if the Playback Config has Resume enabled and the user is authenticated
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
+        **Response:**
+        - `portrait`: Always returned. `true` when the entry is portrait 9:16. `false` when it is landscape 16:9, including when the store has no orientation flag. Size the player from this value. See [Landscape and Portrait](../docs/Landscape-And-Portrait.md).
+
         **Optional Response Items:**
         - `spriteUrl`: WebVTT URL for seek-bar sprite previews. Returned only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live, Media Platform on-demand, and Media Platform live.
+        - `thumbnail`: Unsized thumbnail URL. Returned for CloudMatrix Live, CloudMatrix On Demand, Media Platform Live, and Media Platform On Demand when a thumbnail is stored. Omitted when there is no thumbnail.
+        - `coverImg`: Sized poster URLs at `360`, `720`, and `1080`. Landscape entries use `/width/{size}`. Portrait entries use `/height/{size}`. An entry returns one set. Omitted when there is no thumbnail. Use the URL from the response. See [Landscape and Portrait](../docs/Landscape-And-Portrait.md).
 
       tags:
         - Playback
@@ -84,6 +89,7 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    portrait: false
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     metaData:
@@ -99,6 +105,7 @@ paths:
                     id: 0_4l1aj0bo
                     name: World Cup of Tests
                     description: Test Video
+                    portrait: false
                     thumbnail: 'https://video-store/test/12345'
                     duration: 2800000
                     metaData:
@@ -107,11 +114,16 @@ paths:
                       mpegdash: url-to-mpegdash-manifest
                       hls: url-to-hls-manifest
                       applehttp: url-to-applehttp-manifest
+                    coverImg:
+                      '360': 'https://video-store/test/12345/width/360'
+                      '720': 'https://video-store/test/12345/width/720'
+                      '1080': 'https://video-store/test/12345/width/1080'
                 Example - Success CloudMatrix VoD with sprite:
                   value:
                     id: 00000000-0000-4000-8000-000000000001
                     name: World Cup of Tests
                     description: Test Video
+                    portrait: false
                     thumbnail: 'https://video-store/test/12345'
                     spriteUrl: 'https://cdn.example/sprites/sprite.vtt'
                     duration: 2800000
@@ -122,6 +134,22 @@ paths:
                       '360': 'https://video-store/test/12345/width/360'
                       '720': 'https://video-store/test/12345/width/720'
                       '1080': 'https://video-store/test/12345/width/1080'
+                Example - Success CloudMatrix portrait:
+                  value:
+                    id: 00000000-0000-4000-8000-000000000002
+                    name: Portrait clip
+                    description: Test Video
+                    portrait: true
+                    thumbnail: 'https://video-store/test/12345'
+                    spriteUrl: 'https://cdn.example/sprites/sprite.vtt'
+                    duration: 2800000
+                    media:
+                      hls: 'https://cdn.example/vod/index.m3u8'
+                      dash: 'https://cdn.example/vod/index.mpd'
+                    coverImg:
+                      '360': 'https://video-store/test/12345/height/360'
+                      '720': 'https://video-store/test/12345/height/720'
+                      '1080': 'https://video-store/test/12345/height/1080'
                 Example - Success VoD with Resume:
                   value:
                     id: 0_4l1aj0bo
@@ -419,8 +447,12 @@ components:
           type: string
         description:
           type: string
+        portrait:
+          type: boolean
+          description: True when the entry is portrait 9:16. False when it is landscape 16:9, including when the store has no orientation flag. The client sizes the player from this value. The API does not.
         thumbnail:
           type: string
+          description: Unsized thumbnail URL. Returned for CloudMatrix Live, CloudMatrix On Demand, Media Platform Live, and Media Platform On Demand when a thumbnail is stored. Omitted when there is no thumbnail.
         spriteUrl:
           type: string
           description: WebVTT URL for seek-bar sprite previews. Present only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live and all Media Platform entries.
@@ -441,6 +473,7 @@ components:
             $ref: '#/components/schemas/Advert'
         coverImg:
           type: object
+          description: Sized poster URLs. Keys are 360, 720, and 1080. Landscape entries use /width/{size}. Portrait entries use /height/{size}. An entry returns one set. Omitted when there is no thumbnail.
           properties:
             '360':
               type: string
