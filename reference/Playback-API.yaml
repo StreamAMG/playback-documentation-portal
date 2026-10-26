@@ -56,10 +56,10 @@ paths:
         - `customerId`: This will only be returned in the response if the user is accessing Freemium of Premium content and is authenticated
 
         **Response:**
+        - `media.hls`: Always returned. Signed HLS manifest URL (`.m3u8`) for the player.
+        - `media.dash`: Returned together with `media.hls` when a DASH manifest is available. Signed DASH manifest URL (`.mpd`).
+        - `spriteUrl`: WebVTT URL for seek-bar sprite previews. Returned for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live, Media Platform on-demand, and Media Platform live. See [Sprite previews](../docs/Sprite-Previews.md).
         - `portrait`: Always returned. `true` when the entry is portrait 9:16. `false` when it is landscape 16:9, including when the store has no orientation flag. Size the player from this value. See [Landscape and Portrait](../docs/Landscape-And-Portrait.md).
-
-        **Optional Response Items:**
-        - `spriteUrl`: WebVTT URL for seek-bar sprite previews. Returned only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live, Media Platform on-demand, and Media Platform live.
         - `thumbnail`: Unsized thumbnail URL. Returned for CloudMatrix Live, CloudMatrix On Demand, Media Platform Live, and Media Platform On Demand when a thumbnail is stored. Omitted when there is no thumbnail.
         - `coverImg`: Sized poster URLs at `360`, `720`, and `1080`. Landscape entries use `/width/{size}`. Portrait entries use `/height/{size}`. An entry returns one set. Omitted when there is no thumbnail. Use the URL from the response. See [Landscape and Portrait](../docs/Landscape-And-Portrait.md).
 
@@ -85,17 +85,20 @@ paths:
                 $ref: '#/components/schemas/PlaybackEndpointResponse'
               examples:
                 Example - Success VoD:
+                  description: On-demand success. `media.hls` is always returned. `media.dash` is returned with `hls` when a DASH manifest is available. `spriteUrl` is returned for CloudMatrix on-demand when a sprite sheet exists, and is omitted for Media Platform and for live.
                   value:
-                    id: 0_4l1aj0bo
+                    id: 00000000-0000-4000-8000-000000000003
                     name: World Cup of Tests
                     description: Test Video
                     portrait: false
                     thumbnail: 'https://video-store/test/12345'
+                    spriteUrl: 'https://cdn.example/sprites/sprite.vtt'
                     duration: 2800000
                     metaData:
                         customerId: 'c0b90c1f-76e8-4b40-be43-e2eb4782f7ed'
                     media:
-                      hls: 'https://open.http.mp.streamamg.com/p/Test-Partner/sp/Test-Partner00/playManifest/entryId/${entryId}/flavorIds/0_4l1aj0bo,0_522aj0tt/format/applehttp/protocol/https/a.m3u8?ks=YTlhYzYzNmJmOWVhMDQzNzRjYTY3M'
+                      hls: 'https://cdn.example/vod/index.m3u8'
+                      dash: 'https://cdn.example/vod/index.mpd'
                     coverImg:
                       '360': 'https://video-store/test/12345/width/360'
                       '720': 'https://video-store/test/12345/width/720'
@@ -456,10 +459,27 @@ components:
         spriteUrl:
           type: string
           description: WebVTT URL for seek-bar sprite previews. Present only for CloudMatrix on-demand entries after transcode. Omitted for CloudMatrix live and all Media Platform entries.
+          example: 'https://cdn.example/sprites/sprite.vtt'
         duration:
           type: number
         media:
           type: object
+          description: Signed playback manifest URLs. `hls` is always returned. `dash` is returned with `hls` when a DASH manifest is available. `mpegdash` may be returned for Media Platform live.
+          required:
+            - hls
+          properties:
+            hls:
+              type: string
+              description: HLS manifest URL (`.m3u8`). Always returned on a successful playback response.
+              example: 'https://cdn.example/vod/index.m3u8'
+            dash:
+              type: string
+              description: DASH manifest URL (`.mpd`). Returned together with `hls` when a DASH manifest is available.
+              example: 'https://cdn.example/vod/index.mpd'
+            mpegdash:
+              type: string
+              description: MPEG-DASH manifest URL. Returned for some Media Platform live streams.
+              example: 'https://cdn.example/live/index.mpd'
         metaData:
           type: object
           properties:
@@ -519,9 +539,18 @@ components:
         - position
     MediaVoD:
       type: object
+      description: On-demand manifest URLs. `hls` is always returned. `dash` is returned with `hls` when a DASH manifest is available.
+      required:
+        - hls
       properties:
         hls:
           type: string
+          description: HLS manifest URL (`.m3u8`).
+          example: 'https://cdn.example/vod/index.m3u8'
+        dash:
+          type: string
+          description: DASH manifest URL (`.mpd`).
+          example: 'https://cdn.example/vod/index.mpd'
     MediaLive:
       type: object
       properties:
