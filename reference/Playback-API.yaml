@@ -464,7 +464,7 @@ components:
           type: number
         media:
           type: object
-          description: Signed playback manifest URLs. `hls` is always returned. `dash` is returned with `hls` when a DASH manifest is available. `mpegdash` may be returned for Media Platform live.
+          description: Signed playback manifest URLs. `hls` is always returned. `dash` is returned with `hls` when a DASH manifest is available.
           required:
             - hls
           properties:
@@ -476,10 +476,6 @@ components:
               type: string
               description: DASH manifest URL (`.mpd`). Returned together with `hls` when a DASH manifest is available.
               example: 'https://cdn.example/vod/index.mpd'
-            mpegdash:
-              type: string
-              description: MPEG-DASH manifest URL. Returned for some Media Platform live streams.
-              example: 'https://cdn.example/live/index.mpd'
         metaData:
           type: object
           properties:
